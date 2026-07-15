@@ -1,0 +1,167 @@
+# 🛒 Blinkit Checkout Billing Calculator
+
+A simple **Blinkit-inspired Checkout Billing Calculator** built using **HTML, CSS, and JavaScript**. This project demonstrates fundamental JavaScript concepts such as **var, let, const, template literals, object destructuring, DOM manipulation, user input handling, and console methods** while recreating a modern grocery checkout experience.
+
+---
+
+## 📌 Project Overview
+
+This project simulates the checkout page of Blinkit, where users can:
+
+* View a preloaded shopping cart
+* Enter delivery details
+* Apply coupon discounts
+* Add delivery partner tips
+* Choose a payment method
+* Generate a complete billing summary
+
+The application automatically calculates all charges and displays a professional-looking order summary.
+
+---
+
+## ✨ Features
+
+* 🛒 Preloaded Blinkit shopping cart
+* 👤 Customer information form
+* 📍 Delivery address input
+* 🎟️ Coupon code selection
+* 💰 Tip for delivery partner
+* 💳 Multiple payment methods
+* 🧾 Automatic bill generation
+* 🚚 Delivery fee calculation
+* 📦 Handling charges
+* 🛍️ Small cart fee (when applicable)
+* 🧮 Automatic GST calculation
+* 📊 Console logging using `console.log()` and `console.table()`
+* ⏱️ Execution time measurement using `console.time()`
+* 🎉 Success notification after bill generation
+* 📱 Responsive and modern Blinkit-inspired UI
+
+---
+
+## 🛠️ Technologies Used
+
+* HTML5
+* CSS3
+* JavaScript (ES6)
+
+---
+
+## 📂 Project Structure
+
+```
+Blinkit-Checkout-Billing-Calculator/
+
+│── index.html
+│── style.css
+│── script.js
+└── README.md
+```
+
+---
+
+## 🚀 JavaScript Concepts Demonstrated
+
+This project fulfills the following JavaScript requirements:
+
+* ✅ `var`
+* ✅ `let`
+* ✅ `const`
+* ✅ Objects
+* ✅ Object Destructuring
+* ✅ Template Literals
+* ✅ DOM Manipulation
+* ✅ Event Handling
+* ✅ User Input
+* ✅ Conditional Statements
+* ✅ Loops (`forEach`)
+* ✅ Alert Notifications
+* ✅ Console Methods
+
+  * `console.log()`
+  * `console.table()`
+  * `console.group()`
+  * `console.time()`
+  * `console.timeEnd()`
+
+---
+
+## 🛒 Billing Flow
+
+1. Display the preloaded shopping cart.
+2. User enters delivery details.
+3. User selects:
+
+   * Coupon
+   * Delivery Tip
+   * Payment Method
+4. Bill is calculated automatically.
+5. Order summary is generated.
+6. Success notification is displayed.
+7. Billing details are logged in the browser console.
+
+---
+
+## 💰 Charges Included
+
+* Items Total
+* Delivery Fee
+* Handling Charge
+* Small Cart Fee (if applicable)
+* GST (5%)
+* Coupon Discount
+* Delivery Partner Tip
+* Final Payable Amount
+
+---
+
+## 📷 Preview
+
+The interface is inspired by the Blinkit checkout page and includes:
+
+* Blinkit-style header
+* Shopping cart section
+* Delivery details form
+* Coupon & payment options
+* Professional billing summary
+* "Proceed to Checkout" button
+
+              
+---
+
+## ▶️ How to Run
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/Blinkit-Checkout-Billing-Calculator.git
+```
+
+2. Open the project folder.
+
+3. Double-click **index.html** or open it using **Live Server** in Visual Studio Code.
+
+---
+
+## 📖 Learning Outcomes
+
+This project helped demonstrate:
+
+* Modern JavaScript syntax (ES6)
+* Dynamic HTML generation
+* DOM manipulation
+* Object creation and destructuring
+* Billing logic implementation
+* Responsive UI design
+* Basic frontend application development
+
+---
+
+## 👨‍💻 Author
+
+**Shravani Sadawarte**
+---
+
+## 📄 License
+
+This project is developed for educational and learning purposes.
