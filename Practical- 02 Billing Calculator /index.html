@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blinkit Checkout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="header">
+        <h1>Blinkit</h1>
+        <p>Delivery in 10 minutes ⚡</p>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+            <h2>🛒 Your Cart</h2>
+
+            <div id="cartItems"></div>
+
+            <hr>
+
+            <div class="bill-row">
+                <span>Items Total</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📍 Delivery Details</h2>
+
+            <label>Name</label>
+            <input type="text" id="name" placeholder="Enter your name">
+
+            <label>Phone Number</label>
+            <input type="text" id="phone" placeholder="Enter phone number">
+
+            <label>Address</label>
+            <textarea id="address" placeholder="Enter delivery address"></textarea>
+        </div>
+
+        <div class="card">
+            <h2>🎟️ Offers</h2>
+
+            <label>Coupon Code</label>
+
+            <select id="coupon">
+                <option value="0">No Coupon</option>
+                <option value="50">SAVE50</option>
+                <option value="100">WELCOME100</option>
+            </select>
+
+            <label>Tip Delivery Partner</label>
+
+            <select id="tip">
+                <option value="0">₹0</option>
+                <option value="10">₹10</option>
+                <option value="20">₹20</option>
+                <option value="30">₹30</option>
+            </select>
+
+            <label>Payment Method</label>
+
+            <select id="payment">
+                <option>UPI</option>
+                <option>Credit Card</option>
+                <option>Debit Card</option>
+                <option>Cash On Delivery</option>
+            </select>
+        </div>
+
+        <button onclick="generateBill()" class="checkout-btn">
+            Proceed To Checkout
+        </button>
+
+        <div id="output"></div>
+
+    </div>
+
+    <script src="script1.js"></script>
+
+</body>
+</html>
