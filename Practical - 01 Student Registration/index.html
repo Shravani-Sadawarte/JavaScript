@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Internal JavaScript -->
+    <script>
+        function showWelcome() {
+
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            let prn = document.getElementById("prn").value;
+            let phone = document.getElementById("phone").value;
+            let email = document.getElementById("email").value;
+            let department = document.getElementById("department").value;
+            let semester = document.getElementById("semester").value;
+            let gender = document.getElementById("gender").value;
+            let address = document.getElementById("address").value;
+
+            document.getElementById("output").innerHTML = `
+            <div class="result-card">
+                <h3>✅ Registration Successful</h3>
+
+                <h2>Welcome, ${name}!</h2>
+
+                <table>
+                    <tr><td><b>Name</b></td><td>${name}</td></tr>
+                    <tr><td><b>Age</b></td><td>${age}</td></tr>
+                    <tr><td><b>PRN</b></td><td>${prn}</td></tr>
+                    <tr><td><b>Phone</b></td><td>${phone}</td></tr>
+                    <tr><td><b>Email</b></td><td>${email}</td></tr>
+                    <tr><td><b>Department</b></td><td>${department}</td></tr>
+                    <tr><td><b>Semester</b></td><td>${semester}</td></tr>
+                    <tr><td><b>Gender</b></td><td>${gender}</td></tr>
+                    <tr><td><b>Address</b></td><td>${address}</td></tr>
+                </table>
+            </div>
+            `;
+
+            console.log("Student Name:", name);
+            console.info("Age:", age);
+            console.warn("Demo Warning Message");
+            console.error("Demo Error Message");
+
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🎓 Student Registration Portal</h1>
+        <p class="subtitle">JavaScript Practical - Student Registration Form</p>
+
+        <label>Full Name</label>
+        <input type="text" id="name" placeholder="Enter your full name">
+
+        <label>Age</label>
+        <input type="number" id="age" placeholder="Enter your age">
+
+        <label>PRN Number</label>
+        <input type="text" id="prn" placeholder="Enter PRN">
+
+        <label>Phone Number</label>
+        <input type="text" id="phone" placeholder="Enter phone number">
+
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter email">
+
+        <label>Department</label>
+        <select id="department">
+            <option>Computer Engineering</option>
+            <option>Information Technology</option>
+            <option>Mechanical Engineering</option>
+            <option>Civil Engineering</option>
+            <option>Electronics Engineering</option>
+        </select>
+
+        <label>Semester</label>
+        <select id="semester">
+            <option>Semester I</option>
+            <option>Semester II</option>
+            <option>Semester III</option>
+            <option>Semester IV</option>
+            <option>Semester V</option>
+            <option>Semester VI</option>
+            <option>Semester VII</option>
+            <option>Semester VIII</option>
+        </select>
+
+        <label>Gender</label>
+        <select id="gender">
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        </select>
+
+        <label>Address</label>
+        <textarea id="address" rows="3" placeholder="Enter address"></textarea>
+
+        <!-- Inline JavaScript -->
+        <button onclick="showWelcome(); greet();">
+            Register
+        </button>
+
+        <div id="output"></div>
+
+    </div>
+
+    <!-- External JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
