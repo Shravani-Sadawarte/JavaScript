@@ -1,0 +1,183 @@
+# 🔄 Palindrome Checker
+
+A clean and interactive **Palindrome Checker** built using **HTML, CSS, and JavaScript**. This application allows users to enter a word, validates the input, reverses the text, and determines whether the entered word is a palindrome. The project provides instant feedback with an animated result display and user-friendly error messages.
+
+---
+
+## 📌 Features
+
+* Simple and attractive user interface
+* Real-time palindrome checking
+* Reverse word generation
+* Input validation with descriptive error messages
+* Animated result display
+* Keyboard support (Press Enter to check)
+* Responsive design
+* Smooth visual effects and transitions
+
+---
+
+## 🛠️ Technologies Used
+
+* HTML5
+* CSS3
+* JavaScript (Vanilla JS)
+
+---
+
+## 📂 Project Structure
+
+```text
+Palindrome-Checker/
+│
+├── index.html      # Main application page
+├── style.css       # Styling and animations
+├── script.js       # Palindrome checking logic
+└── README.md       # Project documentation
+```
+
+---
+
+## 🚀 How It Works
+
+### Step 1: Enter a Word
+
+The user enters a word into the input field.
+
+Example:
+
+```text
+rotator
+```
+
+---
+
+### Step 2: Input Validation
+
+Before checking the palindrome, the application validates the input using the following rules:
+
+* Input cannot be empty.
+* Only alphabetic characters (A–Z) are allowed.
+* Spaces, numbers, and special characters are not allowed.
+* Minimum length must be 3 characters.
+* Maximum length must not exceed 20 characters.
+
+If any validation fails, an appropriate error message is displayed.
+
+---
+
+### Step 3: Reverse the Word
+
+The application reverses the entered word using JavaScript string manipulation.
+
+Example:
+
+```text
+Original Word : rotator
+Reversed Word : rotator
+```
+
+---
+
+### Step 4: Palindrome Check
+
+The application compares the original word with its reversed version.
+
+* If both are identical, the word is a **Palindrome**.
+* Otherwise, it is **Not a Palindrome**.
+
+The result is displayed with an animated verdict.
+
+---
+
+## 📋 Examples
+
+| Input   | Reversed | Result             |
+| ------- | -------- | ------------------ |
+| madam   | madam    | ✅ Palindrome       |
+| level   | level    | ✅ Palindrome       |
+| racecar | racecar  | ✅ Palindrome       |
+| hello   | olleh    | ❌ Not a Palindrome |
+| apple   | elppa    | ❌ Not a Palindrome |
+
+---
+
+## ✅ Input Validation
+
+The application performs the following validations:
+
+* Empty input validation
+* Alphabet-only validation
+* Minimum character length validation
+* Maximum character length validation
+
+These validations ensure accurate and reliable palindrome checking.
+
+---
+
+## 🔄 Application Workflow
+
+```text
+Enter Word
+     │
+     ▼
+Validate Input
+     │
+     ▼
+Reverse Word
+     │
+     ▼
+Compare Original & Reversed
+     │
+ ┌───┴────┐
+ │        │
+ ▼        ▼
+Match   No Match
+ │        │
+ ▼        ▼
+Palindrome  Not a Palindrome
+```
+
+---
+
+## 🎯 Learning Outcomes
+
+This project demonstrates:
+
+* JavaScript Functions
+* String Manipulation
+* DOM Manipulation
+* Event Handling
+* Conditional Statements
+* Form Validation
+* Input Validation
+* User Interaction
+* Dynamic Content Updates
+* CSS Animations
+
+---
+
+## 🔮 Future Enhancements
+
+* Support for sentences and phrases
+* Ignore spaces and punctuation during checking
+* Case-insensitive palindrome detection for full sentences
+* Display character-by-character comparison
+* Maintain search history
+* Dark mode support
+* Voice input integration
+* Mobile-friendly enhancements
+
+---
+
+## 👩‍💻 Author
+
+**Shravani Sadawarte**
+
+B.Tech Computer Science & Engineering (Data Science)
+
+---
+
+## 📄 License
+
+This project is developed for educational and learning purposes. It is free to use, modify, and distribute for academic and personal projects.
