@@ -1,0 +1,180 @@
+# 🎓 Student Grading System
+
+A simple and interactive **Student Grading System** developed using **HTML, CSS, and JavaScript**. The application allows students to securely enter their details, create a password with validation, input subject marks, and instantly generate their grades and overall result.
+
+---
+
+## 📌 Features
+
+* Student information form (Name, Semester, PRN)
+* Password creation with live validation checklist
+* Secure password confirmation
+* Multi-step user interface
+* Enter marks for four subjects
+* Input validation for all fields
+* Automatic grade calculation for each subject
+* Percentage and total marks calculation
+* Overall grade generation
+* Success and error notifications
+* Restart the application with a single click
+
+---
+
+## 🛠️ Technologies Used
+
+* HTML5
+* CSS3
+* JavaScript (Vanilla JS)
+
+---
+
+## 📂 Project Structure
+
+```
+Student-Grading-System/
+│
+├── index.html      # Main HTML page
+├── style.css       # Styling for the application
+├── script.js       # JavaScript logic
+└── README.md       # Project documentation
+```
+
+---
+
+## 🚀 How It Works
+
+### Step 1: Student Registration
+
+The user enters:
+
+* Student Name
+* Semester
+* PRN Number
+
+The user then creates a password that satisfies the following rules:
+
+* Minimum 8 characters
+* At least 1 uppercase letter
+* 2–3 numeric digits
+* At least 1 special character
+* Password and Confirm Password must match
+
+A live checklist updates automatically as the password is typed.
+
+---
+
+### Step 2: Marks Entry
+
+The user enters:
+
+* Subject Name
+* Marks (0–100)
+
+for four different subjects.
+
+The application validates:
+
+* Empty fields
+* Invalid numbers
+* Marks outside the range of 0–100
+
+---
+
+### Step 3: Result Generation
+
+After successful validation, the system displays:
+
+* Student Details
+* Marks obtained in each subject
+* Individual subject grades
+* Total Marks
+* Percentage
+* Overall Grade
+
+---
+
+## 📊 Grading Criteria
+
+| Marks    | Grade |
+| -------- | ----- |
+| 91–100   | A+    |
+| 81–90    | A     |
+| 66–80    | B     |
+| 50–65    | C     |
+| Below 50 | Fail  |
+
+---
+
+## ✅ Input Validation
+
+The project performs various validations including:
+
+* Required field validation
+* Password strength validation
+* Password confirmation check
+* Numeric marks validation
+* Marks range validation (0–100)
+
+---
+
+## 📸 Application Flow
+
+```
+Student Details
+        │
+        ▼
+Password Validation
+        │
+        ▼
+Marks Entry
+        │
+        ▼
+Result Generation
+        │
+        ▼
+Start Over
+```
+
+---
+
+## 🎯 Learning Outcomes
+
+This project demonstrates:
+
+* Form Validation
+* JavaScript Functions
+* Conditional Statements
+* Loops
+* Arrays and Objects
+* DOM Manipulation
+* Event Handling
+* Dynamic HTML Generation
+* User Input Validation
+* Multi-step Form Navigation
+
+---
+
+## 🔮 Future Enhancements
+
+* Store student records using Local Storage
+* Export results as PDF
+* Add login authentication
+* Support more subjects
+* Calculate GPA/CGPA
+* Maintain student result history
+* Connect with a database
+* Responsive design for mobile devices
+
+---
+
+## 👩‍💻 Author
+
+**Shravani Sadawarte**
+
+B.Tech Computer Science & Engineering (Data Science)
+
+---
+
+## 📄 License
+
+This project is developed for educational and learning purposes. Feel free to use and modify it for academic projects.
