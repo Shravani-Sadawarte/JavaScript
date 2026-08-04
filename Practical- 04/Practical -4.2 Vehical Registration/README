@@ -1,0 +1,211 @@
+# 🚗 RegoCheck – Vehicle Registration Number Validator
+
+RegoCheck is a modern web application built using **HTML, CSS, and JavaScript** that validates Indian vehicle registration numbers based on the standard registration format. The application checks every segment of the registration number individually and provides detailed feedback whenever an invalid format is detected.
+
+The project uses **custom JavaScript error classes**, **try-catch exception handling**, and **real-time validation** to create an interactive and user-friendly validation experience.
+
+---
+
+## 📌 Features
+
+* Validate Indian vehicle registration numbers
+* Modern and responsive user interface
+* Real-time registration plate preview
+* Live validation checklist
+* Individual validation for each plate segment
+* Detailed error messages using custom exceptions
+* Try-Catch based exception handling
+* Hero preview with dynamic status indicators
+* Clear and reset functionality
+* Interactive result banners
+* Keyboard support (Press Enter to validate)
+
+---
+
+## 🛠️ Technologies Used
+
+* HTML5
+* CSS3
+* JavaScript (ES6)
+
+---
+
+## 📂 Project Structure
+
+```text
+RegoCheck/
+│
+├── index.html      # Main application page
+├── style.css       # User interface styling
+├── script.js       # Validation logic and exception handling
+└── README.md       # Project documentation
+```
+
+---
+
+## 🚀 How It Works
+
+### Step 1: Enter Registration Number
+
+The user enters a vehicle registration number in the input field.
+
+Example:
+
+```text
+MH31AB1234
+```
+
+---
+
+### Step 2: Validation Process
+
+The application validates the registration number according to the following rules:
+
+* Registration number must not be empty.
+* Length must be exactly 10 characters.
+* First 2 characters must be uppercase letters (State Code).
+* Next 2 characters must be digits (District Code).
+* Next 2 characters must be uppercase letters (Series).
+* Last 4 characters must be digits (Vehicle Number).
+
+The validation stops at the first invalid rule and displays an appropriate error message.
+
+---
+
+### Step 3: Display Result
+
+If the registration number is valid, the application displays:
+
+* Valid registration number
+* State Code
+* District Code
+* Series
+* Vehicle Number
+
+If invalid, the application displays:
+
+* Exact validation error
+* Highlighted incorrect segment
+* Checklist showing passed and failed validation rules
+
+---
+
+## 📋 Registration Number Format
+
+| Segment        | Characters          | Example |
+| -------------- | ------------------- | ------- |
+| State Code     | 2 Uppercase Letters | MH      |
+| District Code  | 2 Digits            | 31      |
+| Series         | 2 Uppercase Letters | AB      |
+| Vehicle Number | 4 Digits            | 1234    |
+
+Example of a valid registration number:
+
+```text
+MH31AB1234
+```
+
+---
+
+## ⚠️ Validation Rules
+
+The application performs the following validations:
+
+* Empty input validation
+* Exact length validation
+* State code validation
+* District code validation
+* Series validation
+* Vehicle number validation
+
+Each validation rule is checked independently to provide accurate feedback.
+
+---
+
+## 🧩 Custom Exception Handling
+
+The project demonstrates JavaScript exception handling using custom error classes.
+
+The following custom exceptions are implemented:
+
+* EmptyInputError
+* InvalidLengthError
+* InvalidStateCodeError
+* InvalidDistrictCodeError
+* InvalidSeriesError
+* InvalidVehicleNumberError
+
+These exceptions are handled using **try-catch** blocks to prevent application crashes and provide meaningful error messages.
+
+---
+
+## 🔄 Application Workflow
+
+```text
+Enter Registration Number
+            │
+            ▼
+Validate Input
+            │
+            ▼
+Check Each Rule
+            │
+            ▼
+Try-Catch Exception Handling
+            │
+      ┌─────┴─────┐
+      │           │
+      ▼           ▼
+Valid Plate   Invalid Plate
+      │           │
+      ▼           ▼
+Display Result  Display Error Message
+      │
+      ▼
+Update Checklist & Plate Preview
+```
+
+---
+
+## 🎯 Learning Outcomes
+
+This project demonstrates:
+
+* JavaScript Functions
+* DOM Manipulation
+* Event Handling
+* Form Validation
+* Custom Error Classes
+* Exception Handling using Try-Catch
+* Object-Oriented Programming Concepts
+* Dynamic User Interface Updates
+* Conditional Statements
+* Arrays and Objects
+* Real-Time Input Validation
+
+---
+
+## 🔮 Future Enhancements
+
+* Support for all Indian state codes
+* Vehicle owner information lookup using APIs
+* OCR-based number plate scanning
+* Camera integration
+* Registration history tracking
+* Dark mode support
+* Mobile application version
+* Database integration for storing validation history
+
+---
+
+## 👩‍💻 Author
+
+**Shravani Sadawarte**
+
+B.Tech Computer Science & Engineering (Data Science)
+
+---
+
+## 📄 License
+
+This project is developed for educational and learning purposes. It can be freely used and modified for academic and personal projects.
