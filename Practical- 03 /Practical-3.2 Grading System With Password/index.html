@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Grading System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+
+        <div class="banner">
+            <svg class="blob blob1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#ff5c7c" d="M45,-58C56,-49,60,-30,63,-11C66,8,68,27,59,40C50,53,30,60,9,63C-12,66,-33,64,-48,52C-63,40,-72,18,-71,-4C-70,-26,-59,-47,-43,-57C-27,-67,-6,-66,13,-63C32,-60,34,-67,45,-58Z" transform="translate(100 100)"/>
+            </svg>
+            <svg class="blob blob2" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#3ddcc4" d="M42,-54C53,-46,58,-28,61,-9C64,10,64,29,55,42C46,55,28,62,9,65C-10,68,-30,66,-46,55C-62,44,-73,24,-74,3C-75,-18,-66,-38,-51,-49C-36,-60,-18,-62,1,-63C20,-64,31,-62,42,-54Z" transform="translate(100 100)"/>
+            </svg>
+            <svg class="blob blob3" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#ffb703" d="M39,-51C49,-42,54,-26,58,-9C62,8,65,26,58,40C51,54,34,64,15,68C-4,72,-25,70,-42,59C-59,48,-72,28,-74,7C-76,-14,-67,-36,-51,-48C-35,-60,-18,-62,0,-62C18,-61,30,-60,39,-51Z" transform="translate(100 100)"/>
+            </svg>
+
+            <div class="avatar">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4" fill="#2b2b45"/>
+                    <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7" fill="#2b2b45"/>
+                </svg>
+            </div>
+
+            <h2>Student Grading System</h2>
+        </div>
+
+        <div class="form-body">
+
+            <div id="notification" class="notification"></div>
+
+            <!-- STEP 1: Student Details + Password Setup -->
+            <div id="step1" class="step active">
+                <div class="section-title">Student Details</div>
+
+                <div class="field">
+                    <input type="text" id="name" placeholder="Student Name">
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <input type="text" id="sem" placeholder="Semester">
+                    </div>
+                    <div class="field">
+                        <input type="text" id="prn" placeholder="PRN">
+                    </div>
+                </div>
+
+                <div class="section-title">Set Password</div>
+
+                <div class="field">
+                    <input type="password" id="password" placeholder="New Password" oninput="updateChecklist()">
+                </div>
+                <div class="field">
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" oninput="updateChecklist()">
+                </div>
+
+                <div class="checklist">
+                    <div class="check-item" id="check-length">8 Characters</div>
+                    <div class="check-item" id="check-upper">1 Uppercase Letter</div>
+                    <div class="check-item" id="check-digits">2-3 Digits</div>
+                    <div class="check-item" id="check-special">1 Special Character</div>
+                    <div class="check-item" id="check-match">Passwords Match</div>
+                </div>
+
+                <input type="button" class="submit-btn" value="CONTINUE" onclick="goToMarks()">
+            </div>
+
+            <!-- STEP 2: Marks Entry -->
+            <div id="step2" class="step">
+                <div class="section-title">Subject Marks (out of 100)</div>
+
+                <div class="row subject-row">
+                    <div class="field">
+                        <input type="text" id="subject1" placeholder="Subject 1 name">
+                    </div>
+                    <div class="field small">
+                        <input type="number" id="marks1" placeholder="Marks">
+                    </div>
+                </div>
+                <div class="row subject-row">
+                    <div class="field">
+                        <input type="text" id="subject2" placeholder="Subject 2 name">
+                    </div>
+                    <div class="field small">
+                        <input type="number" id="marks2" placeholder="Marks">
+                    </div>
+                </div>
+                <div class="row subject-row">
+                    <div class="field">
+                        <input type="text" id="subject3" placeholder="Subject 3 name">
+                    </div>
+                    <div class="field small">
+                        <input type="number" id="marks3" placeholder="Marks">
+                    </div>
+                </div>
+                <div class="row subject-row">
+                    <div class="field">
+                        <input type="text" id="subject4" placeholder="Subject 4 name">
+                    </div>
+                    <div class="field small">
+                        <input type="number" id="marks4" placeholder="Marks">
+                    </div>
+                </div>
+
+                <input type="button" class="submit-btn" value="CALCULATE RESULT" onclick="gradeSystem()">
+            </div>
+
+            <!-- STEP 3: Result -->
+            <div id="step3" class="step">
+                <div id="result" class="result"></div>
+                <input type="button" class="submit-btn" value="START OVER" onclick="startOver()">
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
