@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palindrome Checker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg class="bg" viewBox="0 0 800 1200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <!-- top-left blush blob -->
+  <path d="M-60,-60 C60,-100 260,-90 340,10 C420,110 400,230 300,290 C200,350 60,330 -20,250 C-90,180 -80,-10 -60,-60 Z" fill="#F1D7E6" opacity="0.95"/>
+
+  <!-- top-right pale coral blob, bleeding off the edge -->
+  <path d="M560,-50 C630,-80 730,-60 790,10 C840,80 800,160 730,155 C665,150 630,105 590,75 C550,45 535,0 560,-50 Z" fill="#F7CDB4" opacity="0.7"/>
+
+  <!-- bottom small blush blob -->
+  <path d="M110,980 C210,935 335,955 380,1040 C425,1125 360,1195 255,1200 L95,1200 C75,1140 85,1020 110,980 Z" fill="#F1D7E6" opacity="0.85"/>
+
+  <!-- scattered dots -->
+  <circle class="dot" cx="185" cy="55" r="4.5" style="animation-delay:0.4s"/>
+  <circle class="dot" cx="95" cy="150" r="3" style="animation-delay:0.6s"/>
+  <circle class="dot" cx="250" cy="195" r="3.5" style="animation-delay:0.8s"/>
+  <circle class="dot" cx="55" cy="40" r="3" style="animation-delay:0.5s"/>
+  <circle class="dot" cx="205" cy="1055" r="4" style="animation-delay:0.9s"/>
+  <circle class="dot" cx="150" cy="1125" r="3" style="animation-delay:1.05s"/>
+  <circle class="dot" cx="305" cy="1085" r="3.5" style="animation-delay:1.2s"/>
+
+  <!-- white fern silhouette on the top-left blush blob -->
+  <path class="stem-line" d="M35,290 C48,238 48,196 44,160 C50,130 66,120 76,110 C82,90 90,70 96,55" stroke="#FFFFFF" stroke-width="2.5" style="animation-delay:0.1s"/>
+  <path class="leaf-white" d="M35,280 C15,255 10,215 35,195 C60,215 55,255 35,280 Z" style="animation-delay:0.5s"/>
+  <path class="leaf-white" d="M56,220 C39,198 36,165 56,148 C76,165 73,198 56,220 Z" style="animation-delay:0.7s"/>
+  <path class="leaf-white" d="M46,160 C31,142 29,112 46,98 C63,112 61,142 46,160 Z" style="animation-delay:0.9s"/>
+  <path class="leaf-white" d="M76,110 C61,94 59,68 76,55 C93,68 91,94 76,110 Z" style="animation-delay:1.1s"/>
+  <path class="leaf-white" d="M96,55 C85,42 84,22 96,12 C108,22 107,42 96,55 Z" style="animation-delay:1.3s"/>
+
+  <!-- coral leaf twig, bottom right -->
+  <path class="stem-line" d="M610,1150 C592,1080 620,1030 596,965 C578,915 604,875 588,832" stroke="#E0876B" stroke-width="2.2" style="animation-delay:0.3s"/>
+  <path class="leaf-coral" d="M560,1080 C540,1050 545,1010 585,995 C600,1030 590,1065 560,1080 Z" style="animation-delay:0.9s"/>
+  <path class="leaf-coral" d="M650,1010 C675,995 690,960 660,935 C635,955 630,990 650,1010 Z" style="animation-delay:1.1s"/>
+  <path class="leaf-coral" d="M575,930 C555,915 552,885 585,870 C600,895 595,918 575,930 Z" style="animation-delay:1.3s"/>
+  <path class="leaf-coral" d="M615,860 C630,850 638,828 618,812 C602,825 600,848 615,860 Z" style="animation-delay:1.5s"/>
+</svg>
+
+<main class="card">
+  <p class="eyebrow">Palindrome Checker</p>
+  <h1>Reads the same,<br>front to back?</h1>
+  <p class="sub">Type a word below — we'll trace it forwards and backwards to see if it matches.</p>
+
+  <label for="word">Enter a word</label>
+  <div class="field-row">
+    <input type="text" id="word" placeholder="e.g. rotator" autocomplete="off" maxlength="30">
+    <button type="button" id="checkBtn">Check</button>
+  </div>
+  <p class="error" id="errorMsg" role="alert"></p>
+
+  <section class="result" id="result" aria-live="polite">
+    <dl class="result-rows">
+      <dt>Word</dt><dd id="outWord"></dd>
+      <dt>Reversed</dt><dd id="outReversed"></dd>
+    </dl>
+    <div class="verdict-wrap">
+      <svg class="verdict-ring" id="verdictRing" viewBox="0 0 200 60" preserveAspectRatio="none">
+        <path id="ringPath" d="M14,30 C10,10 60,4 100,5 C145,4 192,10 188,32 C184,54 140,58 100,57 C58,58 18,52 14,30 Z"/>
+      </svg>
+      <span class="verdict-text" id="verdictText"></span>
+    </div>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
