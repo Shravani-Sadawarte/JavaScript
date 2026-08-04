@@ -1,0 +1,118 @@
+# 🎓 Student Grading System
+
+A simple and responsive **Student Grading System** built using **HTML, CSS, and JavaScript**. This project allows users to enter student details and marks for four subjects, then automatically calculates the total marks, percentage, individual grades, and overall grade.
+
+---
+
+## 📌 Features
+
+- Enter student details (Name, Semester, PRN)
+- Enter marks for four subjects
+- Input validation for all fields
+- Marks validation (0–100)
+- Automatic calculation of:
+  - Total Marks
+  - Percentage
+  - Subject-wise Grade
+  - Overall Grade
+- Success and error notifications
+- Responsive and user-friendly interface
+- Form reset after successful result calculation
+
+---
+
+## 🛠️ Technologies Used
+
+- HTML5
+- CSS3
+- JavaScript (Vanilla JS)
+
+---
+
+## 📂 Project Structure
+
+```
+Student-Grading-System/
+│── index.html
+│── style.css
+│── script.js
+└── README.md
+```
+
+---
+
+## 🚀 How to Run the Project
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/Student-Grading-System.git
+```
+
+2. Open the project folder.
+
+3. Open `index.html` in any modern web browser.
+
+No additional installation or dependencies are required.
+
+---
+
+## 📊 Grade Criteria
+
+| Marks | Grade |
+|-------:|:-----:|
+| 91 – 100 | A+ |
+| 81 – 90 | A |
+| 66 – 80 | B |
+| 50 – 65 | C |
+| Below 50 | Fail |
+
+---
+
+## 📖 How It Works
+
+1. Enter the student's Name, Semester, and PRN.
+2. Enter the names of four subjects.
+3. Enter marks (0–100) for each subject.
+4. Click **Calculate Result**.
+5. The system displays:
+   - Student details
+   - Subject-wise grades
+   - Total marks
+   - Percentage
+   - Overall grade
+
+---
+
+## 📸 Screenshot
+
+Add a screenshot of your project here.
+
+Example:
+
+```
+screenshots/home.png
+```
+
+---
+
+## 🔮 Future Improvements
+
+- Support for more than four subjects
+- GPA/CGPA calculation
+- Printable mark sheet
+- Export results as PDF
+- Save student records using Local Storage
+- Search and edit student records
+
+---
+
+## 👩‍💻 Author
+
+**Shravani Sadawarte**
+
+---
+
+## 📄 License
+
+This project is created for educational and learning purposes.
