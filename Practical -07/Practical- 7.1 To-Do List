@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Taskly - My To-Do List</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(circle at 10% 20%, #fff4d8 0, transparent 25%),
+        radial-gradient(circle at 90% 80%, #e9f7df 0, transparent 25%),
+        #f8f5ed;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+
+    color: #38352f;
+}
+
+
+/* =========================
+   MAIN APP
+========================= */
+
+.app {
+    width: 100%;
+    max-width: 950px;
+    min-height: 680px;
+
+    background: #fffdf8;
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 25px 60px rgba(77, 65, 45, 0.13),
+        0 5px 15px rgba(77, 65, 45, 0.08);
+
+    display: grid;
+    grid-template-columns: 250px 1fr;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    background: #f6e8c9;
+
+    padding: 40px 25px;
+
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 45px;
+}
+
+.logo-icon {
+    width: 48px;
+    height: 48px;
+
+    background: #f5b62f;
+
+    border-radius: 14px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 25px;
+
+    color: white;
+
+    box-shadow:
+        0 5px 12px rgba(201, 145, 31, 0.25);
+}
+
+.logo h2 {
+    font-size: 22px;
+}
+
+.logo span {
+    display: block;
+
+    font-size: 12px;
+
+    color: #8c806a;
+
+    margin-top: 2px;
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+.menu-item {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 13px 15px;
+
+    margin-bottom: 8px;
+
+    border-radius: 12px;
+
+    color: #746b5c;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.menu-item:hover {
+    background: rgba(255,255,255,0.55);
+
+    transform: translateX(3px);
+}
+
+.menu-item.active {
+    background: #fffdf7;
+
+    color: #3f3a32;
+
+    font-weight: 650;
+
+    box-shadow:
+        0 4px 12px rgba(80,70,50,0.08);
+}
+
+.menu-icon {
+    font-size: 18px;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-card {
+    position: absolute;
+
+    left: 20px;
+    right: 20px;
+
+    bottom: 25px;
+
+    background: #fffdf7;
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 8px 20px rgba(78, 65, 42, 0.08);
+}
+
+.progress-title {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 12px;
+
+    margin-bottom: 10px;
+
+    color: #777064;
+}
+
+.progress-bar {
+    width: 100%;
+
+    height: 8px;
+
+    background: #eee5d2;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+
+    height: 100%;
+
+    background: #70a75b;
+
+    border-radius: 10px;
+
+    transition: width 0.4s ease;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    padding: 45px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.decoration {
+    position: absolute;
+
+    right: -30px;
+    top: -30px;
+
+    width: 140px;
+    height: 140px;
+
+    background: #fff0c5;
+
+    border-radius: 50%;
+
+    opacity: 0.8;
+}
+
+.small-star {
+    position: absolute;
+
+    right: 130px;
+    top: 60px;
+
+    color: #e7a72c;
+
+    font-size: 22px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 34px;
+
+    letter-spacing: -1px;
+}
+
+.header p {
+    margin-top: 6px;
+
+    font-size: 14px;
+
+    color: #989083;
+}
+
+.date {
+    background: #f5f1e8;
+
+    padding: 9px 13px;
+
+    border-radius: 10px;
+
+    font-size: 12px;
+
+    color: #81786b;
+
+    height: fit-content;
+}
+
+
+/* =========================
+   ADD TASK
+========================= */
+
+.add-task {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    gap: 8px;
+
+    background: #fff8df;
+
+    border: 1.5px solid #f1d889;
+
+    padding: 8px;
+
+    border-radius: 15px;
+
+    margin-bottom: 12px;
+}
+
+.add-task input {
+    flex: 1;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    padding: 12px;
+
+    font-size: 14px;
+}
+
+.add-task input::placeholder {
+    color: #aaa18e;
+}
+
+
+/* PRIORITY SELECT */
+
+.priority-select {
+    border: none;
+
+    outline: none;
+
+    background: white;
+
+    border-radius: 10px;
+
+    padding: 0 10px;
+
+    font-size: 12px;
+
+    color: #696154;
+
+    cursor: pointer;
+}
+
+
+.add-task button {
+    border: none;
+
+    background: #f4b82f;
+
+    color: white;
+
+    font-weight: 650;
+
+    padding: 0 18px;
+
+    border-radius: 11px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.add-task button:hover {
+    background: #e8a91d;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   PRIORITY GUIDE
+========================= */
+
+.priority-guide {
+    display: flex;
+
+    gap: 8px;
+
+    margin-bottom: 25px;
+
+    font-size: 11px;
+
+    color: #8c8579;
+}
+
+.priority-guide span {
+    padding: 5px 9px;
+
+    border-radius: 8px;
+}
+
+.normal-guide {
+    background: #f2f2ee;
+}
+
+.important-guide {
+    background: #fff3c9;
+    color: #a47a16;
+}
+
+.urgent-guide {
+    background: #ffe4df;
+    color: #b75e4c;
+}
+
+
+/* =========================
+   TASK HEADING
+========================= */
+
+.task-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 12px;
+}
+
+.task-heading h3 {
+    font-size: 16px;
+}
+
+.task-count {
+    font-size: 12px;
+
+    color: #8d8679;
+}
+
+
+/* =========================
+   TASK LIST
+========================= */
+
+ul {
+    list-style: none;
+
+    max-height: 400px;
+
+    overflow-y: auto;
+
+    padding-right: 5px;
+}
+
+ul::-webkit-scrollbar {
+    width: 5px;
+}
+
+ul::-webkit-scrollbar-thumb {
+    background: #ddd4c3;
+
+    border-radius: 10px;
+}
+
+
+/* =========================
+   TASK
+========================= */
+
+li {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    background: white;
+
+    border: 1px solid #eee9df;
+
+    margin: 9px 0;
+
+    padding: 13px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 12px rgba(70, 61, 45, 0.05);
+
+    transition: 0.25s;
+
+    animation: taskAppear 0.3s ease;
+}
+
+li:hover {
+    transform: translateX(3px);
+
+    border-color: #e8d79e;
+
+    box-shadow:
+        0 7px 18px rgba(70, 61, 45, 0.08);
+}
+
+@keyframes taskAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================
+   CHECKBOX
+========================= */
+
+.check {
+    width: 25px;
+    height: 25px;
+
+    border: 2px solid #76a965;
+
+    border-radius: 8px;
+
+    background: white;
+
+    cursor: pointer;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+
+    color: white;
+
+    font-size: 14px;
+}
+
+li.completed .check {
+    background: #72a75d;
+
+    border-color: #72a75d;
+}
+
+li.completed .check::after {
+    content: "✓";
+}
+
+li.completed .task-text {
+    text-decoration: line-through;
+
+    color: #aaa39a;
+}
+
+
+/* =========================
+   TASK CONTENT
+========================= */
+
+.task-content {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.task-text {
+    font-size: 14px;
+
+    word-break: break-word;
+
+    display: block;
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================
+   PRIORITY BADGES
+========================= */
+
+.priority {
+    display: inline-block;
+
+    font-size: 10px;
+
+    padding: 3px 7px;
+
+    border-radius: 6px;
+
+    font-weight: 600;
+}
+
+.priority.normal {
+    background: #f1f1ed;
+
+    color: #858176;
+}
+
+.priority.important {
+    background: #fff1bd;
+
+    color: #a67b13;
+}
+
+.priority.urgent {
+    background: #ffe1db;
+
+    color: #bd624f;
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.actions {
+    display: flex;
+
+    gap: 5px;
+}
+
+.actions button {
+    border: none;
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    font-size: 13px;
+}
+
+.edit-btn {
+    background: #edf4fb;
+
+    color: #5d88ae;
+}
+
+.delete-btn {
+    background: #fff0ed;
+
+    color: #c77968;
+}
+
+.actions button:hover {
+    transform: scale(1.08);
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty {
+    text-align: center;
+
+    padding: 60px 20px;
+
+    color: #aaa296;
+}
+
+.empty-icon {
+    font-size: 55px;
+
+    margin-bottom: 12px;
+}
+
+.empty h4 {
+    color: #70695e;
+
+    font-size: 16px;
+
+    margin-bottom: 5px;
+}
+
+.empty p {
+    font-size: 13px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    text-align: center;
+
+    font-size: 11px;
+
+    color: #aaa397;
+
+    margin-top: 15px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .app {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        padding: 30px 20px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .date {
+        display: none;
+    }
+
+    .add-task {
+        flex-wrap: wrap;
+    }
+
+    .add-task input {
+        width: 100%;
+    }
+
+    .priority-select {
+        height: 40px;
+    }
+
+    .add-task button {
+        height: 40px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✓
+        </div>
+
+        <div>
+
+            <h2>Taskly</h2>
+
+            <span>My little planner</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="menu">
+
+        <div
+            class="menu-item active"
+            data-filter="all">
+
+            <span class="menu-icon">☷</span>
+
+            <span>All Tasks</span>
+
+        </div>
+
+
+        <div
+            class="menu-item"
+            data-filter="important">
+
+            <span class="menu-icon">⭐</span>
+
+            <span>Important</span>
+
+        </div>
+
+
+        <div
+            class="menu-item"
+            data-filter="urgent">
+
+            <span class="menu-icon">🔥</span>
+
+            <span>Urgent</span>
+
+        </div>
+
+
+        <div
+            class="menu-item"
+            data-filter="completed">
+
+            <span class="menu-icon">✓</span>
+
+            <span>Completed</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress-card">
+
+        <div class="progress-title">
+
+            <span>Today's progress</span>
+
+            <strong id="progressText">
+                0%
+            </strong>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progressFill">
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+    <div class="decoration"></div>
+
+    <div class="small-star">
+        ✦
+    </div>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div>
+
+            <h1 id="pageTitle">
+                My Tasks ✏️
+            </h1>
+
+            <p>
+                Small steps every day make big things happen.
+            </p>
+
+        </div>
+
+        <div
+            class="date"
+            id="date">
+            Today
+        </div>
+
+    </div>
+
+
+    <!-- ADD TASK -->
+
+    <div class="add-task">
+
+        <input
+            type="text"
+            id="taskInput"
+            placeholder="What needs to be done?"
+            autocomplete="off"
+        >
+
+
+        <!-- PRIORITY -->
+
+        <select
+            id="prioritySelect"
+            class="priority-select">
+
+            <option value="normal">
+                Normal
+            </option>
+
+            <option value="important">
+                ⭐ Important
+            </option>
+
+            <option value="urgent">
+                🔥 Urgent
+            </option>
+
+        </select>
+
+
+        <button id="addBtn">
+            + Add Task
+        </button>
+
+    </div>
+
+
+    <!-- PRIORITY GUIDE -->
+
+    <div class="priority-guide">
+
+        <span class="normal-guide">
+            ● Normal
+        </span>
+
+        <span class="important-guide">
+            ⭐ Important
+        </span>
+
+        <span class="urgent-guide">
+            🔥 Urgent
+        </span>
+
+    </div>
+
+
+    <!-- TASK HEADING -->
+
+    <div class="task-heading">
+
+        <h3 id="listHeading">
+            Your checklist
+        </h3>
+
+        <span
+            class="task-count"
+            id="taskCount">
+            0 tasks
+        </span>
+
+    </div>
+
+
+    <!-- TASK LIST -->
+
+    <ul id="taskList">
+
+        <div
+            class="empty"
+            id="emptyState">
+
+            <div class="empty-icon">
+                📝
+            </div>
+
+            <h4>
+                Nothing here yet!
+            </h4>
+
+            <p>
+                Add your first task and get things done.
+            </p>
+
+        </div>
+
+    </ul>
+
+
+    <div class="footer">
+        ✦ Stay organized • Stay productive ✦
+    </div>
+
+</main>
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const taskInput =
+    document.getElementById("taskInput");
+
+const addBtn =
+    document.getElementById("addBtn");
+
+const prioritySelect =
+    document.getElementById("prioritySelect");
+
+const taskList =
+    document.getElementById("taskList");
+
+const taskCount =
+    document.getElementById("taskCount");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const progressText =
+    document.getElementById("progressText");
+
+const pageTitle =
+    document.getElementById("pageTitle");
+
+const listHeading =
+    document.getElementById("listHeading");
+
+const dateElement =
+    document.getElementById("date");
+
+
+/* =========================
+   CURRENT FILTER
+========================= */
+
+let currentFilter = "all";
+
+
+/* =========================
+   DATE
+========================= */
+
+const today = new Date();
+
+dateElement.textContent =
+    today.toLocaleDateString(
+        "en-US",
+        {
+            weekday: "short",
+            month: "short",
+            day: "numeric"
+        }
+    );
+
+
+/* =========================
+   ADD TASK
+========================= */
+
+function addTask() {
+
+    let task =
+        taskInput.value.trim();
+
+    let priority =
+        prioritySelect.value;
+
+
+    if (task === "") {
+
+        alert(
+            "Please enter a task."
+        );
+
+        return;
+    }
+
+
+    /* Remove empty state */
+
+    const emptyState =
+        document.getElementById(
+            "emptyState"
+        );
+
+    if (emptyState) {
+
+        emptyState.remove();
+
+    }
+
+
+    /* Create LI */
+
+    let li =
+        document.createElement("li");
+
+
+    /* Store priority */
+
+    li.dataset.priority =
+        priority;
+
+
+    /* CHECKBOX */
+
+    let checkBtn =
+        document.createElement("button");
+
+    checkBtn.className =
+        "check";
+
+    checkBtn.setAttribute(
+        "aria-label",
+        "Complete task"
+    );
+
+
+    /* TASK CONTENT */
+
+    let content =
+        document.createElement("div");
+
+    content.className =
+        "task-content";
+
+
+    /* TASK TEXT */
+
+    let span =
+        document.createElement("span");
+
+    span.className =
+        "task-text";
+
+    span.textContent =
+        task;
+
+
+    /* PRIORITY BADGE */
+
+    let badge =
+        document.createElement("small");
+
+    badge.className =
+        "priority " + priority;
+
+
+    if (priority === "important") {
+
+        badge.textContent =
+            "⭐ Important";
+
+    }
+    else if (priority === "urgent") {
+
+        badge.textContent =
+            "🔥 Urgent";
+
+    }
+    else {
+
+        badge.textContent =
+            "Normal";
+
+    }
+
+
+    content.appendChild(span);
+
+    content.appendChild(badge);
+
+
+    /* ACTIONS */
+
+    let actions =
+        document.createElement("div");
+
+    actions.className =
+        "actions";
+
+
+    /* EDIT */
+
+    let editBtn =
+        document.createElement("button");
+
+    editBtn.className =
+        "edit-btn";
+
+    editBtn.textContent =
+        "✎";
+
+    editBtn.title =
+        "Edit task";
+
+
+    /* DELETE */
+
+    let deleteBtn =
+        document.createElement("button");
+
+    deleteBtn.className =
+        "delete-btn";
+
+    deleteBtn.textContent =
+        "×";
+
+    deleteBtn.title =
+        "Delete task";
+
+
+    /* =========================
+       COMPLETE
+    ========================= */
+
+    checkBtn.onclick =
+        function () {
+
+            li.classList.toggle(
+                "completed"
+            );
+
+            updateProgress();
+
+        };
+
+
+    /* =========================
+       EDIT TASK + PRIORITY
+    ========================= */
+
+    editBtn.onclick =
+        function () {
+
+            let updatedTask =
+                prompt(
+                    "Edit Task:",
+                    span.textContent
+                );
+
+
+            if (
+                updatedTask !== null &&
+                updatedTask.trim() !== ""
+            ) {
+
+                span.textContent =
+                    updatedTask.trim();
+
+            }
+
+
+            let changePriority =
+                prompt(
+                    "Priority:\n\n" +
+                    "normal\n" +
+                    "important\n" +
+                    "urgent",
+                    li.dataset.priority
+                );
+
+
+            if (
+                changePriority === "normal" ||
+                changePriority === "important" ||
+                changePriority === "urgent"
+            ) {
+
+                li.dataset.priority =
+                    changePriority;
+
+
+                badge.className =
+                    "priority " +
+                    changePriority;
+
+
+                if (
+                    changePriority ===
+                    "important"
+                ) {
+
+                    badge.textContent =
+                        "⭐ Important";
+
+                }
+                else if (
+                    changePriority ===
+                    "urgent"
+                ) {
+
+                    badge.textContent =
+                        "🔥 Urgent";
+
+                }
+                else {
+
+                    badge.textContent =
+                        "Normal";
+
+                }
+
+            }
+
+
+            applyFilter();
+
+        };
+
+
+    /* =========================
+       DELETE
+    ========================= */
+
+    deleteBtn.onclick =
+        function () {
+
+            li.remove();
+
+            updateProgress();
+
+            applyFilter();
+
+        };
+
+
+    /* =========================
+       APPEND ELEMENTS
+    ========================= */
+
+    actions.appendChild(
+        editBtn
+    );
+
+    actions.appendChild(
+        deleteBtn
+    );
+
+
+    li.appendChild(
+        checkBtn
+    );
+
+    li.appendChild(
+        content
+    );
+
+    li.appendChild(
+        actions
+    );
+
+
+    taskList.appendChild(
+        li
+    );
+
+
+    /* CLEAR INPUT */
+
+    taskInput.value = "";
+
+    prioritySelect.value =
+        "normal";
+
+    taskInput.focus();
+
+
+    /* UPDATE */
+
+    updateProgress();
+
+
+    /* DOM TRAVERSAL */
+
+    console.log(
+        "Task List Children:",
+        taskList.children
+    );
+
+    console.log(
+        "Task Parent:",
+        li.parentElement
+    );
+
+}
+
+
+/* =========================
+   UPDATE PROGRESS
+========================= */
+
+function updateProgress() {
+
+    const tasks =
+        taskList.querySelectorAll(
+            "li"
+        );
+
+    const completed =
+        taskList.querySelectorAll(
+            "li.completed"
+        );
+
+
+    const total =
+        tasks.length;
+
+    const done =
+        completed.length;
+
+
+    /* TASK COUNT */
+
+    if (total === 1) {
+
+        taskCount.textContent =
+            "1 task";
+
+    }
+    else {
+
+        taskCount.textContent =
+            total + " tasks";
+
+    }
+
+
+    /* PROGRESS */
+
+    let percentage = 0;
+
+
+    if (total > 0) {
+
+        percentage =
+            Math.round(
+                (done / total) * 100
+            );
+
+    }
+
+
+    progressFill.style.width =
+        percentage + "%";
+
+
+    progressText.textContent =
+        percentage + "%";
+
+
+    /* EMPTY STATE */
+
+    if (total === 0) {
+
+        taskList.innerHTML = `
+
+            <div
+                class="empty"
+                id="emptyState">
+
+                <div class="empty-icon">
+                    📝
+                </div>
+
+                <h4>
+                    Nothing here yet!
+                </h4>
+
+                <p>
+                    Add your first task and
+                    get things done.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================
+   FILTER TASKS
+========================= */
+
+function applyFilter() {
+
+    const tasks =
+        taskList.querySelectorAll(
+            "li"
+        );
+
+
+    tasks.forEach(
+        function (task) {
+
+            let show = true;
+
+
+            if (
+                currentFilter ===
+                "important"
+            ) {
+
+                show =
+                    task.dataset.priority ===
+                    "important";
+
+            }
+
+
+            else if (
+                currentFilter ===
+                "urgent"
+            ) {
+
+                show =
+                    task.dataset.priority ===
+                    "urgent";
+
+            }
+
+
+            else if (
+                currentFilter ===
+                "completed"
+            ) {
+
+                show =
+                    task.classList.contains(
+                        "completed"
+                    );
+
+            }
+
+
+            task.style.display =
+                show ? "flex" : "none";
+
+        }
+    );
+
+
+    /* Update heading */
+
+    if (
+        currentFilter === "all"
+    ) {
+
+        listHeading.textContent =
+            "Your checklist";
+
+    }
+    else if (
+        currentFilter === "important"
+    ) {
+
+        listHeading.textContent =
+            "⭐ Important tasks";
+
+    }
+    else if (
+        currentFilter === "urgent"
+    ) {
+
+        listHeading.textContent =
+            "🔥 Urgent tasks";
+
+    }
+    else {
+
+        listHeading.textContent =
+            "✓ Completed tasks";
+
+    }
+
+}
+
+
+/* =========================
+   SIDEBAR FILTERS
+========================= */
+
+const menuItems =
+    document.querySelectorAll(
+        ".menu-item"
+    );
+
+
+menuItems.forEach(
+    function (item) {
+
+        item.addEventListener(
+            "click",
+            function () {
+
+                /* Remove active */
+
+                menuItems.forEach(
+                    function (menu) {
+
+                        menu.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                /* Activate clicked */
+
+                item.classList.add(
+                    "active"
+                );
+
+
+                /* Change filter */
+
+                currentFilter =
+                    item.dataset.filter;
+
+
+                applyFilter();
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================
+   ADD BUTTON
+========================= */
+
+addBtn.addEventListener(
+    "click",
+    addTask
+);
+
+
+/* =========================
+   ENTER KEY
+========================= */
+
+taskInput.addEventListener(
+    "keypress",
+    function (event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            addTask();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
