@@ -1,0 +1,2637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SmartMail Validator</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dff3ff 0%,
+            #eaf7ff 30%,
+            #f0eaff 65%,
+            #e7fff0 100%
+        );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow-x: hidden;
+
+    color: #202124;
+}
+
+
+/* =========================================================
+   BACKGROUND DECORATIONS
+========================================================= */
+
+.background {
+    position: fixed;
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+.blob {
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter: blur(2px);
+
+    opacity: 0.9;
+}
+
+.blob.one {
+    width: 420px;
+    height: 420px;
+
+    background: #4285f4;
+
+    left: -170px;
+    top: -130px;
+}
+
+.blob.two {
+    width: 380px;
+    height: 380px;
+
+    background: #34a853;
+
+    right: -150px;
+    bottom: -120px;
+}
+
+.blob.three {
+    width: 300px;
+    height: 300px;
+
+    background: #fbbc04;
+
+    right: -100px;
+    top: 60px;
+
+    opacity: 0.65;
+}
+
+.blob.four {
+    width: 330px;
+    height: 330px;
+
+    background: #ea4335;
+
+    left: -120px;
+    bottom: 20px;
+
+    opacity: 0.55;
+}
+
+
+/* =========================================================
+   DECORATIVE MAIL ICONS
+========================================================= */
+
+.floating-mail {
+    position: absolute;
+
+    width: 85px;
+    height: 85px;
+
+    background: rgba(255,255,255,0.65);
+
+    backdrop-filter: blur(10px);
+
+    border-radius: 50%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 38px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.12);
+
+    animation: float 5s ease-in-out infinite;
+}
+
+.mail-one {
+    top: 9%;
+    left: 10%;
+}
+
+.mail-two {
+    right: 9%;
+    top: 18%;
+
+    animation-delay: 1s;
+}
+
+.mail-three {
+    left: 8%;
+    bottom: 13%;
+
+    animation-delay: 2s;
+}
+
+.mail-four {
+    right: 12%;
+    bottom: 9%;
+
+    animation-delay: 3s;
+}
+
+@keyframes float {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.container {
+    width: 100%;
+    max-width: 470px;
+
+    padding: 25px 15px;
+}
+
+
+/* =========================================================
+   AUTH CARD
+========================================================= */
+
+.card {
+
+    background:
+        rgba(255,255,255,0.91);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    border:
+        1px solid rgba(255,255,255,0.9);
+
+    border-radius: 28px;
+
+    padding: 34px;
+
+    box-shadow:
+        0 25px 70px rgba(31, 50, 80, 0.20);
+
+    animation:
+        cardAppear 0.5s ease;
+}
+
+@keyframes cardAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo-wrapper {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-bottom: 15px;
+}
+
+.mail-logo {
+
+    width: 65px;
+    height: 65px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4285f4,
+            #34a853
+        );
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    box-shadow:
+        0 10px 25px rgba(66,133,244,0.25);
+}
+
+
+/* Mail M */
+
+.mail-logo::before {
+
+    content: "";
+
+    width: 34px;
+    height: 25px;
+
+    border:
+        4px solid white;
+
+    border-top:
+        0;
+
+    border-radius:
+        0 0 5px 5px;
+
+    position: absolute;
+
+    bottom: 17px;
+}
+
+
+/* Mail diagonal */
+
+.mail-logo::after {
+
+    content: "";
+
+    width: 27px;
+    height: 27px;
+
+    border-left:
+        4px solid white;
+
+    border-bottom:
+        4px solid white;
+
+    transform:
+        rotate(-45deg);
+
+    position: absolute;
+
+    top: 13px;
+}
+
+
+/* =========================================================
+   TITLES
+========================================================= */
+
+h1 {
+
+    text-align: center;
+
+    font-size: 27px;
+
+    margin-bottom: 8px;
+
+    color: #202124;
+}
+
+.subtitle {
+
+    text-align: center;
+
+    color: #687078;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    margin-bottom: 28px;
+}
+
+
+/* =========================================================
+   SECTION LABEL
+========================================================= */
+
+.section-label {
+
+    font-size: 13px;
+
+    color: #5f6368;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   FORM FIELD
+========================================================= */
+
+.field {
+
+    margin-bottom: 19px;
+}
+
+label {
+
+    display: block;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    margin-bottom: 8px;
+
+    color: #30343b;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+input,
+select {
+
+    width: 100%;
+
+    height: 53px;
+
+    border-radius: 14px;
+
+    border:
+        1.5px solid #c4cbd3;
+
+    background:
+        rgba(255,255,255,0.85);
+
+    padding:
+        0 16px;
+
+    font-size: 16px;
+
+    outline: none;
+
+    transition:
+        0.2s ease;
+}
+
+input::placeholder {
+
+    color: #8b9299;
+}
+
+input:hover,
+select:hover {
+
+    border-color:
+        #9ba8b5;
+}
+
+input:focus,
+select:focus {
+
+    border-color:
+        #4285f4;
+
+    background:
+        white;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(66,133,244,0.12);
+}
+
+
+/* =========================================================
+   PASSWORD WRAPPER
+========================================================= */
+
+.password-wrapper {
+
+    position: relative;
+}
+
+.password-wrapper input {
+
+    padding-right: 70px;
+}
+
+.show-password {
+
+    position: absolute;
+
+    right: 15px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    color: #1a73e8;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   PASSWORD REQUIREMENTS
+========================================================= */
+
+.validation-box {
+
+    margin-top: 12px;
+
+    padding: 16px;
+
+    border-radius: 15px;
+
+    background:
+        rgba(245,247,250,0.9);
+
+    border:
+        1px solid #dce1e6;
+}
+
+.validation-title {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+
+    color: #34373c;
+}
+
+.condition {
+
+    font-size: 13px;
+
+    margin: 7px 0;
+
+    transition:
+        0.2s;
+}
+
+.valid {
+
+    color: #188038;
+}
+
+.invalid {
+
+    color: #d93025;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.btn {
+
+    width: 100%;
+
+    height: 52px;
+
+    border: none;
+
+    border-radius: 26px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #1a73e8,
+            #4285f4
+        );
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px
+        rgba(26,115,232,0.25);
+
+    transition:
+        0.2s ease;
+}
+
+.btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 24px
+        rgba(26,115,232,0.32);
+}
+
+.btn:active {
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   SECONDARY BUTTON
+========================================================= */
+
+.secondary-btn {
+
+    width: 100%;
+
+    height: 50px;
+
+    border-radius: 25px;
+
+    border:
+        1.5px solid #1a73e8;
+
+    background:
+        rgba(255,255,255,0.8);
+
+    color:
+        #1a73e8;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        0.2s;
+}
+
+.secondary-btn:hover {
+
+    background:
+        #eef5ff;
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 22px 0;
+
+    color: #8a9198;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.divider::before,
+.divider::after {
+
+    content: "";
+
+    height: 1px;
+
+    background: #d8dde2;
+
+    flex: 1;
+}
+
+
+/* =========================================================
+   ERROR NOTIFICATION
+========================================================= */
+
+.field-error {
+
+    display: none;
+
+    margin-top: 8px;
+
+    padding: 11px 13px;
+
+    border-radius: 11px;
+
+    background:
+        #fff1f1;
+
+    border:
+        1px solid #ffb8b8;
+
+    color:
+        #d93025;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   SUCCESS TEXT
+========================================================= */
+
+.success-text {
+
+    display: none;
+
+    color:
+        #188038;
+
+    font-size: 12px;
+
+    margin-top: 6px;
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result {
+
+    display: none;
+
+    margin-top: 16px;
+
+    padding: 15px;
+
+    border-radius: 14px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    font-weight: 600;
+}
+
+.result.success {
+
+    display: block;
+
+    background:
+        #eaf7ee;
+
+    border:
+        1px solid #a8d8b7;
+
+    color:
+        #188038;
+}
+
+.result.error {
+
+    display: block;
+
+    background:
+        #fff0f0;
+
+    border:
+        1px solid #ffb3b3;
+
+    color:
+        #d93025;
+}
+
+
+/* =========================================================
+   REGISTER NAME
+========================================================= */
+
+.name-row {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   DOB
+========================================================= */
+
+.dob-row {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap: 9px;
+}
+
+
+/* =========================================================
+   BACK LOGIN
+========================================================= */
+
+.back-login {
+
+    text-align:
+        center;
+
+    margin-top:
+        20px;
+
+    color:
+        #1a73e8;
+
+    font-size:
+        14px;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+}
+
+.back-login:hover {
+
+    text-decoration:
+        underline;
+}
+
+
+/* =========================================================
+   INFO TEXT
+========================================================= */
+
+.info-text {
+
+    color:
+        #737980;
+
+    font-size:
+        12px;
+
+    margin-top:
+        6px;
+}
+
+
+/* =========================================================
+   SUCCESS SCREEN
+========================================================= */
+
+.account-created {
+
+    text-align:
+        center;
+
+    padding:
+        15px 5px;
+}
+
+.success-icon {
+
+    width:
+        75px;
+
+    height:
+        75px;
+
+    border-radius:
+        50%;
+
+    background:
+        #e6f6eb;
+
+    color:
+        #188038;
+
+    font-size:
+        42px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    margin:
+        0 auto 18px;
+}
+
+.account-created h2 {
+
+    font-size:
+        25px;
+
+    color:
+        #188038;
+
+    margin-bottom:
+        10px;
+}
+
+.account-created p {
+
+    color:
+        #6b737a;
+
+    line-height:
+        1.6;
+
+    margin-bottom:
+        22px;
+}
+
+
+/* =========================================================
+   HIDDEN
+========================================================= */
+
+.hidden {
+
+    display:
+        none !important;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    text-align:
+        center;
+
+    margin-top:
+        18px;
+
+    color:
+        #687078;
+
+    font-size:
+        11px;
+}
+
+.footer strong {
+
+    color:
+        #4c555d;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+
+        align-items:
+            flex-start;
+
+        padding-top:
+            25px;
+    }
+
+    .container {
+
+        padding:
+            15px;
+    }
+
+    .card {
+
+        padding:
+            25px 21px;
+
+        border-radius:
+            23px;
+    }
+
+    .floating-mail {
+
+        display:
+            none;
+    }
+
+    .name-row {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    h1 {
+
+        font-size:
+            24px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     BACKGROUND
+========================================================= -->
+
+<div class="background">
+
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+    <div class="blob three"></div>
+    <div class="blob four"></div>
+
+    <div class="floating-mail mail-one">
+        ✉
+    </div>
+
+    <div class="floating-mail mail-two">
+        @
+    </div>
+
+    <div class="floating-mail mail-three">
+        ✉
+    </div>
+
+    <div class="floating-mail mail-four">
+        @
+    </div>
+
+</div>
+
+
+
+<div class="container">
+
+
+<!-- =========================================================
+     LOGIN CARD
+========================================================= -->
+
+<div
+    class="card"
+    id="loginCard"
+>
+
+
+    <div class="logo-wrapper">
+
+        <div class="mail-logo"></div>
+
+    </div>
+
+
+    <h1>
+        Welcome Back
+    </h1>
+
+
+    <p class="subtitle">
+
+        Sign in to validate your email
+        <br>
+        and password.
+
+    </p>
+
+
+
+    <!-- EMAIL -->
+
+    <div class="field">
+
+        <label>
+            Email Address
+        </label>
+
+        <input
+            type="text"
+            id="loginEmail"
+            placeholder="Enter your email address"
+        >
+
+
+        <div
+            id="loginEmailError"
+            class="field-error"
+        >
+        </div>
+
+
+        <div
+            id="loginEmailSuccess"
+            class="success-text"
+        >
+
+            ✓ Valid email address
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PASSWORD -->
+
+    <div class="field">
+
+        <label>
+            Password
+        </label>
+
+
+        <div class="password-wrapper">
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter your password"
+            >
+
+
+            <button
+                type="button"
+                class="show-password"
+                onclick="togglePassword(
+                    'loginPassword',
+                    this
+                )"
+            >
+                Show
+            </button>
+
+        </div>
+
+
+
+        <!-- REQUIREMENTS -->
+
+        <div class="validation-box">
+
+            <div class="validation-title">
+
+                Password Requirements
+
+            </div>
+
+
+            <div
+                id="loginLength"
+                class="condition invalid"
+            >
+
+                ✗ At least 8 characters
+
+            </div>
+
+
+            <div
+                id="loginUpper"
+                class="condition invalid"
+            >
+
+                ✗ At least one uppercase letter
+
+            </div>
+
+
+            <div
+                id="loginLower"
+                class="condition invalid"
+            >
+
+                ✗ At least one lowercase letter
+
+            </div>
+
+
+            <div
+                id="loginNumber"
+                class="condition invalid"
+            >
+
+                ✗ At least one number
+
+            </div>
+
+
+            <div
+                id="loginSpecial"
+                class="condition invalid"
+            >
+
+                ✗ At least one special character
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- LOGIN -->
+
+    <button
+        class="btn"
+        onclick="validateLogin()"
+    >
+
+        Login
+
+    </button>
+
+
+
+    <!-- RESULT -->
+
+    <div
+        id="loginResult"
+        class="result"
+    >
+    </div>
+
+
+
+    <!-- DIVIDER -->
+
+    <div class="divider">
+
+        OR
+
+    </div>
+
+
+
+    <!-- CREATE ACCOUNT -->
+
+    <button
+        class="secondary-btn"
+        onclick="showRegister()"
+    >
+
+        Create New Account
+
+    </button>
+
+
+    <div class="footer">
+
+        <strong>SmartMail Validator</strong>
+        <br>
+        Email & Password Validation System
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     REGISTER CARD
+========================================================= -->
+
+<div
+    class="card hidden"
+    id="registerCard"
+>
+
+
+    <div class="logo-wrapper">
+
+        <div class="mail-logo"></div>
+
+    </div>
+
+
+    <h1>
+        Create Account
+    </h1>
+
+
+    <p class="subtitle">
+
+        Enter your details to create
+        <br>
+        your SmartMail account.
+
+    </p>
+
+
+
+    <!-- NAME -->
+
+    <div class="field">
+
+        <label>
+            Name
+        </label>
+
+
+        <div class="name-row">
+
+            <input
+                type="text"
+                id="firstName"
+                placeholder="First name"
+            >
+
+            <input
+                type="text"
+                id="surname"
+                placeholder="Surname"
+            >
+
+        </div>
+
+
+        <div
+            id="nameError"
+            class="field-error"
+        >
+        </div>
+
+    </div>
+
+
+
+    <!-- DOB -->
+
+    <div class="field">
+
+        <label>
+            Date of Birth
+        </label>
+
+
+        <div class="dob-row">
+
+            <select id="dobDay">
+
+                <option value="">
+                    Day
+                </option>
+
+            </select>
+
+
+            <select id="dobMonth">
+
+                <option value="">
+                    Month
+                </option>
+
+                <option value="01">
+                    January
+                </option>
+
+                <option value="02">
+                    February
+                </option>
+
+                <option value="03">
+                    March
+                </option>
+
+                <option value="04">
+                    April
+                </option>
+
+                <option value="05">
+                    May
+                </option>
+
+                <option value="06">
+                    June
+                </option>
+
+                <option value="07">
+                    July
+                </option>
+
+                <option value="08">
+                    August
+                </option>
+
+                <option value="09">
+                    September
+                </option>
+
+                <option value="10">
+                    October
+                </option>
+
+                <option value="11">
+                    November
+                </option>
+
+                <option value="12">
+                    December
+                </option>
+
+            </select>
+
+
+            <select id="dobYear">
+
+                <option value="">
+                    Year
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div
+            id="dobError"
+            class="field-error"
+        >
+        </div>
+
+    </div>
+
+
+
+    <!-- GENDER -->
+
+    <div class="field">
+
+        <label>
+            Gender
+        </label>
+
+
+        <select id="gender">
+
+            <option value="">
+                Select your gender
+            </option>
+
+            <option>
+                Female
+            </option>
+
+            <option>
+                Male
+            </option>
+
+            <option>
+                Other
+            </option>
+
+            <option>
+                Prefer not to say
+            </option>
+
+        </select>
+
+
+        <div
+            id="genderError"
+            class="field-error"
+        >
+        </div>
+
+    </div>
+
+
+
+    <!-- EMAIL -->
+
+    <div class="field">
+
+        <label>
+            Email Address
+        </label>
+
+
+        <input
+            type="text"
+            id="registerEmail"
+            placeholder="Enter your email address"
+        >
+
+
+        <div
+            id="registerEmailError"
+            class="field-error"
+        >
+        </div>
+
+    </div>
+
+
+
+    <!-- MOBILE -->
+
+    <div class="field">
+
+        <label>
+            Mobile Number
+        </label>
+
+
+        <input
+            type="text"
+            id="mobile"
+            maxlength="10"
+            placeholder="Enter 10-digit mobile number"
+        >
+
+
+        <div class="info-text">
+
+            Enter exactly 10 digits.
+
+        </div>
+
+
+        <div
+            id="mobileError"
+            class="field-error"
+        >
+        </div>
+
+    </div>
+
+
+
+    <!-- PASSWORD -->
+
+    <div class="field">
+
+        <label>
+            Create Password
+        </label>
+
+
+        <div class="password-wrapper">
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Create a strong password"
+            >
+
+
+            <button
+                type="button"
+                class="show-password"
+                onclick="togglePassword(
+                    'registerPassword',
+                    this
+                )"
+            >
+
+                Show
+
+            </button>
+
+        </div>
+
+
+        <div class="validation-box">
+
+            <div class="validation-title">
+
+                Password Requirements
+
+            </div>
+
+
+            <div
+                id="regLength"
+                class="condition invalid"
+            >
+
+                ✗ At least 8 characters
+
+            </div>
+
+
+            <div
+                id="regUpper"
+                class="condition invalid"
+            >
+
+                ✗ At least one uppercase letter
+
+            </div>
+
+
+            <div
+                id="regLower"
+                class="condition invalid"
+            >
+
+                ✗ At least one lowercase letter
+
+            </div>
+
+
+            <div
+                id="regNumber"
+                class="condition invalid"
+            >
+
+                ✗ At least one number
+
+            </div>
+
+
+            <div
+                id="regSpecial"
+                class="condition invalid"
+            >
+
+                ✗ At least one special character
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CONFIRM -->
+
+    <div class="field">
+
+        <label>
+            Confirm Password
+        </label>
+
+
+        <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Re-enter your password"
+        >
+
+
+        <div
+            id="confirmError"
+            class="field-error"
+        >
+        </div>
+
+
+        <div
+            id="confirmSuccess"
+            class="success-text"
+        >
+
+            ✓ Passwords match
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CREATE -->
+
+    <button
+        class="btn"
+        onclick="createAccount()"
+    >
+
+        Create Account
+
+    </button>
+
+
+    <div
+        id="registerResult"
+        class="result"
+    >
+    </div>
+
+
+    <div
+        class="back-login"
+        onclick="showLogin()"
+    >
+
+        ← Back to Login
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     SUCCESS CARD
+========================================================= -->
+
+<div
+    class="card hidden"
+    id="successCard"
+>
+
+
+    <div class="account-created">
+
+
+        <div class="success-icon">
+
+            ✓
+
+        </div>
+
+
+        <h2>
+            Account Created!
+        </h2>
+
+
+        <p>
+
+            Your information has passed
+            all validation checks successfully.
+
+        </p>
+
+
+        <button
+            class="btn"
+            onclick="showLogin()"
+        >
+
+            Back to Login
+
+        </button>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================================
+   DATE DROPDOWNS
+========================================================= */
+
+const daySelect =
+    document.getElementById("dobDay");
+
+const yearSelect =
+    document.getElementById("dobYear");
+
+
+for(let i = 1; i <= 31; i++) {
+
+    const option =
+        document.createElement("option");
+
+    option.value = i;
+
+    option.textContent = i;
+
+    daySelect.appendChild(option);
+}
+
+
+const currentYear =
+    new Date().getFullYear();
+
+
+for(
+    let i = currentYear;
+    i >= 1950;
+    i--
+) {
+
+    const option =
+        document.createElement("option");
+
+    option.value = i;
+
+    option.textContent = i;
+
+    yearSelect.appendChild(option);
+}
+
+
+
+/* =========================================================
+   EMAIL REGEX
+========================================================= */
+
+const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+
+/* =========================================================
+   EMAIL VALIDATION
+========================================================= */
+
+function validateEmail(email) {
+
+    /*
+        STRING FUNCTION:
+        trim()
+    */
+
+    email =
+        email.trim();
+
+
+    if(email.length === 0) {
+
+        return {
+
+            valid: false,
+
+            message:
+                "Email address cannot be empty.",
+
+            details: [
+                "Please enter your email address."
+            ]
+
+        };
+    }
+
+
+    /*
+        STRING FUNCTION:
+        includes()
+    */
+
+    if(email.includes(" ")) {
+
+        return {
+
+            valid: false,
+
+            message:
+                "Email address contains spaces.",
+
+            details: [
+                "Remove spaces from your email address."
+            ]
+
+        };
+    }
+
+
+    if(!email.includes("@")) {
+
+        return {
+
+            valid: false,
+
+            message:
+                "Email address is missing @.",
+
+            details: [
+                "Your email must contain the @ symbol."
+            ]
+
+        };
+    }
+
+
+    /*
+        STRING FUNCTION:
+        split()
+    */
+
+    const parts =
+        email.split("@");
+
+
+    if(parts[0].length === 0) {
+
+        return {
+
+            valid: false,
+
+            message:
+                "Email username is missing.",
+
+            details: [
+                "Enter a username before @."
+            ]
+
+        };
+    }
+
+
+    if(
+        parts.length !== 2 ||
+        parts[1].length === 0
+    ) {
+
+        return {
+
+            valid: false,
+
+            message:
+                "Email domain is missing.",
+
+            details: [
+                "Enter a domain after @."
+            ]
+
+        };
+    }
+
+
+    if(!parts[1].includes(".")) {
+
+        return {
+
+            valid: false,
+
+            message:
+                "Email extension is missing.",
+
+            details: [
+                "Example: student@gmail.com"
+            ]
+
+        };
+    }
+
+
+    /*
+        REGEX VALIDATION
+    */
+
+    if(!emailRegex.test(email)) {
+
+        return {
+
+            valid: false,
+
+            message:
+                "Invalid email format.",
+
+            details: [
+                "Please enter a valid email address.",
+                "Example: student@gmail.com"
+            ]
+
+        };
+    }
+
+
+    return {
+
+        valid: true,
+
+        message:
+            "Valid email address.",
+
+        details: []
+
+    };
+}
+
+
+
+/* =========================================================
+   PASSWORD VALIDATION
+========================================================= */
+
+function checkPassword(
+    password,
+    prefix
+) {
+
+    const lengthValid =
+        password.length >= 8;
+
+    const upperValid =
+        /[A-Z]/.test(password);
+
+    const lowerValid =
+        /[a-z]/.test(password);
+
+    const numberValid =
+        /[0-9]/.test(password);
+
+    const specialValid =
+        /[^A-Za-z0-9]/.test(password);
+
+
+    updateCondition(
+        prefix + "Length",
+        lengthValid,
+        "At least 8 characters"
+    );
+
+    updateCondition(
+        prefix + "Upper",
+        upperValid,
+        "At least one uppercase letter"
+    );
+
+    updateCondition(
+        prefix + "Lower",
+        lowerValid,
+        "At least one lowercase letter"
+    );
+
+    updateCondition(
+        prefix + "Number",
+        numberValid,
+        "At least one number"
+    );
+
+    updateCondition(
+        prefix + "Special",
+        specialValid,
+        "At least one special character"
+    );
+
+
+    return (
+        lengthValid &&
+        upperValid &&
+        lowerValid &&
+        numberValid &&
+        specialValid
+    );
+}
+
+
+
+/* =========================================================
+   UPDATE CONDITION
+========================================================= */
+
+function updateCondition(
+    id,
+    valid,
+    text
+) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if(valid) {
+
+        element.className =
+            "condition valid";
+
+        element.textContent =
+            "✓ " + text;
+
+    } else {
+
+        element.className =
+            "condition invalid";
+
+        element.textContent =
+            "✗ " + text;
+    }
+}
+
+
+
+/* =========================================================
+   LIVE PASSWORD VALIDATION
+========================================================= */
+
+document
+.getElementById("loginPassword")
+.addEventListener(
+    "input",
+    function() {
+
+        checkPassword(
+            this.value,
+            "login"
+        );
+
+    }
+);
+
+
+document
+.getElementById("registerPassword")
+.addEventListener(
+    "input",
+    function() {
+
+        checkPassword(
+            this.value,
+            "reg"
+        );
+
+    }
+);
+
+
+
+/* =========================================================
+   LOGIN VALIDATION
+========================================================= */
+
+function validateLogin() {
+
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value;
+
+
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
+
+
+    const emailResult =
+        validateEmail(email);
+
+
+    const emailError =
+        document.getElementById(
+            "loginEmailError"
+        );
+
+
+    const emailSuccess =
+        document.getElementById(
+            "loginEmailSuccess"
+        );
+
+
+    if(emailResult.valid) {
+
+        emailError.style.display =
+            "none";
+
+        emailSuccess.style.display =
+            "block";
+
+    } else {
+
+        emailSuccess.style.display =
+            "none";
+
+        emailError.style.display =
+            "block";
+
+
+        emailError.innerHTML =
+            "✗ <strong>" +
+            emailResult.message +
+            "</strong><br>" +
+
+            emailResult.details
+            .map(
+                item => "• " + item
+            )
+            .join("<br>");
+    }
+
+
+    const passwordValid =
+        checkPassword(
+            password,
+            "login"
+        );
+
+
+    const result =
+        document.getElementById(
+            "loginResult"
+        );
+
+
+    if(
+        emailResult.valid &&
+        passwordValid
+    ) {
+
+        result.className =
+            "result success";
+
+        result.innerHTML =
+            "✓ Login validation successful!<br>" +
+            "Email and password satisfy all conditions.";
+
+    } else {
+
+        result.className =
+            "result error";
+
+        result.innerHTML =
+            "✗ Login validation failed.<br>" +
+            "Please correct the conditions marked above.";
+    }
+}
+
+
+
+/* =========================================================
+   CREATE ACCOUNT
+========================================================= */
+
+function createAccount() {
+
+    let valid = true;
+
+
+    const firstName =
+        document
+        .getElementById("firstName")
+        .value
+        .trim();
+
+
+    const surname =
+        document
+        .getElementById("surname")
+        .value
+        .trim();
+
+
+    const dobDay =
+        document
+        .getElementById("dobDay")
+        .value;
+
+
+    const dobMonth =
+        document
+        .getElementById("dobMonth")
+        .value;
+
+
+    const dobYear =
+        document
+        .getElementById("dobYear")
+        .value;
+
+
+    const gender =
+        document
+        .getElementById("gender")
+        .value;
+
+
+    const email =
+        document
+        .getElementById("registerEmail")
+        .value;
+
+
+    const mobile =
+        document
+        .getElementById("mobile")
+        .value
+        .trim();
+
+
+    const password =
+        document
+        .getElementById("registerPassword")
+        .value;
+
+
+    const confirmPassword =
+        document
+        .getElementById("confirmPassword")
+        .value;
+
+
+
+    /* NAME */
+
+    const nameError =
+        document.getElementById(
+            "nameError"
+        );
+
+
+    const nameRegex =
+        /^[A-Za-z ]+$/;
+
+
+    if(
+        firstName.length === 0 ||
+        surname.length === 0
+    ) {
+
+        nameError.style.display =
+            "block";
+
+        nameError.textContent =
+            "✗ First name and surname are required.";
+
+        valid = false;
+
+    } else if(
+        !nameRegex.test(firstName) ||
+        !nameRegex.test(surname)
+    ) {
+
+        nameError.style.display =
+            "block";
+
+        nameError.textContent =
+            "✗ Name should contain letters only.";
+
+        valid = false;
+
+    } else {
+
+        nameError.style.display =
+            "none";
+    }
+
+
+
+    /* DOB */
+
+    const dobError =
+        document.getElementById(
+            "dobError"
+        );
+
+
+    if(
+        dobDay === "" ||
+        dobMonth === "" ||
+        dobYear === ""
+    ) {
+
+        dobError.style.display =
+            "block";
+
+        dobError.textContent =
+            "✗ Please select your complete date of birth.";
+
+        valid = false;
+
+    } else {
+
+        dobError.style.display =
+            "none";
+    }
+
+
+
+    /* GENDER */
+
+    const genderError =
+        document.getElementById(
+            "genderError"
+        );
+
+
+    if(gender === "") {
+
+        genderError.style.display =
+            "block";
+
+        genderError.textContent =
+            "✗ Please select your gender.";
+
+        valid = false;
+
+    } else {
+
+        genderError.style.display =
+            "none";
+    }
+
+
+
+    /* EMAIL */
+
+    const emailResult =
+        validateEmail(email);
+
+
+    const emailError =
+        document.getElementById(
+            "registerEmailError"
+        );
+
+
+    if(!emailResult.valid) {
+
+        emailError.style.display =
+            "block";
+
+        emailError.innerHTML =
+            "✗ <strong>" +
+            emailResult.message +
+            "</strong><br>" +
+
+            emailResult.details
+            .map(
+                item => "• " + item
+            )
+            .join("<br>");
+
+        valid = false;
+
+    } else {
+
+        emailError.style.display =
+            "none";
+    }
+
+
+
+    /* MOBILE */
+
+    const mobileError =
+        document.getElementById(
+            "mobileError"
+        );
+
+
+    const mobileRegex =
+        /^[0-9]{10}$/;
+
+
+    if(!mobileRegex.test(mobile)) {
+
+        mobileError.style.display =
+            "block";
+
+        mobileError.textContent =
+            "✗ Mobile number must contain exactly 10 digits.";
+
+        valid = false;
+
+    } else {
+
+        mobileError.style.display =
+            "none";
+    }
+
+
+
+    /* PASSWORD */
+
+    const passwordValid =
+        checkPassword(
+            password,
+            "reg"
+        );
+
+
+    if(!passwordValid) {
+
+        valid = false;
+    }
+
+
+
+    /* CONFIRM PASSWORD */
+
+    const confirmError =
+        document.getElementById(
+            "confirmError"
+        );
+
+
+    const confirmSuccess =
+        document.getElementById(
+            "confirmSuccess"
+        );
+
+
+    if(
+        confirmPassword.length === 0 ||
+        password !== confirmPassword
+    ) {
+
+        confirmError.style.display =
+            "block";
+
+        confirmSuccess.style.display =
+            "none";
+
+        confirmError.textContent =
+            "✗ Passwords do not match.";
+
+        valid = false;
+
+    } else {
+
+        confirmError.style.display =
+            "none";
+
+        confirmSuccess.style.display =
+            "block";
+    }
+
+
+
+    /* FINAL */
+
+    const result =
+        document.getElementById(
+            "registerResult"
+        );
+
+
+    if(valid) {
+
+        document
+        .getElementById("registerCard")
+        .classList.add("hidden");
+
+
+        document
+        .getElementById("successCard")
+        .classList.remove("hidden");
+
+    } else {
+
+        result.className =
+            "result error";
+
+        result.innerHTML =
+            "✗ Account cannot be created yet.<br>" +
+            "Please correct the highlighted conditions.";
+    }
+}
+
+
+
+/* =========================================================
+   SHOW REGISTER
+========================================================= */
+
+function showRegister() {
+
+    document
+    .getElementById("loginCard")
+    .classList.add("hidden");
+
+
+    document
+    .getElementById("registerCard")
+    .classList.remove("hidden");
+
+
+    document
+    .getElementById("successCard")
+    .classList.add("hidden");
+}
+
+
+
+/* =========================================================
+   SHOW LOGIN
+========================================================= */
+
+function showLogin() {
+
+    document
+    .getElementById("loginCard")
+    .classList.remove("hidden");
+
+
+    document
+    .getElementById("registerCard")
+    .classList.add("hidden");
+
+
+    document
+    .getElementById("successCard")
+    .classList.add("hidden");
+}
+
+
+
+/* =========================================================
+   SHOW / HIDE PASSWORD
+========================================================= */
+
+function togglePassword(
+    inputId,
+    button
+) {
+
+    const input =
+        document.getElementById(
+            inputId
+        );
+
+
+    if(
+        input.type === "password"
+    ) {
+
+        input.type = "text";
+
+        button.textContent =
+            "Hide";
+
+    } else {
+
+        input.type = "password";
+
+        button.textContent =
+            "Show";
+    }
+}
+
+</script>
+
+</body>
+</html>
