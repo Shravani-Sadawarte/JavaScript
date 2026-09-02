@@ -1,0 +1,3178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Marks Analyzer</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f7f8fc;
+            color: #27243d;
+        }
+
+
+        /* ==========================================
+           MAIN LAYOUT
+        ========================================== */
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        /* ==========================================
+           SIDEBAR
+        ========================================== */
+
+        .sidebar {
+            width: 230px;
+            background: #ffffff;
+            border-right: 1px solid #eeeeF4;
+            padding: 28px 18px;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+            margin-bottom: 45px;
+        }
+
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(
+                135deg,
+                #8067e9,
+                #a88af5
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+            font-size: 19px;
+            font-weight: bold;
+
+            box-shadow:
+                0 8px 18px rgba(128, 103, 233, 0.25);
+        }
+
+
+        .logo-text {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+
+        .logo-text span {
+            display: block;
+            color: #8067e9;
+        }
+
+
+        .menu-title {
+            font-size: 10px;
+            color: #a4a2b3;
+            font-weight: 700;
+            padding: 0 12px;
+            margin-bottom: 12px;
+            letter-spacing: 1.2px;
+        }
+
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            padding: 12px 14px;
+            margin: 5px 0;
+
+            border-radius: 11px;
+
+            color: #77748b;
+            font-size: 13px;
+            font-weight: 600;
+
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+
+        .nav-item:hover {
+            background: #f5f2ff;
+            color: #8067e9;
+        }
+
+
+        .nav-item.active {
+            background: #eeeaff;
+            color: #8067e9;
+        }
+
+
+        .nav-icon {
+            width: 18px;
+            text-align: center;
+        }
+
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+
+        .help-card {
+            background: #f7f4ff;
+            border-radius: 14px;
+            padding: 15px;
+            text-align: center;
+        }
+
+
+        .help-card .small-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+
+        .help-card p {
+            font-size: 11px;
+            color: #77748b;
+            line-height: 1.5;
+        }
+
+
+        /* ==========================================
+           MAIN CONTENT
+        ========================================== */
+
+        .main {
+            margin-left: 230px;
+            width: calc(100% - 230px);
+            padding: 28px 38px 50px;
+        }
+
+
+        /* ==========================================
+           TOP BAR
+        ========================================== */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+
+        .breadcrumb {
+            color: #aaa7b7;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+
+        .page-title {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+
+        .page-subtitle {
+            font-size: 12px;
+            color: #9794a7;
+            margin-top: 5px;
+        }
+
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+
+        .notification {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 15px rgba(30, 25, 60, 0.05);
+            cursor: pointer;
+        }
+
+
+        .avatar {
+            width: 39px;
+            height: 39px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                #8067e9,
+                #a99af8
+            );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+
+        /* ==========================================
+           HERO
+        ========================================== */
+
+        .hero {
+            min-height: 250px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #f0ecff 0%,
+                    #f8f6ff 55%,
+                    #eef6ff 100%
+                );
+
+            border-radius: 22px;
+
+            padding: 30px 38px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            overflow: hidden;
+
+            position: relative;
+
+            margin-bottom: 25px;
+        }
+
+
+        .hero-content {
+            width: 52%;
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .hero-label {
+            display: inline-block;
+
+            background: white;
+            color: #8067e9;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            padding: 6px 11px;
+            border-radius: 20px;
+
+            margin-bottom: 12px;
+
+            box-shadow:
+                0 4px 12px rgba(80, 60, 150, 0.08);
+        }
+
+
+        .hero h2 {
+            font-size: 27px;
+            line-height: 1.2;
+            margin-bottom: 9px;
+        }
+
+
+        .hero p {
+            color: #77748d;
+            font-size: 12px;
+            line-height: 1.7;
+            max-width: 450px;
+        }
+
+
+        /* ==========================================
+           HERO ILLUSTRATION
+        ========================================== */
+
+        .illustration {
+            width: 370px;
+            height: 210px;
+            position: relative;
+        }
+
+
+        .screen {
+            position: absolute;
+            left: 35px;
+            bottom: 20px;
+
+            width: 190px;
+            height: 125px;
+
+            background: white;
+            border-radius: 10px;
+
+            box-shadow:
+                0 12px 30px rgba(75, 60, 140, 0.12);
+
+            padding: 14px;
+        }
+
+
+        .screen-top {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #d9d4f5;
+        }
+
+
+        .screen-title {
+            width: 65px;
+            height: 7px;
+            border-radius: 5px;
+            background: #ddd8f9;
+            margin-bottom: 13px;
+        }
+
+
+        .chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 9px;
+            height: 65px;
+        }
+
+
+        .bar {
+            width: 17px;
+            border-radius: 5px 5px 2px 2px;
+            background: #a18df2;
+        }
+
+
+        .bar:nth-child(1) {
+            height: 35px;
+        }
+
+
+        .bar:nth-child(2) {
+            height: 52px;
+            background: #7d68e7;
+        }
+
+
+        .bar:nth-child(3) {
+            height: 43px;
+            background: #b9aaf8;
+        }
+
+
+        .bar:nth-child(4) {
+            height: 62px;
+            background: #8067e9;
+        }
+
+
+        .bar:nth-child(5) {
+            height: 48px;
+            background: #9b88ef;
+        }
+
+
+        .person {
+            position: absolute;
+            right: 38px;
+            bottom: 22px;
+            width: 75px;
+            height: 155px;
+        }
+
+
+        .head {
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            background: #f2b48f;
+            position: absolute;
+            top: 0;
+            left: 22px;
+        }
+
+
+        .hair {
+            width: 31px;
+            height: 18px;
+            background: #44354d;
+            border-radius: 20px 20px 8px 8px;
+            position: absolute;
+            top: -3px;
+            left: 21px;
+        }
+
+
+        .body {
+            position: absolute;
+            top: 29px;
+            left: 17px;
+
+            width: 40px;
+            height: 63px;
+
+            background: #8067e9;
+            border-radius: 13px 13px 8px 8px;
+        }
+
+
+        .arm-left {
+            position: absolute;
+            width: 12px;
+            height: 58px;
+            background: #8067e9;
+            border-radius: 10px;
+            top: 34px;
+            left: 9px;
+            transform: rotate(28deg);
+        }
+
+
+        .arm-right {
+            position: absolute;
+            width: 12px;
+            height: 62px;
+            background: #8067e9;
+            border-radius: 10px;
+            top: 31px;
+            right: 8px;
+            transform: rotate(-45deg);
+        }
+
+
+        .leg-left {
+            position: absolute;
+            width: 13px;
+            height: 58px;
+            background: #403750;
+            border-radius: 8px;
+            top: 87px;
+            left: 22px;
+            transform: rotate(8deg);
+        }
+
+
+        .leg-right {
+            position: absolute;
+            width: 13px;
+            height: 58px;
+            background: #403750;
+            border-radius: 8px;
+            top: 87px;
+            left: 43px;
+            transform: rotate(-10deg);
+        }
+
+
+        .plant {
+            position: absolute;
+            right: 0;
+            bottom: 15px;
+            font-size: 54px;
+        }
+
+
+        .floating-card {
+            position: absolute;
+            right: 170px;
+            top: 25px;
+
+            background: white;
+            border-radius: 10px;
+
+            padding: 10px 14px;
+
+            box-shadow:
+                0 8px 22px rgba(75, 60, 140, 0.10);
+
+            font-size: 11px;
+            color: #77748b;
+        }
+
+
+        .floating-card strong {
+            display: block;
+            color: #8067e9;
+            font-size: 16px;
+        }
+
+
+        /* ==========================================
+           STAT CARDS
+        ========================================== */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
+            margin-bottom: 25px;
+        }
+
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 19px;
+
+            box-shadow:
+                0 4px 20px rgba(40, 30, 80, 0.045);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .stat-info p {
+            font-size: 11px;
+            color: #9996a8;
+            margin-bottom: 8px;
+        }
+
+
+        .stat-info h3 {
+            font-size: 23px;
+        }
+
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 13px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+        }
+
+
+        .purple {
+            background: #eeeaff;
+            color: #8067e9;
+        }
+
+
+        .blue {
+            background: #e8f3ff;
+            color: #438ce0;
+        }
+
+
+        .green {
+            background: #e7f8f1;
+            color: #35a87d;
+        }
+
+
+        .orange {
+            background: #fff2e5;
+            color: #ed994f;
+        }
+
+
+        /* ==========================================
+           CONTENT GRID
+        ========================================== */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.65fr 1fr;
+            gap: 20px;
+        }
+
+
+        .panel {
+            background: white;
+            border-radius: 18px;
+            padding: 21px;
+
+            box-shadow:
+                0 4px 20px rgba(40, 30, 80, 0.045);
+
+            margin-bottom: 20px;
+        }
+
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+
+        .panel-header h3 {
+            font-size: 15px;
+        }
+
+
+        .panel-header span {
+            font-size: 10px;
+            color: #9996a8;
+        }
+
+
+        /* ==========================================
+           FORM
+        ========================================== */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 0.7fr auto;
+            gap: 9px;
+            align-items: end;
+        }
+
+
+        .field label {
+            display: block;
+            font-size: 10px;
+            color: #888598;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+
+        .field input {
+            width: 100%;
+
+            padding: 10px 11px;
+
+            border: 1px solid #e8e6ef;
+
+            border-radius: 9px;
+
+            outline: none;
+
+            font-size: 11px;
+
+            transition: 0.2s;
+        }
+
+
+        .field input:focus {
+            border-color: #a391ef;
+            box-shadow:
+                0 0 0 3px #f0edff;
+        }
+
+
+        .primary-btn {
+            border: none;
+
+            background: #8067e9;
+
+            color: white;
+
+            padding: 11px 16px;
+
+            border-radius: 9px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .primary-btn:hover {
+            background: #6e56d4;
+            transform: translateY(-1px);
+        }
+
+
+        /* ==========================================
+           TABLE
+        ========================================== */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        th {
+            text-align: left;
+
+            font-size: 10px;
+
+            color: #9693a5;
+
+            font-weight: 700;
+
+            padding: 10px;
+
+            border-bottom: 1px solid #eeeeF3;
+        }
+
+
+        td {
+            padding: 12px 10px;
+
+            font-size: 11px;
+
+            border-bottom: 1px solid #f2f1f6;
+
+            color: #56536a;
+        }
+
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        .student-name {
+            color: #302c44;
+            font-weight: 700;
+        }
+
+
+        .id-badge {
+            width: 26px;
+            height: 26px;
+
+            border-radius: 8px;
+
+            background: #f0edff;
+
+            color: #8067e9;
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+
+        .marks {
+            font-weight: 800;
+            color: #302c44;
+        }
+
+
+        .status {
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        .excellent {
+            background: #e6f8f0;
+            color: #2d9c73;
+        }
+
+
+        .average {
+            background: #fff2df;
+            color: #dc913d;
+        }
+
+
+        .low {
+            background: #ffe9ec;
+            color: #d86672;
+        }
+
+
+        /* ==========================================
+           OPERATIONS
+        ========================================== */
+
+        .operation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+
+        .operation-btn {
+            border: 1px solid #ebe9f2;
+
+            background: #faf9fd;
+
+            color: #615d73;
+
+            border-radius: 9px;
+
+            padding: 10px 7px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .operation-btn:hover {
+            background: #eeeaff;
+            color: #8067e9;
+            border-color: #dcd5fa;
+        }
+
+
+        .operation-btn span {
+            display: block;
+            font-size: 8px;
+            color: #a5a2b0;
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
+
+        /* ==========================================
+           ANALYSIS
+        ========================================== */
+
+        .analysis-card {
+            padding: 15px;
+
+            border-radius: 12px;
+
+            margin-bottom: 10px;
+
+            background: #faf9fd;
+        }
+
+
+        .analysis-label {
+            font-size: 9px;
+            color: #9996a8;
+            margin-bottom: 5px;
+        }
+
+
+        .analysis-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: #343047;
+        }
+
+
+        .analysis-marks {
+            font-size: 10px;
+            color: #8067e9;
+            font-weight: 700;
+            margin-top: 3px;
+        }
+
+
+        /* ==========================================
+           RESULT
+        ========================================== */
+
+        .result-box {
+            background: #f4f1ff;
+
+            border-radius: 12px;
+
+            padding: 14px;
+
+            font-size: 11px;
+
+            color: #625d78;
+
+            line-height: 1.7;
+
+            min-height: 70px;
+        }
+
+
+        .result-box strong {
+            color: #8067e9;
+        }
+
+
+        /* ==========================================
+           HISTORY
+        ========================================== */
+
+        .history {
+            max-height: 170px;
+            overflow-y: auto;
+        }
+
+
+        .history li {
+            list-style: none;
+
+            padding: 8px 0;
+
+            border-bottom: 1px solid #f0eff4;
+
+            font-size: 10px;
+
+            color: #77748a;
+        }
+
+
+        .history li:last-child {
+            border-bottom: none;
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 1000px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                width: calc(100% - 190px);
+                padding: 25px;
+            }
+
+            .hero-content {
+                width: 60%;
+            }
+
+            .illustration {
+                transform: scale(0.8);
+                transform-origin: right center;
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content {
+                width: 100%;
+            }
+
+            .illustration {
+                display: none;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- ==========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                SM
+            </div>
+
+            <div class="logo-text">
+                STUDENT
+                <span>ANALYZER</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            MAIN MENU
+        </div>
+
+
+        <div class="nav-item active">
+
+            <div class="nav-icon">⌂</div>
+
+            Dashboard
+
+        </div>
+
+
+        <div class="nav-item"
+             onclick="scrollToStudents()">
+
+            <div class="nav-icon">☷</div>
+
+            Students
+
+        </div>
+
+
+        <div class="nav-item"
+             onclick="scrollToOperations()">
+
+            <div class="nav-icon">⚙</div>
+
+            Operations
+
+        </div>
+
+
+        <div class="nav-item"
+             onclick="scrollToAnalysis()">
+
+            <div class="nav-icon">◔</div>
+
+            Analysis
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+
+                <div class="small-icon">
+                    💡
+                </div>
+
+                <p>
+                    Array of Objects<br>
+                    JavaScript Practical
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- ==========================================
+         MAIN
+    ========================================== -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+            <div>
+
+                <div class="breadcrumb">
+                    Home / Dashboard
+                </div>
+
+                <div class="page-title">
+                    Student Performance
+                </div>
+
+                <div class="page-subtitle">
+                    Manage student marks and analyze performance
+                </div>
+
+            </div>
+
+
+            <div class="profile">
+
+                <div class="notification">
+                    ♢
+                </div>
+
+                <div class="avatar">
+                    SA
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==========================================
+             HERO
+        ========================================== -->
+
+        <section class="hero">
+
+
+            <div class="hero-content">
+
+                <div class="hero-label">
+                    JAVASCRIPT ARRAY PROJECT
+                </div>
+
+
+                <h2>
+                    Analyze student<br>
+                    performance with ease.
+                </h2>
+
+
+                <p>
+                    Store student records as an array of objects,
+                    perform array operations, and quickly identify
+                    the highest and lowest performing students.
+                </p>
+
+            </div>
+
+
+
+            <!-- CSS ILLUSTRATION -->
+
+            <div class="illustration">
+
+
+                <div class="floating-card">
+
+                    Top Score
+
+                    <strong id="heroTopScore">
+                        --%
+
+                    </strong>
+
+                </div>
+
+
+                <div class="screen">
+
+
+                    <div class="screen-top">
+
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+
+                    </div>
+
+
+                    <div class="screen-title"></div>
+
+
+                    <div class="chart">
+
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="person">
+
+                    <div class="hair"></div>
+
+                    <div class="head"></div>
+
+                    <div class="body"></div>
+
+                    <div class="arm-left"></div>
+
+                    <div class="arm-right"></div>
+
+                    <div class="leg-left"></div>
+
+                    <div class="leg-right"></div>
+
+                </div>
+
+
+                <div class="plant">
+                    🌿
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==========================================
+             STATISTICS
+        ========================================== -->
+
+        <div class="stats">
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+
+                    <p>Total Students</p>
+
+                    <h3 id="totalStudents">
+                        0
+                    </h3>
+
+                </div>
+
+                <div class="stat-icon purple">
+                    ♙
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+
+                    <p>Average Marks</p>
+
+                    <h3 id="averageMarks">
+                        0
+                    </h3>
+
+                </div>
+
+                <div class="stat-icon blue">
+                    %
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+
+                    <p>Highest Marks</p>
+
+                    <h3 id="highestStat">
+                        0
+                    </h3>
+
+                </div>
+
+                <div class="stat-icon green">
+                    ↑
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-info">
+
+                    <p>Lowest Marks</p>
+
+                    <h3 id="lowestStat">
+                        0
+                    </h3>
+
+                </div>
+
+                <div class="stat-icon orange">
+                    ↓
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==========================================
+             CONTENT GRID
+        ========================================== -->
+
+        <div class="content-grid">
+
+
+            <!-- LEFT COLUMN -->
+
+            <div>
+
+
+                <!-- ADD STUDENT -->
+
+                <section class="panel"
+                         id="studentSection">
+
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Add Student Record
+                        </h3>
+
+                        <span>
+                            Array.push()
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="field">
+
+                            <label>
+                                STUDENT NAME
+                            </label>
+
+                            <input
+                                type="text"
+                                id="studentName"
+                                placeholder="e.g. Shravani"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                SUBJECT
+                            </label>
+
+                            <input
+                                type="text"
+                                id="subject"
+                                placeholder="e.g. JavaScript"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                MARKS
+                            </label>
+
+                            <input
+                                type="number"
+                                id="marks"
+                                placeholder="0 - 100"
+                                min="0"
+                                max="100"
+                            >
+
+                        </div>
+
+
+                        <button
+                            class="primary-btn"
+                            onclick="addStudent()"
+                        >
+                            + Add
+                        </button>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- STUDENT TABLE -->
+
+                <section class="panel"
+                         id="studentTableSection">
+
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Student Records
+                        </h3>
+
+                        <span id="recordCount">
+                            0 records
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table id="studentTable">
+
+                            <tr>
+
+                                <th>ID</th>
+
+                                <th>Student</th>
+
+                                <th>Subject</th>
+
+                                <th>Marks</th>
+
+                                <th>Status</th>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- RESULT -->
+
+                <section class="panel">
+
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Operation Result
+                        </h3>
+
+                    </div>
+
+
+                    <div
+                        class="result-box"
+                        id="result"
+                    >
+
+                        Select an operation to see
+                        the result here.
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+
+            <!-- RIGHT COLUMN -->
+
+            <div>
+
+
+                <!-- ARRAY OPERATIONS -->
+
+                <section class="panel"
+                         id="operationsSection">
+
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Array Operations
+                        </h3>
+
+                        <span>
+                            Manipulate records
+                        </span>
+
+                    </div>
+
+
+                    <div class="operation-grid">
+
+
+                        <button
+                            class="operation-btn"
+                            onclick="popStudent()"
+                        >
+                            POP
+                            <span>
+                                Remove last
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="operation-btn"
+                            onclick="shiftStudent()"
+                        >
+                            SHIFT
+                            <span>
+                                Remove first
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="operation-btn"
+                            onclick="unshiftStudent()"
+                        >
+                            UNSHIFT
+                            <span>
+                                Add first
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="operation-btn"
+                            onclick="showMap()"
+                        >
+                            MAP
+                            <span>
+                                Transform
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="operation-btn"
+                            onclick="showFilter()"
+                        >
+                            FILTER
+                            <span>
+                                Find 75+
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="operation-btn"
+                            onclick="showForEach()"
+                        >
+                            FOREACH
+                            <span>
+                                Visit all
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="operation-btn"
+                            onclick="showSlice()"
+                        >
+                            SLICE
+                            <span>
+                                Extract records
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="operation-btn"
+                            onclick="showMaxMin()"
+                        >
+                            MAX / MIN
+                            <span>
+                                Compare marks
+                            </span>
+                        </button>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- SPLICE -->
+
+                <section class="panel">
+
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Update Marks
+                        </h3>
+
+                        <span>
+                            Array.splice()
+                        </span>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            STUDENT ID
+                        </label>
+
+                        <input
+                            type="number"
+                            id="replaceID"
+                            placeholder="Enter ID"
+                        >
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="field">
+
+                        <label>
+                            NEW MARKS
+                        </label>
+
+                        <input
+                            type="number"
+                            id="newMarks"
+                            placeholder="Enter new marks"
+                            min="0"
+                            max="100"
+                        >
+
+                    </div>
+
+
+                    <br>
+
+
+                    <button
+                        class="primary-btn"
+                        onclick="replaceMarks()"
+                    >
+                        Update Marks
+                    </button>
+
+
+                </section>
+
+
+
+                <!-- PERFORMANCE -->
+
+                <section class="panel"
+                         id="analysisSection">
+
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Performance Analysis
+                        </h3>
+
+                        <span>
+                            Highest / Lowest
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-card">
+
+                        <div class="analysis-label">
+                            TOP PERFORMER
+                        </div>
+
+                        <div
+                            class="analysis-name"
+                            id="highestName"
+                        >
+                            —
+                        </div>
+
+                        <div
+                            class="analysis-marks"
+                            id="highestMarks"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="analysis-card">
+
+                        <div class="analysis-label">
+                            LOWEST PERFORMER
+                        </div>
+
+                        <div
+                            class="analysis-name"
+                            id="lowestName"
+                        >
+                            —
+                        </div>
+
+                        <div
+                            class="analysis-marks"
+                            id="lowestMarks"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="primary-btn"
+                        onclick="showMaxMin()"
+                    >
+                        Analyze Performance
+                    </button>
+
+
+                </section>
+
+
+
+                <!-- HISTORY -->
+
+                <section class="panel">
+
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Operation History
+                        </h3>
+
+                    </div>
+
+
+                    <div class="history">
+
+                        <ul id="historyList"></ul>
+
+                    </div>
+
+
+                </section>
+
+
+                <button
+                    class="operation-btn"
+                    style="width:100%; margin-bottom:20px;"
+                    onclick="resetStudents()"
+                >
+                    RESET STUDENT RECORDS
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+
+<script>
+
+
+/*
+====================================================
+ARRAY OF OBJECTS
+====================================================
+
+This is the main data structure.
+
+Each element is an OBJECT containing:
+
+    id
+    name
+    subject
+    marks
+
+====================================================
+*/
+
+let students = [
+
+    {
+        id: 1,
+        name: "Shravani",
+        subject: "JavaScript",
+        marks: 85
+    },
+
+    {
+        id: 2,
+        name: "Rahul",
+        subject: "JavaScript",
+        marks: 72
+    },
+
+    {
+        id: 3,
+        name: "Aditi",
+        subject: "JavaScript",
+        marks: 91
+    },
+
+    {
+        id: 4,
+        name: "Neha",
+        subject: "JavaScript",
+        marks: 67
+    }
+
+];
+
+
+
+/*
+====================================================
+DISPLAY STUDENTS
+====================================================
+
+forEach() is used to visit every
+student object and display it.
+====================================================
+*/
+
+function displayStudents() {
+
+
+    let table =
+        document.getElementById("studentTable");
+
+
+    table.innerHTML = `
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Student</th>
+
+            <th>Subject</th>
+
+            <th>Marks</th>
+
+            <th>Status</th>
+
+        </tr>
+
+    `;
+
+
+    students.forEach(function(student) {
+
+
+        let status = "";
+
+        let statusClass = "";
+
+
+        if (student.marks >= 75) {
+
+            status = "Excellent";
+
+            statusClass = "excellent";
+
+        }
+
+        else if (student.marks >= 50) {
+
+            status = "Average";
+
+            statusClass = "average";
+
+        }
+
+        else {
+
+            status = "Needs Improvement";
+
+            statusClass = "low";
+
+        }
+
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>
+
+                    <span class="id-badge">
+
+                        ${student.id}
+
+                    </span>
+
+                </td>
+
+
+                <td class="student-name">
+
+                    ${student.name}
+
+                </td>
+
+
+                <td>
+
+                    ${student.subject}
+
+                </td>
+
+
+                <td class="marks">
+
+                    ${student.marks}
+
+                </td>
+
+
+                <td>
+
+                    <span class="status ${statusClass}">
+
+                        ${status}
+
+                    </span>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    updateStatistics();
+
+}
+
+
+
+/*
+====================================================
+ADD STUDENT
+====================================================
+
+Uses PUSH internally.
+
+Array.push()
+adds a new object at the END.
+====================================================
+*/
+
+function addStudent() {
+
+
+    let name =
+        document.getElementById("studentName").value.trim();
+
+
+    let subject =
+        document.getElementById("subject").value.trim();
+
+
+    let marks =
+        parseInt(
+            document.getElementById("marks").value
+        );
+
+
+    if (
+        name === "" ||
+        subject === "" ||
+        isNaN(marks)
+    ) {
+
+        alert(
+            "Please enter student name, subject and marks."
+        );
+
+        return;
+
+    }
+
+
+    if (marks < 0 || marks > 100) {
+
+        alert(
+            "Marks must be between 0 and 100."
+        );
+
+        return;
+
+    }
+
+
+    let student = {
+
+        id: students.length + 1,
+
+        name: name,
+
+        subject: subject,
+
+        marks: marks
+
+    };
+
+
+    /*
+    PUSH
+    */
+
+    students.push(student);
+
+
+    displayStudents();
+
+
+    showResult(
+
+        "<strong>Student Added!</strong><br>" +
+
+        name +
+        " has been added with " +
+        marks +
+        " marks."
+
+    );
+
+
+    addHistory(
+
+        "push() → Added " +
+        name +
+        " (" +
+        marks +
+        " marks)"
+
+    );
+
+
+    document.getElementById("studentName").value = "";
+
+    document.getElementById("subject").value = "";
+
+    document.getElementById("marks").value = "";
+
+}
+
+
+
+/*
+====================================================
+POP()
+====================================================
+
+Removes the LAST object.
+====================================================
+*/
+
+function popStudent() {
+
+
+    if (students.length === 0) {
+
+        alert("No students available.");
+
+        return;
+
+    }
+
+
+    let removed =
+        students.pop();
+
+
+    updateIDs();
+
+
+    displayStudents();
+
+
+    showResult(
+
+        "<strong>POP Operation</strong><br>" +
+
+        "Removed " +
+        removed.name +
+        " from the end of the array."
+
+    );
+
+
+    addHistory(
+
+        "pop() → Removed " +
+        removed.name
+
+    );
+
+}
+
+
+
+/*
+====================================================
+SHIFT()
+====================================================
+
+Removes the FIRST object.
+====================================================
+*/
+
+function shiftStudent() {
+
+
+    if (students.length === 0) {
+
+        alert("No students available.");
+
+        return;
+
+    }
+
+
+    let removed =
+        students.shift();
+
+
+    updateIDs();
+
+
+    displayStudents();
+
+
+    showResult(
+
+        "<strong>SHIFT Operation</strong><br>" +
+
+        "Removed " +
+        removed.name +
+        " from the beginning."
+
+    );
+
+
+    addHistory(
+
+        "shift() → Removed " +
+        removed.name
+
+    );
+
+}
+
+
+
+/*
+====================================================
+UNSHIFT()
+====================================================
+
+Adds an object at the BEGINNING.
+====================================================
+*/
+
+function unshiftStudent() {
+
+
+    let name =
+        prompt("Enter student name:");
+
+
+    if (name === null || name.trim() === "") {
+
+        return;
+
+    }
+
+
+    let subject =
+        prompt("Enter subject:");
+
+
+    if (subject === null || subject.trim() === "") {
+
+        return;
+
+    }
+
+
+    let marks =
+        parseInt(
+            prompt("Enter marks (0-100):")
+        );
+
+
+    if (isNaN(marks) || marks < 0 || marks > 100) {
+
+        alert("Invalid marks.");
+
+        return;
+
+    }
+
+
+    let student = {
+
+        id: 0,
+
+        name: name,
+
+        subject: subject,
+
+        marks: marks
+
+    };
+
+
+    /*
+    UNSHIFT
+    */
+
+    students.unshift(student);
+
+
+    updateIDs();
+
+
+    displayStudents();
+
+
+    showResult(
+
+        "<strong>UNSHIFT Operation</strong><br>" +
+
+        name +
+        " was added at the beginning."
+
+    );
+
+
+    addHistory(
+
+        "unshift() → Added " +
+        name
+
+    );
+
+}
+
+
+
+/*
+====================================================
+SPLICE()
+====================================================
+
+Used to REPLACE an existing student object.
+
+Example:
+
+Old:
+Shravani → 85
+
+New:
+Shravani → 92
+====================================================
+*/
+
+function replaceMarks() {
+
+
+    let id =
+        parseInt(
+            document.getElementById("replaceID").value
+        );
+
+
+    let newMarks =
+        parseInt(
+            document.getElementById("newMarks").value
+        );
+
+
+    if (isNaN(id) || isNaN(newMarks)) {
+
+        alert(
+            "Please enter student ID and new marks."
+        );
+
+        return;
+
+    }
+
+
+    if (newMarks < 0 || newMarks > 100) {
+
+        alert(
+            "Marks must be between 0 and 100."
+        );
+
+        return;
+
+    }
+
+
+    let index =
+        students.findIndex(function(student) {
+
+            return student.id === id;
+
+        });
+
+
+    if (index === -1) {
+
+        alert("Student ID not found.");
+
+        return;
+
+    }
+
+
+    let updatedStudent = {
+
+        id: students[index].id,
+
+        name: students[index].name,
+
+        subject: students[index].subject,
+
+        marks: newMarks
+
+    };
+
+
+    /*
+    SPLICE
+
+    start = index
+    deleteCount = 1
+    replacement = updatedStudent
+    */
+
+    students.splice(
+        index,
+        1,
+        updatedStudent
+    );
+
+
+    displayStudents();
+
+
+    showResult(
+
+        "<strong>SPLICE Operation</strong><br>" +
+
+        updatedStudent.name +
+        "'s marks have been changed to " +
+        newMarks +
+        "."
+
+    );
+
+
+    addHistory(
+
+        "splice() → Updated " +
+        updatedStudent.name +
+        " to " +
+        newMarks +
+        " marks."
+
+    );
+
+
+    document.getElementById("replaceID").value = "";
+
+    document.getElementById("newMarks").value = "";
+
+}
+
+
+
+/*
+====================================================
+SLICE()
+====================================================
+
+Returns a portion of the array.
+
+The original array is NOT modified.
+====================================================
+*/
+
+function showSlice() {
+
+
+    if (students.length === 0) {
+
+        return;
+
+    }
+
+
+    let start =
+        parseInt(
+            prompt(
+                "Enter starting index (0 to " +
+                (students.length - 1) +
+                "):"
+            )
+        );
+
+
+    let end =
+        parseInt(
+            prompt(
+                "Enter ending index:"
+            )
+        );
+
+
+    if (isNaN(start) || isNaN(end)) {
+
+        return;
+
+    }
+
+
+    let selected =
+        students.slice(start, end);
+
+
+    let output = "";
+
+
+    selected.forEach(function(student) {
+
+        output +=
+            student.name +
+            " — " +
+            student.marks +
+            " marks<br>";
+
+    });
+
+
+    showResult(
+
+        "<strong>SLICE Result</strong><br><br>" +
+
+        (
+            output ||
+            "No students found in this range."
+        )
+
+    );
+
+
+    addHistory(
+
+        "slice(" +
+        start +
+        ", " +
+        end +
+        ") → Selected " +
+        selected.length +
+        " students."
+
+    );
+
+}
+
+
+
+/*
+====================================================
+MAP()
+====================================================
+
+Creates a NEW array.
+
+Here we transform every student
+into a simple name + marks string.
+====================================================
+*/
+
+function showMap() {
+
+
+    let result =
+
+        students.map(function(student) {
+
+            return (
+
+                student.name +
+                " → " +
+                student.marks +
+                "%"
+
+            );
+
+        });
+
+
+    showResult(
+
+        "<strong>MAP Result</strong><br><br>" +
+
+        result.join("<br>")
+
+    );
+
+
+    addHistory(
+        "map() → Created student marks list."
+    );
+
+}
+
+
+
+/*
+====================================================
+FILTER()
+====================================================
+
+Find students who scored 75 or above.
+====================================================
+*/
+
+function showFilter() {
+
+
+    let toppers =
+
+        students.filter(function(student) {
+
+            return student.marks >= 75;
+
+        });
+
+
+    if (toppers.length === 0) {
+
+        showResult(
+
+            "<strong>FILTER Result</strong><br><br>" +
+
+            "No students scored 75 or above."
+
+        );
+
+        return;
+
+    }
+
+
+    let output = "";
+
+
+    toppers.forEach(function(student) {
+
+        output +=
+
+            student.name +
+            " → " +
+            student.marks +
+            " marks<br>";
+
+    });
+
+
+    showResult(
+
+        "<strong>FILTER Result</strong><br><br>" +
+
+        "Students scoring 75 or above:<br><br>" +
+
+        output
+
+    );
+
+
+    addHistory(
+
+        "filter() → Found " +
+        toppers.length +
+        " students scoring 75+."
+
+    );
+
+}
+
+
+
+/*
+====================================================
+FOREACH()
+====================================================
+
+Visits every object.
+====================================================
+*/
+
+function showForEach() {
+
+
+    let output = "";
+
+
+    students.forEach(function(student) {
+
+        output +=
+
+            "ID " +
+            student.id +
+            " → " +
+            student.name +
+            " → " +
+            student.marks +
+            " marks<br>";
+
+    });
+
+
+    showResult(
+
+        "<strong>FOREACH Result</strong><br><br>" +
+
+        output
+
+    );
+
+
+    addHistory(
+
+        "forEach() → Visited " +
+        students.length +
+        " student objects."
+
+    );
+
+}
+
+
+
+/*
+====================================================
+MAXIMUM AND MINIMUM
+====================================================
+
+Uses a FOR LOOP.
+
+We compare the marks stored
+inside each student object.
+====================================================
+*/
+
+function showMaxMin() {
+
+
+    if (students.length === 0) {
+
+        alert("No students available.");
+
+        return;
+
+    }
+
+
+    let highest =
+        students[0];
+
+
+    let lowest =
+        students[0];
+
+
+    /*
+    FOR LOOP
+    */
+
+    for (
+        let i = 1;
+        i < students.length;
+        i++
+    ) {
+
+
+        if (
+            students[i].marks >
+            highest.marks
+        ) {
+
+            highest =
+                students[i];
+
+        }
+
+
+        if (
+            students[i].marks <
+            lowest.marks
+        ) {
+
+            lowest =
+                students[i];
+
+        }
+
+    }
+
+
+    document.getElementById("highestName").innerText =
+        highest.name;
+
+
+    document.getElementById("highestMarks").innerText =
+        highest.marks + " Marks";
+
+
+    document.getElementById("lowestName").innerText =
+        lowest.name;
+
+
+    document.getElementById("lowestMarks").innerText =
+        lowest.marks + " Marks";
+
+
+    showResult(
+
+        "<strong>Performance Analysis</strong><br><br>" +
+
+        "🏆 Highest: " +
+        highest.name +
+        " — " +
+        highest.marks +
+        " marks<br>" +
+
+        "📉 Lowest: " +
+        lowest.name +
+        " — " +
+        lowest.marks +
+        " marks"
+
+    );
+
+
+    addHistory(
+
+        "Maximum → " +
+        highest.name +
+        " (" +
+        highest.marks +
+        ") | Minimum → " +
+        lowest.name +
+        " (" +
+        lowest.marks +
+        ")"
+
+    );
+
+
+
+    /*
+    Update top score in hero.
+    */
+
+    document.getElementById("heroTopScore").innerText =
+        highest.marks + "%";
+
+}
+
+
+
+/*
+====================================================
+UPDATE STATISTICS
+====================================================
+*/
+
+function updateStatistics() {
+
+
+    let total =
+        students.length;
+
+
+    document.getElementById("totalStudents").innerText =
+        total;
+
+
+    document.getElementById("recordCount").innerText =
+        total +
+        (total === 1 ? " record" : " records");
+
+
+    if (total === 0) {
+
+        document.getElementById("averageMarks").innerText = "0";
+
+        document.getElementById("highestStat").innerText = "0";
+
+        document.getElementById("lowestStat").innerText = "0";
+
+        return;
+
+    }
+
+
+    let totalMarks = 0;
+
+
+    let highest =
+        students[0].marks;
+
+
+    let lowest =
+        students[0].marks;
+
+
+    students.forEach(function(student) {
+
+
+        totalMarks += student.marks;
+
+
+        if (student.marks > highest) {
+
+            highest = student.marks;
+
+        }
+
+
+        if (student.marks < lowest) {
+
+            lowest = student.marks;
+
+        }
+
+    });
+
+
+    let average =
+        totalMarks / total;
+
+
+    document.getElementById("averageMarks").innerText =
+        average.toFixed(1);
+
+
+    document.getElementById("highestStat").innerText =
+        highest;
+
+
+    document.getElementById("lowestStat").innerText =
+        lowest;
+
+
+    document.getElementById("heroTopScore").innerText =
+        highest + "%";
+
+}
+
+
+
+/*
+====================================================
+UPDATE IDs
+====================================================
+*/
+
+function updateIDs() {
+
+
+    students.forEach(function(student, index) {
+
+        student.id =
+            index + 1;
+
+    });
+
+}
+
+
+
+/*
+====================================================
+OPERATION RESULT
+====================================================
+*/
+
+function showResult(message) {
+
+    document.getElementById("result").innerHTML =
+        message;
+
+}
+
+
+
+/*
+====================================================
+HISTORY
+====================================================
+*/
+
+function addHistory(message) {
+
+
+    let list =
+        document.getElementById("historyList");
+
+
+    list.innerHTML +=
+
+        "<li>" +
+        message +
+        "</li>";
+
+}
+
+
+
+/*
+====================================================
+RESET
+====================================================
+*/
+
+function resetStudents() {
+
+
+    students = [
+
+        {
+            id: 1,
+            name: "Shravani",
+            subject: "JavaScript",
+            marks: 85
+        },
+
+        {
+            id: 2,
+            name: "Rahul",
+            subject: "JavaScript",
+            marks: 72
+        },
+
+        {
+            id: 3,
+            name: "Aditi",
+            subject: "JavaScript",
+            marks: 91
+        },
+
+        {
+            id: 4,
+            name: "Neha",
+            subject: "JavaScript",
+            marks: 67
+        }
+
+    ];
+
+
+    displayStudents();
+
+
+    document.getElementById("highestName").innerText = "—";
+
+    document.getElementById("highestMarks").innerText = "—";
+
+    document.getElementById("lowestName").innerText = "—";
+
+    document.getElementById("lowestMarks").innerText = "—";
+
+
+    showResult(
+
+        "<strong>Reset Complete</strong><br>" +
+
+        "Student records have been restored."
+
+    );
+
+
+    addHistory(
+        "Array reset to default records."
+    );
+
+}
+
+
+
+/*
+====================================================
+SIDEBAR NAVIGATION
+====================================================
+*/
+
+function scrollToStudents() {
+
+    document
+        .getElementById("studentSection")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+function scrollToOperations() {
+
+    document
+        .getElementById("operationsSection")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+function scrollToAnalysis() {
+
+    document
+        .getElementById("analysisSection")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+
+/*
+====================================================
+INITIAL DISPLAY
+====================================================
+*/
+
+displayStudents();
+
+showMaxMin();
+
+
+</script>
+
+
+</body>
+
+  </html>
