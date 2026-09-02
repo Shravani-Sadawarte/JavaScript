@@ -1,0 +1,159 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Fredoka', sans-serif;
+  background-color: #6fd6f0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px);
+  background-size: 28px 28px;
+  color: #16213e;
+  max-width: 720px;
+  margin: 30px auto;
+  padding: 0 16px 40px;
+}
+
+/* Speech bubble like "Hello!" in the illustration */
+.bubble {
+  display: inline-block;
+  background: #fff;
+  border: 3px solid #16213e;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-weight: 600;
+  box-shadow: 4px 4px 0 #16213e;
+  margin-bottom: 10px;
+}
+
+h1 {
+  color: #16213e;
+  font-weight: 700;
+  margin: 6px 0 25px;
+}
+
+.star {
+  color: #ffd23f;
+  -webkit-text-stroke: 1px #16213e;
+}
+
+/* Window card, styled like a little browser window */
+.window {
+  background: #fff;
+  border: 3px solid #16213e;
+  border-radius: 14px;
+  margin-bottom: 22px;
+  box-shadow: 6px 6px 0 #16213e;
+  overflow: hidden;
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 3px solid #16213e;
+  font-weight: 600;
+  color: #16213e;
+}
+
+.window.red .titlebar     { background: #ff6b6b; }
+.window.yellow .titlebar  { background: #ffd23f; }
+.window.teal .titlebar    { background: #4ecdc4; }
+.window.navy .titlebar    { background: #a0d8ff; }
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #16213e;
+}
+.dot.red    { background: #ff6b6b; }
+.dot.yellow { background: #ffd23f; }
+.dot.green  { background: #6bcf7f; }
+
+.title {
+  margin-left: 6px;
+  flex: 1;
+}
+
+.close {
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.body {
+  padding: 16px;
+}
+
+input {
+  font-family: 'Fredoka', sans-serif;
+  padding: 9px 12px;
+  margin: 5px 6px 5px 0;
+  border: 3px solid #16213e;
+  border-radius: 20px;
+  width: 150px;
+  background: #f7f9fc;
+}
+
+input:focus {
+  outline: none;
+  background: #fff;
+}
+
+.btn {
+  font-family: 'Fredoka', sans-serif;
+  padding: 9px 16px;
+  margin: 5px 6px 5px 0;
+  border: 3px solid #16213e;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #16213e;
+  box-shadow: 3px 3px 0 #16213e;
+  transition: transform 0.1s ease;
+}
+
+.btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #16213e;
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #16213e;
+}
+
+.btn.red    { background: #ff6b6b; }
+.btn.yellow { background: #ffd23f; }
+.btn.teal   { background: #4ecdc4; }
+.btn.navy   { background: #a0d8ff; }
+
+.array-box {
+  font-family: monospace;
+  background: #f7f9fc;
+  border: 3px dashed #16213e;
+  border-radius: 12px;
+  padding: 12px;
+  min-height: 20px;
+  font-weight: 600;
+}
+
+.output-box {
+  font-family: monospace;
+  background: #fffbe8;
+  border: 3px solid #16213e;
+  border-radius: 12px;
+  padding: 10px;
+  min-height: 60px;
+  max-height: 250px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.output-box p {
+  margin: 4px 0;
+  padding-bottom: 6px;
+  border-bottom: 2px dotted #16213e;
+}
