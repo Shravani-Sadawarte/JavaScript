@@ -1,0 +1,260 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STYLEHUB – Fashion. Simplified.</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+  <div class="nav-top">
+    <button class="hamburger" id="hamburgerBtn" title="Menu">☰</button>
+    <div class="logo">STYLE<span>HUB</span></div>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#" data-gender="Men">MEN</a>
+      <a href="#" data-gender="Women">WOMEN</a>
+      <a href="#" data-gender="Kids">KIDS</a>
+      <a href="#" data-category="Home">HOME</a>
+      <a href="#" data-category="Beauty">BEAUTY</a>
+    </nav>
+
+    <form class="nav-search" id="searchForm">
+      <input type="text" id="searchInput" placeholder="Search for products, brands and more" autocomplete="off">
+      <button type="submit" title="Search">🔍</button>
+    </form>
+
+    <div class="nav-actions">
+      <button class="nav-icon-btn" id="profileBtn" title="Profile">👤<span class="nav-icon-label">Profile</span></button>
+      <button class="nav-icon-btn" id="wishlistBtn" title="Wishlist">♡<span class="nav-icon-label">Wishlist</span><span class="count-badge" id="wishlistCount">0</span></button>
+      <button class="nav-icon-btn" id="bagBtn" title="Bag">🛍<span class="nav-icon-label">Bag</span><span class="count-badge" id="bagCount">0</span></button>
+    </div>
+  </div>
+  <p class="search-error" id="searchError"></p>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Style that speaks for you</h1>
+    <p>Discover the latest trends, essentials and everyday fashion.</p>
+    <div class="hero-buttons">
+      <button class="hero-btn" data-gender="Men">SHOP MEN</button>
+      <button class="hero-btn hero-btn-outline" data-gender="Women">SHOP WOMEN</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CATEGORY STRIP ================= -->
+<section class="category-strip" id="categoryStrip">
+  <button class="cat-chip" data-category="all">All</button>
+  <button class="cat-chip" data-gender="Men">Men</button>
+  <button class="cat-chip" data-gender="Women">Women</button>
+  <button class="cat-chip" data-gender="Kids">Kids</button>
+  <button class="cat-chip" data-category="Footwear">Footwear</button>
+  <button class="cat-chip" data-category="Accessories">Accessories</button>
+  <button class="cat-chip" data-category="Beauty">Beauty</button>
+  <button class="cat-chip" data-category="Home">Home</button>
+</section>
+
+<!-- ================= MAIN LAYOUT ================= -->
+<main class="main-layout">
+
+  <!-- Filter Sidebar -->
+  <aside class="filter-sidebar" id="filterSidebar">
+    <div class="filter-sidebar-header">
+      <h3>FILTERS</h3>
+      <button class="close-btn" id="closeFilterBtn" title="Close">✕</button>
+    </div>
+
+    <div class="filter-block">
+      <h4>Gender</h4>
+      <label><input type="radio" name="genderFilter" value="all" checked> All</label>
+      <label><input type="radio" name="genderFilter" value="Men"> Men</label>
+      <label><input type="radio" name="genderFilter" value="Women"> Women</label>
+      <label><input type="radio" name="genderFilter" value="Kids"> Kids</label>
+    </div>
+
+    <div class="filter-block">
+      <h4>Category</h4>
+      <div id="categoryCheckboxes"></div>
+    </div>
+
+    <div class="filter-block">
+      <h4>Price</h4>
+      <div class="price-inputs">
+        <input type="number" id="minPrice" placeholder="Min" min="0">
+        <input type="number" id="maxPrice" placeholder="Max" min="0">
+      </div>
+    </div>
+
+    <div class="filter-block">
+      <h4>Discount</h4>
+      <select id="discountFilter">
+        <option value="0">Any Discount</option>
+        <option value="10">10% and above</option>
+        <option value="30">30% and above</option>
+        <option value="50">50% and above</option>
+      </select>
+    </div>
+
+    <div class="filter-block">
+      <h4>Rating</h4>
+      <label><input type="radio" name="ratingFilter" value="0" checked> Any Rating</label>
+      <label><input type="radio" name="ratingFilter" value="4"> 4★ & above</label>
+      <label><input type="radio" name="ratingFilter" value="3"> 3★ & above</label>
+    </div>
+
+    <div class="filter-block">
+      <h4>Size</h4>
+      <div class="size-checkboxes" id="sizeCheckboxes">
+        <label><input type="checkbox" value="XS"> XS</label>
+        <label><input type="checkbox" value="S"> S</label>
+        <label><input type="checkbox" value="M"> M</label>
+        <label><input type="checkbox" value="L"> L</label>
+        <label><input type="checkbox" value="XL"> XL</label>
+      </div>
+    </div>
+
+    <div class="filter-block">
+      <h4>Sort By</h4>
+      <select id="sortFilter">
+        <option value="recommended">Recommended</option>
+        <option value="priceLowHigh">Price: Low to High</option>
+        <option value="priceHighLow">Price: High to Low</option>
+        <option value="ratingHighLow">Rating</option>
+        <option value="discountHighLow">Discount</option>
+      </select>
+    </div>
+
+    <div class="filter-actions">
+      <button class="apply-btn" id="applyFiltersBtn">APPLY FILTERS</button>
+      <button class="clear-btn" id="clearFiltersBtn">CLEAR ALL</button>
+    </div>
+  </aside>
+
+  <!-- Product Section -->
+  <section class="product-section">
+    <div class="product-section-header">
+      <button class="mobile-filter-btn" id="openFilterBtn">⚙ Filters</button>
+      <p class="result-count" id="resultCount"></p>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+
+    <div class="no-results" id="noResults" hidden>
+      <div class="no-results-icon">🔍</div>
+      <h3>No products found</h3>
+      <p>Try changing your filters or search terms.</p>
+      <button class="clear-btn" id="noResultsClearBtn">CLEAR FILTERS</button>
+    </div>
+  </section>
+</main>
+
+<!-- ================= OVERLAY ================= -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ================= WISHLIST DRAWER ================= -->
+<aside class="drawer" id="wishlistDrawer">
+  <div class="drawer-header">
+    <h3>♡ Wishlist</h3>
+    <button class="close-btn" id="closeWishlistBtn">✕</button>
+  </div>
+  <div class="drawer-body" id="wishlistItems"></div>
+</aside>
+
+<!-- ================= BAG DRAWER ================= -->
+<aside class="drawer" id="bagDrawer">
+  <div class="drawer-header">
+    <h3>🛍 Bag</h3>
+    <button class="close-btn" id="closeBagBtn">✕</button>
+  </div>
+  <div class="drawer-body" id="bagItems"></div>
+  <div class="drawer-footer" id="bagFooter">
+    <div class="total-row"><span>Subtotal</span><span id="bagSubtotal">₹0</span></div>
+    <div class="total-row"><span>Discount</span><span id="bagDiscount">₹0</span></div>
+    <div class="total-row"><span>Delivery</span><span id="bagDelivery">₹0</span></div>
+    <div class="total-row grand-total"><span>Total</span><span id="bagTotal">₹0</span></div>
+    <button class="place-order-btn" id="placeOrderBtn">PLACE ORDER</button>
+  </div>
+</aside>
+
+<!-- ================= PRODUCT DETAILS MODAL ================= -->
+<div class="modal" id="detailsModal">
+  <div class="modal-content details-content">
+    <div class="modal-header">
+      <h3>Product Details</h3>
+      <button class="close-btn" id="closeDetailsBtn">✕</button>
+    </div>
+    <div class="modal-body" id="detailsBody"></div>
+  </div>
+</div>
+
+<!-- ================= CHECKOUT MODAL ================= -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Checkout</h3>
+      <button class="close-btn" id="closeCheckoutBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <h4 class="section-label">Delivery Address</h4>
+      <div class="address-fields">
+        <input type="text" id="addrName" placeholder="Full Name">
+        <input type="text" id="addrPhone" placeholder="Phone Number">
+        <textarea id="addrLine" placeholder="Address, City, PIN Code" rows="2"></textarea>
+      </div>
+
+      <h4 class="section-label">Order Summary</h4>
+      <div id="checkoutItems" class="checkout-items"></div>
+      <div class="total-row"><span>Subtotal</span><span id="checkoutSubtotal">₹0</span></div>
+      <div class="total-row"><span>Discount</span><span id="checkoutDiscount">₹0</span></div>
+      <div class="total-row"><span>Delivery</span><span id="checkoutDelivery">₹0</span></div>
+      <div class="total-row grand-total"><span>Total</span><span id="checkoutTotal">₹0</span></div>
+
+      <h4 class="section-label">Payment Method</h4>
+      <label class="payment-option"><input type="radio" name="paymentMethod" value="UPI" checked> UPI</label>
+      <label class="payment-option"><input type="radio" name="paymentMethod" value="Card"> Credit/Debit Card</label>
+      <label class="payment-option"><input type="radio" name="paymentMethod" value="COD"> Cash on Delivery</label>
+      <div class="card-demo-note" id="cardDemoNote" hidden>Demo checkout only — no real card details are collected.</div>
+
+      <button class="place-order-btn" id="confirmOrderBtn">PLACE ORDER</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CONFIRMATION MODAL ================= -->
+<div class="modal" id="confirmationModal">
+  <div class="modal-content confirmation-content">
+    <div class="confirmation-icon">✓</div>
+    <h3>ORDER PLACED SUCCESSFULLY</h3>
+    <p>Order ID: <span id="confirmOrderId"></span></p>
+    <p>Expected delivery: 3–5 business days</p>
+    <div class="confirmation-actions">
+      <button class="view-receipt-btn" id="viewReceiptBtn">VIEW RECEIPT</button>
+      <button class="close-confirm-btn" id="closeConfirmBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RECEIPT MODAL ================= -->
+<div class="modal" id="receiptModal">
+  <div class="modal-content receipt-content">
+    <div class="modal-header">
+      <h3>Order Receipt</h3>
+      <button class="close-btn" id="closeReceiptBtn">✕</button>
+    </div>
+    <div class="modal-body receipt-body" id="receiptBody"></div>
+  </div>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
