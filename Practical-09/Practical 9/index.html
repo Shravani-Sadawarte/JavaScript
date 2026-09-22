@@ -1,0 +1,562 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Theme Preference</title>
+
+    <style>
+
+        /* =========================
+           BASIC RESET
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            background: linear-gradient(
+                135deg,
+                #eef2ff,
+                #f8fafc
+            );
+
+            color: #111827;
+
+            transition:
+                background 0.4s ease,
+                color 0.4s ease;
+        }
+
+        /* =========================
+           MAIN CARD
+        ========================= */
+
+        .theme-card {
+            width: 100%;
+            max-width: 500px;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            padding: 40px 35px;
+
+            border-radius: 24px;
+
+            text-align: center;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 20px 50px rgba(15, 23, 42, 0.12);
+
+            transition:
+                background 0.4s ease,
+                border 0.4s ease,
+                box-shadow 0.4s ease;
+        }
+
+        /* =========================
+           ICON
+        ========================= */
+
+        .theme-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #eef2ff;
+
+            font-size: 32px;
+
+            transition:
+                background 0.4s ease,
+                transform 0.3s ease;
+        }
+
+        .theme-icon:hover {
+            transform: rotate(10deg) scale(1.05);
+        }
+
+        /* =========================
+           HEADING
+        ========================= */
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+
+            color: #111827;
+        }
+
+        .subtitle {
+            color: #6b7280;
+
+            font-size: 0.95rem;
+
+            line-height: 1.6;
+
+            margin-bottom: 30px;
+        }
+
+        /* =========================
+           THEME OPTIONS
+        ========================= */
+
+        .theme-options {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+        .theme-btn {
+            padding: 18px 15px;
+
+            border-radius: 14px;
+
+            border: 2px solid #e5e7eb;
+
+            background: #f9fafb;
+
+            color: #374151;
+
+            cursor: pointer;
+
+            font-size: 0.95rem;
+
+            font-weight: 600;
+
+            transition:
+                transform 0.2s ease,
+                border 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-3px);
+
+            border-color: #6366f1;
+
+            background: #eef2ff;
+
+            box-shadow:
+                0 8px 20px rgba(99, 102, 241, 0.12);
+        }
+
+        .theme-btn span {
+            display: block;
+
+            font-size: 1.6rem;
+
+            margin-bottom: 7px;
+        }
+
+        /* =========================
+           CLEAR BUTTON
+        ========================= */
+
+        .clear-btn {
+            width: 100%;
+
+            padding: 13px 18px;
+
+            border: 1px solid #fecaca;
+
+            border-radius: 12px;
+
+            background: #fff;
+
+            color: #dc2626;
+
+            font-size: 0.9rem;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .clear-btn:hover {
+            background: #fef2f2;
+
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           STATUS MESSAGE
+        ========================= */
+
+        .status {
+            margin-top: 25px;
+
+            padding: 12px 15px;
+
+            border-radius: 10px;
+
+            background: #f0fdf4;
+
+            color: #166534;
+
+            border: 1px solid #bbf7d0;
+
+            font-size: 0.9rem;
+
+            min-height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =========================
+           STORAGE INFO
+        ========================= */
+
+        .storage-info {
+            margin-top: 22px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #e5e7eb;
+
+            color: #6b7280;
+
+            font-size: 0.78rem;
+
+            line-height: 1.6;
+        }
+
+        .storage-info strong {
+            color: #374151;
+        }
+
+        /* =====================================================
+           DARK THEME
+        ===================================================== */
+
+        body.dark {
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #312e81,
+                    transparent 40%
+                ),
+                #111827;
+
+            color: #f9fafb;
+        }
+
+        body.dark .theme-card {
+            background: rgba(31, 41, 55, 0.95);
+
+            border-color: #374151;
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        body.dark .theme-icon {
+            background: #312e81;
+        }
+
+        body.dark h1 {
+            color: #f9fafb;
+        }
+
+        body.dark .subtitle {
+            color: #9ca3af;
+        }
+
+        body.dark .theme-btn {
+            background: #1f2937;
+
+            border-color: #374151;
+
+            color: #e5e7eb;
+        }
+
+        body.dark .theme-btn:hover {
+            background: #312e81;
+
+            border-color: #6366f1;
+        }
+
+        body.dark .clear-btn {
+            background: #1f2937;
+
+            border-color: #7f1d1d;
+
+            color: #f87171;
+        }
+
+        body.dark .clear-btn:hover {
+            background: #450a0a;
+        }
+
+        body.dark .status {
+            background: #052e16;
+
+            border-color: #166534;
+
+            color: #86efac;
+        }
+
+        body.dark .storage-info {
+            border-color: #374151;
+
+            color: #9ca3af;
+        }
+
+        body.dark .storage-info strong {
+            color: #d1d5db;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .theme-card {
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+
+            h1 {
+                font-size: 1.7rem;
+            }
+
+            .theme-options {
+                grid-template-columns: 1fr;
+            }
+
+            .theme-btn {
+                padding: 15px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <div class="theme-card">
+
+        <!-- ICON -->
+        <div class="theme-icon" id="themeIcon">
+            🎨
+        </div>
+
+        <!-- HEADING -->
+        <h1>Theme Preference</h1>
+
+        <p class="subtitle">
+            Choose your preferred appearance.
+            Your choice will be remembered automatically.
+        </p>
+
+
+        <!-- THEME BUTTONS -->
+        <div class="theme-options">
+
+            <button class="theme-btn"
+                    onclick="setTheme('light')">
+
+                <span>☀️</span>
+
+                Light Theme
+
+            </button>
+
+
+            <button class="theme-btn"
+                    onclick="setTheme('dark')">
+
+                <span>🌙</span>
+
+                Dark Theme
+
+            </button>
+
+        </div>
+
+
+        <!-- CLEAR -->
+        <button class="clear-btn"
+                onclick="clearTheme()">
+
+            ↺ &nbsp; Clear Saved Preference
+
+        </button>
+
+
+        <!-- MESSAGE -->
+        <div class="status" id="message">
+            No theme preference selected.
+        </div>
+
+
+        <!-- STORAGE EXPLANATION -->
+        <div class="storage-info">
+
+            <strong>How it works</strong><br>
+
+            Your theme is saved using
+            <strong>Local Storage</strong> and the current
+            session is also stored using
+            <strong>Session Storage</strong>.
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* =====================================================
+           LOAD SAVED THEME
+        ===================================================== */
+
+        window.onload = function () {
+
+            let savedTheme =
+                localStorage.getItem("theme");
+
+            if (savedTheme) {
+
+                setTheme(savedTheme);
+
+            }
+
+        };
+
+
+        /* =====================================================
+           SET THEME
+        ===================================================== */
+
+        function setTheme(theme) {
+
+            /* Apply theme */
+
+            if (theme === "dark") {
+
+                document.body.classList.add("dark");
+
+                document.getElementById("themeIcon")
+                    .innerText = "🌙";
+
+            } else {
+
+                document.body.classList.remove("dark");
+
+                document.getElementById("themeIcon")
+                    .innerText = "☀️";
+            }
+
+
+            /* Save permanently */
+
+            localStorage.setItem(
+                "theme",
+                theme
+            );
+
+
+            /* Save current session */
+
+            sessionStorage.setItem(
+                "currentTheme",
+                theme
+            );
+
+
+            /* Update message */
+
+            document.getElementById("message")
+                .innerText =
+                "✓ Theme saved: " +
+                theme.charAt(0).toUpperCase() +
+                theme.slice(1);
+
+        }
+
+
+        /* =====================================================
+           CLEAR THEME
+        ===================================================== */
+
+        function clearTheme() {
+
+            /* Remove Local Storage */
+
+            localStorage.removeItem("theme");
+
+
+            /* Remove Session Storage */
+
+            sessionStorage.removeItem("currentTheme");
+
+
+            /* Reset page */
+
+            document.body.classList.remove("dark");
+
+
+            document.getElementById("themeIcon")
+                .innerText = "🎨";
+
+
+            /* Update message */
+
+            document.getElementById("message")
+                .innerText =
+                "Theme preference cleared.";
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+
+

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schedule Planner</title>
+<style>
+  /* ===================== BASIC PAGE STYLES ===================== */
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 30px 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f3f4f6;
+    color: #222;
+  }
+
+  .container {
+    max-width: 850px;
+    margin: 0 auto;
+  }
+
+  h1.main-heading {
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 5px;
+  }
+
+  p.subtitle {
+    text-align: center;
+    color: #666;
+    margin-top: 0;
+    margin-bottom: 30px;
+  }
+
+  h2.section-heading {
+    color: #1f2937;
+    border-left: 5px solid #2563eb;
+    padding-left: 10px;
+    margin-top: 40px;
+  }
+
+  /* ===================== SEMINAR TABLE ===================== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 3px solid #1f2937; /* thick dark outer border */
+  }
+
+  table, th, td {
+    border: 1px solid #444;
+  }
+
+  th, td {
+    text-align: center;
+    padding: 10px 8px;
+    vertical-align: middle;
+  }
+
+  thead th {
+    background-color: #e5e7eb;
+    font-weight: bold;
+  }
+
+  th.seminar-title {
+    background-color: #1f2937;
+    color: #fff;
+    font-size: 1.3em;
+    padding: 14px;
+  }
+
+  td.day-cell {
+    font-weight: bold;
+    background-color: #f9fafb;
+  }
+
+  td.begin-cell {
+    background-color: #dbeafe; /* light blue highlight for Begin */
+  }
+
+  td.end-cell {
+    background-color: #fee2e2; /* light red highlight for End */
+  }
+
+  td.topic-cell {
+    text-align: left;
+    padding-left: 15px;
+    cursor: pointer;
+  }
+
+  /* Rows that can be clicked show a pointer + hover effect */
+  tbody tr.schedule-row:hover {
+    background-color: #f1f5f9;
+    cursor: pointer;
+  }
+
+  /* Selected row is highlighted clearly */
+  tbody tr.selected-row {
+    background-color: #c7f9cc !important;
+  }
+
+  /* ===================== SELECTED SCHEDULE BOX ===================== */
+  .selected-box {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background-color: #ffffff;
+    border: 2px dashed #2563eb;
+    border-radius: 8px;
+  }
+
+  .selected-box p {
+    margin: 4px 0;
+  }
+
+  /* ===================== STORAGE SECTIONS ===================== */
+  .storage-section {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-top: 15px;
+  }
+
+  .storage-section p {
+    margin: 6px 0;
+  }
+
+  button {
+    background-color: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    margin: 6px 8px 6px 0;
+    border-radius: 6px;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  button:hover {
+    background-color: #1d4ed8;
+  }
+
+  button.clear-btn {
+    background-color: #dc2626;
+  }
+
+  button.clear-btn:hover {
+    background-color: #b91c1c;
+  }
+
+  /* ===================== COMPARISON SECTION ===================== */
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  .comparison-box {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+  }
+
+  .comparison-box h3 {
+    margin-top: 0;
+    color: #1f2937;
+  }
+
+  /* Responsive: stack comparison boxes on small screens */
+  @media (max-width: 600px) {
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+    th, td {
+      padding: 6px 4px;
+      font-size: 0.85em;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1 class="main-heading">Schedule Planner</h1>
+  <p class="subtitle">Click any topic row to select it, then save it using Local Storage or Session Storage.</p>
+
+  <!-- ===================== SEMINAR TABLE ===================== -->
+  <table id="seminarTable">
+    <thead>
+      <tr>
+        <th class="seminar-title" colspan="5">Seminar</th>
+      </tr>
+      <tr>
+        <th>Day</th>
+        <th colspan="2">Schedule</th>
+        <th>Topic</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>Begin</th>
+        <th>End</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- MONDAY: one row, spans down using rowspan for the Day cell -->
+      <tr class="schedule-row"
+          data-day="Monday" data-begin="8:00 a.m." data-end="5:00 p.m." data-topic="Introduction to XML">
+        <td class="day-cell">Monday</td>
+        <td class="begin-cell">8:00 a.m.</td>
+        <td class="end-cell">5:00 p.m.</td>
+        <td class="topic-cell">Introduction to XML<br><small>Validity: DTD and Relax NG</small></td>
+      </tr>
+
+      <!-- TUESDAY: three separate schedule rows, Day cell merged with rowspan -->
+      <tr class="schedule-row"
+          data-day="Tuesday" data-begin="8:00 a.m." data-end="11:00 a.m." data-topic="XPath">
+        <td class="day-cell" rowspan="3">Tuesday</td>
+        <td class="begin-cell">8:00 a.m.</td>
+        <td class="end-cell">11:00 a.m.</td>
+        <td class="topic-cell">XPath</td>
+      </tr>
+      <tr class="schedule-row"
+          data-day="Tuesday" data-begin="11:00 a.m." data-end="2:00 p.m." data-topic="XSL Transformations">
+        <td class="begin-cell">11:00 a.m.</td>
+        <td class="end-cell">2:00 p.m.</td>
+        <td class="topic-cell">XSL Transformations</td>
+      </tr>
+      <tr class="schedule-row"
+          data-day="Tuesday" data-begin="2:00 p.m." data-end="5:00 p.m." data-topic="XSL Transformations">
+        <td class="begin-cell">2:00 p.m.</td>
+        <td class="end-cell">5:00 p.m.</td>
+        <td class="topic-cell">XSL Transformations</td>
+      </tr>
+
+      <!-- WEDNESDAY: one row -->
+      <tr class="schedule-row"
+          data-day="Wednesday" data-begin="8:00 a.m." data-end="12:00 p.m." data-topic="XSL Formatting Objects">
+        <td class="day-cell">Wednesday</td>
+        <td class="begin-cell">8:00 a.m.</td>
+        <td class="end-cell">12:00 p.m.</td>
+        <td class="topic-cell">XSL Formatting Objects</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <!-- ===================== SELECTED SCHEDULE DISPLAY ===================== -->
+  <div class="selected-box">
+    <strong>Selected Schedule</strong>
+    <p>Day: <span id="selDay">-</span></p>
+    <p>Time: <span id="selTime">-</span></p>
+    <p>Topic: <span id="selTopic">-</span></p>
+  </div>
+
+  <!-- ===================== LOCAL STORAGE DEMO ===================== -->
+  <h2 class="section-heading">Local Storage Demo</h2>
+  <div class="storage-section">
+    <!-- Local Storage keeps data even after the browser is closed and reopened -->
+    <button id="saveLocalBtn">Save Selected Schedule</button>
+    <button id="clearLocalBtn" class="clear-btn">Clear Local Storage</button>
+    <p id="localDisplay">No schedule saved.</p>
+  </div>
+
+  <!-- ===================== SESSION STORAGE DEMO ===================== -->
+  <h2 class="section-heading">Session Storage Demo</h2>
+  <div class="storage-section">
+    <!-- Session Storage keeps data only while the current tab/session is open -->
+    <button id="saveSessionBtn">Save Current Session</button>
+    <button id="clearSessionBtn" class="clear-btn">Clear Session Storage</button>
+    <p id="sessionDisplay">No schedule saved.</p>
+  </div>
+
+
+</div>
+
+<script>
+  /* =========================================================
+     STEP 1: DOM SELECTION
+     We select the elements we will need to work with.
+  ========================================================= */
+  const scheduleRows = document.querySelectorAll(".schedule-row");
+  const selDay = document.getElementById("selDay");
+  const selTime = document.getElementById("selTime");
+  const selTopic = document.getElementById("selTopic");
+
+  const saveLocalBtn = document.getElementById("saveLocalBtn");
+  const clearLocalBtn = document.getElementById("clearLocalBtn");
+  const localDisplay = document.getElementById("localDisplay");
+
+  const saveSessionBtn = document.getElementById("saveSessionBtn");
+  const clearSessionBtn = document.getElementById("clearSessionBtn");
+  const sessionDisplay = document.getElementById("sessionDisplay");
+
+  // This variable keeps track of the schedule the user has clicked on.
+  let currentSchedule = null;
+
+  /* =========================================================
+     STEP 2: FUNCTION TO SHOW SCHEDULE INFO IN AN ALERT BOX
+     This ONE reusable function handles every row instead of
+     writing a separate alert for each row.
+  ========================================================= */
+  function showSchedule(day, begin, end, topic) {
+    alert(day + "\n" + begin + " - " + end + "\n" + topic);
+  }
+
+  /* =========================================================
+     STEP 3: FUNCTION TO UPDATE THE "SELECTED SCHEDULE" BOX
+  ========================================================= */
+  function updateSelectedBox(schedule) {
+    selDay.textContent = schedule.day;
+    selTime.textContent = schedule.begin + " - " + schedule.end;
+    selTopic.textContent = schedule.topic;
+  }
+
+  /* =========================================================
+     STEP 4: CLICK EVENT ON EACH SCHEDULE ROW
+     For every row, we:
+       - read the data-* attributes
+       - highlight the clicked row
+       - update the Selected Schedule box
+       - call showSchedule() to trigger the alert()
+  ========================================================= */
+  scheduleRows.forEach(function (row) {
+    row.addEventListener("click", function () {
+
+      // Remove highlight from any previously selected row
+      scheduleRows.forEach(function (r) {
+        r.classList.remove("selected-row");
+      });
+
+      // Highlight the row that was just clicked
+      row.classList.add("selected-row");
+
+      // Read the schedule details stored in the row's data attributes
+      const day = row.getAttribute("data-day");
+      const begin = row.getAttribute("data-begin");
+      const end = row.getAttribute("data-end");
+      const topic = row.getAttribute("data-topic");
+
+      // Save this schedule as the "current" selection (as an object)
+      currentSchedule = { day: day, begin: begin, end: end, topic: topic };
+
+      // Update the on-page Selected Schedule box
+      updateSelectedBox(currentSchedule);
+
+      // Show the required JavaScript alert() using our reusable function
+      showSchedule(day, begin, end, topic);
+    });
+  });
+
+  /* =========================================================
+     STEP 5: LOCAL STORAGE - SAVE
+     localStorage.setItem(key, value) only accepts strings,
+     so we convert our object into a string using JSON.stringify().
+     NOTE: Local Storage data will still be there even if you
+     refresh the page or close and reopen the browser.
+  ========================================================= */
+  saveLocalBtn.addEventListener("click", function () {
+    if (!currentSchedule) {
+      alert("Please click a schedule row first to select it.");
+      return;
+    }
+    localStorage.setItem("selectedSchedule", JSON.stringify(currentSchedule));
+    displayLocalSchedule();
+  });
+
+  /* =========================================================
+     STEP 6: LOCAL STORAGE - CLEAR
+  ========================================================= */
+  clearLocalBtn.addEventListener("click", function () {
+    localStorage.removeItem("selectedSchedule");
+    displayLocalSchedule();
+  });
+
+  /* =========================================================
+     STEP 7: LOCAL STORAGE - READ / DISPLAY
+     localStorage.getItem(key) returns a string (or null),
+     so we convert it back into an object using JSON.parse().
+  ========================================================= */
+  function displayLocalSchedule() {
+    const saved = localStorage.getItem("selectedSchedule");
+    if (saved) {
+      const schedule = JSON.parse(saved);
+      localDisplay.textContent =
+        "Saved Schedule: " + schedule.day + " | " +
+        schedule.begin + " - " + schedule.end + " | " + schedule.topic;
+    } else {
+      localDisplay.textContent = "No schedule saved.";
+    }
+  }
+
+  /* =========================================================
+     STEP 8: SESSION STORAGE - SAVE
+     sessionStorage works exactly like localStorage, but the
+     saved data disappears automatically once the browser
+     tab/session is closed.
+  ========================================================= */
+  saveSessionBtn.addEventListener("click", function () {
+    if (!currentSchedule) {
+      alert("Please click a schedule row first to select it.");
+      return;
+    }
+    sessionStorage.setItem("selectedSchedule", JSON.stringify(currentSchedule));
+    displaySessionSchedule();
+  });
+
+  /* =========================================================
+     STEP 9: SESSION STORAGE - CLEAR
+  ========================================================= */
+  clearSessionBtn.addEventListener("click", function () {
+    sessionStorage.removeItem("selectedSchedule");
+    displaySessionSchedule();
+  });
+
+  /* =========================================================
+     STEP 10: SESSION STORAGE - READ / DISPLAY
+  ========================================================= */
+  function displaySessionSchedule() {
+    const saved = sessionStorage.getItem("selectedSchedule");
+    if (saved) {
+      const schedule = JSON.parse(saved);
+      sessionDisplay.textContent =
+        "Saved Schedule: " + schedule.day + " | " +
+        schedule.begin + " - " + schedule.end + " | " + schedule.topic;
+    } else {
+      sessionDisplay.textContent = "No schedule saved.";
+    }
+  }
+
+  /* =========================================================
+     STEP 11: PAGE LOAD
+     When the page first loads, check both storages and show
+     whatever is already saved (no alert needed here).
+  ========================================================= */
+  window.addEventListener("load", function () {
+    displayLocalSchedule();
+    displaySessionSchedule();
+  });
+</script>
+
+</body>
+</html>
