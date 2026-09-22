@@ -1,0 +1,2463 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIT DoodleLab — Technical Workshop Studio</title>
+    <!-- Playful & Crisp Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+/* ==========================================================================
+   DESIGN SYSTEM — "DOODLE VECTOR STUDIO" THEME
+   Directly inspired by the vector blueprint illustration:
+   Sky-blue canvas, crisp white card surfaces, bold 2.5px ink outlines,
+   corner transform handles, crane code beam, warm yellow & coral blocks.
+   ========================================================================== */
+
+:root {
+    /* Color Palette - Vector Doodle */
+    --canvas-bg: #29A0DC;
+    --canvas-grid: rgba(255, 255, 255, 0.15);
+
+    --card-bg: #FFFFFF;
+    --card-subtle: #F4F8FA;
+    --ink: #182230;
+    --ink-border: #182230;
+
+    --doodle-blue: #2280C8;
+    --doodle-yellow: #FFB800;
+    --doodle-coral: #F05D43;
+    --doodle-teal: #0FA3A4;
+    --doodle-green: #10B981;
+
+    --primary: #F05D43;
+    --primary-hover: #D94930;
+    --secondary: #FFB800;
+    --secondary-hover: #E5A500;
+    --accent: #2280C8;
+    --accent-hover: #196FB2;
+
+    --success: #10B981;
+    --danger: #E63946;
+    --warning: #F59E0B;
+
+    --text-main: #182230;
+    --text-muted: #536479;
+    --text-light: #FFFFFF;
+
+    --terminal-bg: #121A24;
+    --terminal-text: #38BDF8;
+
+    --border-w: 2.5px;
+    --shadow-hard: 4px 4px 0px var(--ink);
+    --shadow-hard-sm: 2.5px 2.5px 0px var(--ink);
+    --shadow-hard-lg: 6px 6px 0px var(--ink);
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-pill: 9999px;
+
+    --font-ui: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+    --canvas-bg: #0F1C2E;
+    --canvas-grid: rgba(255, 255, 255, 0.07);
+
+    --card-bg: #172436;
+    --card-subtle: #1E2D42;
+    --ink: #070B10;
+    --ink-border: #384A63;
+
+    --doodle-blue: #38BDF8;
+    --doodle-yellow: #FCD34D;
+    --doodle-coral: #FB7185;
+    --doodle-teal: #2DD4BF;
+    --doodle-green: #34D399;
+
+    --primary: #FB7185;
+    --primary-hover: #F43F5E;
+    --secondary: #FCD34D;
+    --secondary-hover: #FBBF24;
+    --accent: #38BDF8;
+    --accent-hover: #0EA5E9;
+
+    --text-main: #F1F5F9;
+    --text-muted: #94A3B8;
+
+    --terminal-bg: #090E17;
+    --terminal-text: #22D3EE;
+
+    --shadow-hard: 4px 4px 0px #070B10;
+    --shadow-hard-sm: 2.5px 2.5px 0px #070B10;
+    --shadow-hard-lg: 6px 6px 0px #070B10;
+}
+
+/* ==========================================================================
+   RESET & BLUEPRINT CANVAS BACKGROUND
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+}
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+body {
+    font-family: var(--font-ui);
+    background-color: var(--canvas-bg);
+    color: var(--text-main);
+    min-height: 100vh;
+    padding: 24px 18px 60px;
+    line-height: 1.5;
+    /* Blueprint dot matrix */
+    background-image:
+        radial-gradient(circle at 1px 1px, var(--canvas-grid) 1.5px, transparent 0);
+    background-size: 26px 26px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+    background: var(--doodle-yellow);
+    color: var(--ink);
+}
+
+.studio-wrapper {
+    max-width: 1360px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* ==========================================================================
+   HEADER — VECTOR STUDIO DESK & CRANE BANNER
+   ========================================================================== */
+.studio-header {
+    background: var(--card-bg);
+    border: var(--border-w) solid var(--ink-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-hard-lg);
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.brand-icon-box {
+    width: 48px;
+    height: 48px;
+    background: var(--doodle-yellow);
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-hard-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.brand-text h1 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.brand-text .subtitle {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+/* Crane Code Beam */
+.crane-tag {
+    background: var(--ink);
+    color: #FFFFFF;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-hard-sm);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.session-badge {
+    background: var(--card-subtle);
+    border: var(--border-w) solid var(--ink-border);
+    border-radius: var(--radius-pill);
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-hard-sm);
+}
+.session-badge strong {
+    color: var(--doodle-coral);
+}
+.pulse-circle {
+    width: 9px;
+    height: 9px;
+    background: var(--doodle-coral);
+    border-radius: 50%;
+    animation: blink 1.4s infinite;
+}
+@keyframes blink {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.4; }
+}
+
+/* ==========================================================================
+   DOODLE CONCEPT CHIPS (Ruler / Vector Palette Bar)
+   ========================================================================== */
+.doodle-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 2px 2px 6px;
+    scrollbar-width: none;
+}
+.doodle-strip::-webkit-scrollbar { display: none; }
+.strip-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    margin-right: 4px;
+}
+.concept-chip {
+    background: var(--card-bg);
+    border: var(--border-w) solid var(--ink-border);
+    border-radius: var(--radius-pill);
+    padding: 5px 14px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--text-main);
+    box-shadow: var(--shadow-hard-sm);
+    white-space: nowrap;
+    transition: var(--transition);
+}
+.concept-chip:hover {
+    transform: translate(-1px, -2px);
+    box-shadow: 3px 3px 0px var(--ink);
+}
+
+/* ==========================================================================
+   MAIN DUAL-PANEL STUDIO GRID
+   ========================================================================== */
+.studio-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 22px;
+    align-items: start;
+}
+@media (max-width: 1024px) {
+    .studio-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   CARDS WITH DOODLE OUTLINES & SELECTION HANDLES
+   ========================================================================== */
+.doodle-card {
+    background: var(--card-bg);
+    border: var(--border-w) solid var(--ink-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-hard-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Vector selection frame corner handles */
+.selection-corners::before,
+.selection-corners::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #FFFFFF;
+    border: 1.5px solid var(--ink);
+    z-index: 5;
+}
+.selection-corners::before { top: 8px; left: 8px; }
+.selection-corners::after { top: 8px; right: 8px; }
+
+.card-topbar {
+    padding: 18px 22px;
+    background: var(--card-subtle);
+    border-bottom: var(--border-w) solid var(--ink-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.card-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.vector-tag {
+    background: var(--doodle-yellow);
+    border: var(--border-w) solid var(--ink);
+    color: var(--ink);
+    font-size: 0.68rem;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    box-shadow: 1.5px 1.5px 0px var(--ink);
+}
+.card-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+}
+.card-content {
+    padding: 24px;
+}
+
+/* ==========================================================================
+   STUDIO FORM STEPS & INPUTS
+   ========================================================================== */
+.step-box {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 2px dashed var(--ink-border);
+}
+.step-box:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+.step-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.step-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    background: var(--doodle-coral);
+    color: #FFFFFF;
+    border: 2px solid var(--ink);
+    box-shadow: 2px 2px 0px var(--ink);
+    font-size: 0.8rem;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.step-heading {
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+@media (max-width: 600px) {
+    .field-grid { grid-template-columns: 1fr; }
+}
+
+.input-block {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.required-star {
+    color: var(--doodle-coral);
+    font-weight: 900;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select {
+    width: 100%;
+    background: var(--card-bg);
+    border: var(--border-w) solid var(--ink-border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    font-family: var(--font-ui);
+    color: var(--text-main);
+    font-weight: 600;
+    outline: none;
+    transition: var(--transition);
+}
+
+input:focus, select:focus {
+    border-color: var(--doodle-blue);
+    box-shadow: 0 0 0 3px rgba(34, 128, 200, 0.25);
+}
+
+input.invalid, select.invalid {
+    border-color: var(--danger) !important;
+    background-color: rgba(230, 57, 70, 0.08) !important;
+}
+
+input.valid, select.valid {
+    border-color: var(--doodle-green) !important;
+}
+
+.error-msg {
+    color: var(--danger);
+    font-size: 0.72rem;
+    margin-top: 4px;
+    min-height: 15px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+}
+
+.doodle-hint {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+.doodle-hint code {
+    background: var(--card-subtle);
+    border: 1.5px solid var(--ink-border);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--doodle-blue);
+}
+
+/* Segmented Doodle Radio Options */
+.doodle-radios {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+}
+.radio-tab {
+    position: relative;
+    cursor: pointer;
+}
+.radio-tab input {
+    position: absolute;
+    opacity: 0;
+}
+.tab-box {
+    background: var(--card-subtle);
+    border: var(--border-w) solid var(--ink-border);
+    border-radius: var(--radius-sm);
+    padding: 9px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 2px 2px 0px var(--ink);
+    transition: var(--transition);
+}
+.radio-tab input:checked + .tab-box {
+    background: var(--doodle-yellow);
+    border-color: var(--ink);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px var(--ink);
+}
+
+.check-container {
+    margin: 14px 0;
+}
+.check-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.check-label input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--doodle-coral);
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.conditional-pod {
+    background: var(--card-subtle);
+    border: var(--border-w) dashed var(--ink-border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    margin-top: 8px;
+    margin-bottom: 14px;
+}
+
+.inline-btn-group {
+    display: flex;
+    gap: 8px;
+}
+.inline-btn-group input { flex: 1; }
+
+.form-btn-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: var(--border-w) solid var(--ink-border);
+}
+
+/* ==========================================================================
+   BUTTONS — BOLD RETRO VECTOR STYLE
+   ========================================================================== */
+.btn {
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 0.86rem;
+    font-weight: 800;
+    font-family: var(--font-ui);
+    cursor: pointer;
+    border: var(--border-w) solid var(--ink);
+    box-shadow: var(--shadow-hard-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+.btn:hover {
+    transform: translate(-1px, -2px);
+    box-shadow: 4px 4px 0px var(--ink);
+}
+.btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px var(--ink);
+}
+.btn-primary { background: var(--doodle-coral); color: #FFFFFF; }
+.btn-secondary { background: var(--doodle-yellow); color: var(--ink); }
+.btn-accent { background: var(--doodle-blue); color: #FFFFFF; }
+.btn-outline { background: var(--card-bg); color: var(--text-main); }
+.btn-danger { background: var(--danger); color: #FFFFFF; }
+.btn-sm { padding: 7px 12px; font-size: 0.78rem; }
+.btn-xs { padding: 4px 8px; font-size: 0.72rem; border-radius: 6px; }
+
+/* ==========================================================================
+   RIGHT COLUMN — LIVE DOODLE SCREEN & BILLING BREAKDOWN
+   ========================================================================== */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: sticky;
+    top: 20px;
+}
+
+/* The Desktop Monitor from the vector doodle! */
+.doodle-screen-card {
+    background: #FFFFFF;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-hard-lg);
+    padding: 20px;
+    position: relative;
+    color: var(--ink);
+}
+
+/* Ladder leaning on the screen */
+.screen-ladder-sim {
+    position: absolute;
+    bottom: -10px;
+    right: 32px;
+    width: 28px;
+    height: 80px;
+    border-left: 4px solid var(--doodle-yellow);
+    border-right: 4px solid var(--doodle-yellow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    z-index: 6;
+    pointer-events: none;
+}
+.ladder-rung {
+    height: 4px;
+    background: var(--doodle-yellow);
+    border-radius: 2px;
+}
+
+.screen-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed var(--ink);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+.screen-track-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-top: 4px;
+    color: var(--doodle-blue);
+}
+
+/* 3 Colorful Wireframe Blocks from the illustration! */
+.vector-3blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.wire-block {
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    padding: 10px 8px;
+    box-shadow: 2px 2px 0px var(--ink);
+    color: #FFFFFF;
+}
+.wire-block.blue-block { background: var(--doodle-blue); }
+.wire-block.yellow-block { background: var(--doodle-yellow); color: var(--ink); }
+.wire-block.coral-block { background: var(--doodle-coral); }
+
+.wire-title { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; opacity: 0.9; }
+.wire-val { font-size: 0.88rem; font-weight: 800; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.screen-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    background: var(--card-subtle);
+    border: 2px solid var(--ink);
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+}
+.screen-field span {
+    display: block;
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+.screen-field strong {
+    font-weight: 800;
+    font-size: 0.9rem;
+}
+
+/* Billing Breakdown */
+.billing-table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.86rem;
+}
+.bill-item {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+}
+.bill-item > span:first-child { color: var(--text-muted); }
+.bill-item span:last-child, .bill-item strong {
+    font-family: var(--font-mono);
+}
+.green-discount { color: var(--doodle-green) !important; }
+.dashed-line { border: none; border-top: 2px dashed var(--ink-border); margin: 2px 0; }
+
+.total-pill-box {
+    background: var(--doodle-yellow);
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    box-shadow: var(--shadow-hard-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--ink);
+    margin-top: 4px;
+}
+.total-pill-box span { font-weight: 800; font-size: 0.95rem; }
+.total-pill-box .total-amount { font-size: 1.3rem; font-weight: 900; }
+
+.free-kit-badge {
+    margin-top: 14px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 2px solid var(--doodle-green);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--doodle-green);
+}
+
+/* ==========================================================================
+   STORAGE LAB & LIVE EVENT STREAM TELEMETRY
+   ========================================================================== */
+.lab-deck {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+@media (max-width: 900px) {
+    .lab-deck { grid-template-columns: 1fr; }
+}
+
+.storage-twin-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+@media (max-width: 600px) {
+    .storage-twin-cards { grid-template-columns: 1fr; }
+}
+.pod-box {
+    background: var(--card-subtle);
+    border: var(--border-w) solid var(--ink-border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 2px 2px 0px var(--ink);
+}
+.pod-box-header { display: flex; justify-content: space-between; align-items: center; }
+.pod-box-header strong { font-size: 0.82rem; }
+.pod-code-terminal {
+    background: var(--terminal-bg);
+    border: 1.5px solid var(--ink-border);
+    border-radius: 6px;
+    padding: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--terminal-text);
+    min-height: 72px;
+    max-height: 105px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Live Event Console */
+.event-console-window {
+    background: var(--terminal-bg);
+    border: 2px solid var(--ink-border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.73rem;
+    height: 175px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 6px;
+}
+.console-row { line-height: 1.4; word-break: break-word; }
+.console-row .timestamp { color: #64748B; }
+.console-row.system-msg { color: #A78BFA; }
+.console-row.success-msg { color: #34D399; }
+.console-row.error-msg-log { color: #F87171; }
+
+/* ==========================================================================
+   PARTICIPANTS DIRECTORY & DOM TABLE
+   ========================================================================== */
+.metric-pill-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+    margin-bottom: 8px;
+}
+.metric-pill {
+    background: var(--card-subtle);
+    border: var(--border-w) solid var(--ink-border);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--shadow-hard-sm);
+}
+.metric-icon-square {
+    width: 38px;
+    height: 38px;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    background: var(--doodle-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 2px 2px 0px var(--ink);
+}
+.metric-data .metric-lbl {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.metric-data .metric-number {
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.table-toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.search-wrapper { flex: 1; min-width: 220px; }
+
+.table-wrapper {
+    overflow-x: auto;
+    border: var(--border-w) solid var(--ink-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-hard-sm);
+}
+.doodle-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+    text-align: left;
+}
+.doodle-table th {
+    background: var(--card-subtle);
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 12px 14px;
+    border-bottom: var(--border-w) solid var(--ink-border);
+    white-space: nowrap;
+}
+.doodle-table td {
+    padding: 12px 14px;
+    border-bottom: 1.5px solid var(--ink-border);
+    vertical-align: middle;
+}
+.doodle-table tbody tr:hover {
+    background-color: rgba(255, 184, 0, 0.12);
+}
+
+.avatar-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--ink);
+    background: var(--doodle-coral);
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 0px var(--ink);
+    flex-shrink: 0;
+}
+
+/* Badges */
+.badge {
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    display: inline-block;
+    font-family: var(--font-mono);
+    border: 1.5px solid var(--ink);
+    box-shadow: 1.5px 1.5px 0px var(--ink);
+}
+.badge-primary { background: var(--doodle-coral); color: #FFFFFF; }
+.badge-accent { background: var(--doodle-yellow); color: var(--ink); }
+.badge-info { background: var(--doodle-blue); color: #FFFFFF; }
+.badge-success { background: var(--doodle-green); color: #FFFFFF; }
+
+/* ==========================================================================
+   OFFICIAL PASS MODAL
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 28, 46, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000; padding: 20px;
+}
+.modal-window {
+    background: var(--card-bg);
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius-lg);
+    width: 100%; max-width: 580px;
+    padding: 24px;
+    box-shadow: var(--shadow-hard-lg);
+}
+.modal-top {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2px dashed var(--ink);
+    padding-bottom: 14px; margin-bottom: 18px;
+}
+.close-cross {
+    background: none; border: none; font-size: 1.5rem;
+    cursor: pointer; color: var(--text-muted); font-weight: 800;
+}
+.close-cross:hover { color: var(--danger); }
+
+.pass-card-render {
+    background: var(--card-subtle);
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-hard-sm);
+}
+.pass-header-strip {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border-bottom: 2px dashed var(--ink);
+    padding-bottom: 12px; margin-bottom: 14px;
+}
+.pass-barcode-box {
+    margin: 18px -20px -20px;
+    text-align: center;
+    letter-spacing: 5px;
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    background: var(--ink);
+    color: #FFFFFF;
+    padding: 14px;
+    border-bottom-left-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+}
+
+.modal-bottom-bar {
+    display: flex; justify-content: flex-end; gap: 10px;
+    margin-top: 20px; border-top: 2px dashed var(--ink); padding-top: 14px;
+}
+
+/* Footer */
+.doodle-footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.4);
+    padding: 16px 0 6px;
+}
+.doodle-footer .muted { font-family: var(--font-mono); font-size: 0.73rem; opacity: 0.9; margin-top: 4px; }
+
+/* Print */
+@media print {
+    body * { visibility: hidden; }
+    #ticketModal, #ticketModal * { visibility: visible; }
+    #ticketModal { position: absolute; left: 0; top: 0; width: 100%; background: none; padding: 0; }
+    .modal-window { border: 2px solid #000; box-shadow: none; width: 100%; }
+    .modal-top .close-cross, .modal-bottom-bar { display: none !important; }
+}
+    </style>
+</head>
+<body>
+    <div class="studio-wrapper">
+        <!-- Header Desk Banner -->
+        <header class="studio-header selection-corners">
+            <div class="header-left">
+                <div class="brand-icon-box">📐</div>
+                <div class="brand-text">
+                    <h1>SIT DoodleLab <span class="crane-tag">&lt;/&gt; CRANE v3.0</span></h1>
+                    <p class="subtitle">Symbiosis Technical Symposium &bull; Web Studio Registration Desk</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="session-badge" id="sessionPill" title="Temporary Session Hold Counter">
+                    <span class="pulse-circle"></span>
+                    <span>Hold: <strong id="sessionTimer">10:00</strong></span>
+                </div>
+                <button class="btn btn-outline btn-sm" id="themeToggleBtn" onclick="toggleTheme()">
+                    🌙 Dark Mode
+                </button>
+            </div>
+        </header>
+
+        <!-- Doodle Concept Ruler Strip -->
+        <div class="doodle-strip">
+            <span class="strip-label">✏️ JS Curriculum Toolkit:</span>
+            <span class="concept-chip">Event Listeners (Focus/Blur/Input/Change/Mouse)</span>
+            <span class="concept-chip">Web Storage API (localStorage &amp; sessionStorage)</span>
+            <span class="concept-chip">Array Pipelines (push, map, filter, reduce, splice)</span>
+            <span class="concept-chip">RegEx Validation Matrix</span>
+            <span class="concept-chip">DOM Manipulation &amp; Traversal</span>
+            <span class="concept-chip">Console Profiling (table/time/timeEnd)</span>
+        </div>
+
+        <!-- Main Studio Grid -->
+        <div class="studio-grid">
+            <!-- Left: Workshop Registration Form Studio -->
+            <div class="doodle-card selection-corners">
+                <div class="card-topbar">
+                    <div class="card-title-group">
+                        <span class="vector-tag">VECTOR FORM</span>
+                        <h2 class="card-title">Attendee Registration Terminal</h2>
+                    </div>
+                    <span class="badge badge-primary">DOM Driven</span>
+                </div>
+                <div class="card-content">
+                    <form id="workshopForm" novalidate>
+                        <!-- Step 01: Student Credentials -->
+                        <div class="step-box">
+                            <div class="step-banner">
+                                <div class="step-badge">01</div>
+                                <h3 class="step-heading">Personal &amp; Academic Credentials</h3>
+                            </div>
+                            <div class="field-grid">
+                                <div class="input-block">
+                                    <label for="firstname">First Name <span class="required-star">*</span></label>
+                                    <input type="text" id="firstname" placeholder="e.g. Shravani" autocomplete="off">
+                                    <span class="error-msg" id="firstnameError"></span>
+                                </div>
+                                <div class="input-block">
+                                    <label for="lastname">Last Name <span class="required-star">*</span></label>
+                                    <input type="text" id="lastname" placeholder="e.g. S" autocomplete="off">
+                                    <span class="error-msg" id="lastnameError"></span>
+                                </div>
+                            </div>
+                            <div class="field-grid">
+                                <div class="input-block">
+                                    <label for="studentPrn">PRN / Roll Number <span class="required-star">*</span></label>
+                                    <input type="text" id="studentPrn" placeholder="11 digits (e.g. 24070521047)" maxlength="11" autocomplete="off">
+                                    <span class="error-msg" id="studentPrnError"></span>
+                                </div>
+                                <div class="input-block">
+                                    <label for="collegeName">College / University <span class="required-star">*</span></label>
+                                    <input type="text" id="collegeName" placeholder="e.g. SIT Nagpur" autocomplete="off">
+                                    <span class="error-msg" id="collegeNameError"></span>
+                                </div>
+                            </div>
+                            <div class="field-grid">
+                                <div class="input-block">
+                                    <label for="department">Department / Branch <span class="required-star">*</span></label>
+                                    <select id="department">
+                                        <option value="">-- Select Department --</option>
+                                        <option value="CSE">Computer Science &amp; Engineering</option>
+                                        <option value="AI_DS">Artificial Intelligence &amp; Data Science</option>
+                                        <option value="IT">Information Technology</option>
+                                        <option value="ECE">Electronics &amp; Communication</option>
+                                        <option value="MECH">Mechanical Engineering</option>
+                                    </select>
+                                    <span class="error-msg" id="departmentError"></span>
+                                </div>
+                                <div class="input-block">
+                                    <label for="academicYear">Academic Year <span class="required-star">*</span></label>
+                                    <select id="academicYear">
+                                        <option value="">-- Select Year --</option>
+                                        <option value="1st Year">1st Year (Freshman)</option>
+                                        <option value="2nd Year">2nd Year (Sophomore)</option>
+                                        <option value="3rd Year">3rd Year (Junior)</option>
+                                        <option value="4th Year">4th Year (Senior)</option>
+                                    </select>
+                                    <span class="error-msg" id="academicYearError"></span>
+                                </div>
+                            </div>
+                            <div class="field-grid">
+                                <div class="input-block">
+                                    <label for="studentEmail">Student Email <span class="required-star">*</span></label>
+                                    <input type="email" id="studentEmail" placeholder="student@sitnagpur.edu.in" autocomplete="off">
+                                    <span class="error-msg" id="studentEmailError"></span>
+                                </div>
+                                <div class="input-block">
+                                    <label for="studentPhone">Mobile Number (10 digits) <span class="required-star">*</span></label>
+                                    <input type="tel" id="studentPhone" placeholder="10 digits (starts with 6-9)" maxlength="10" autocomplete="off">
+                                    <span class="error-msg" id="studentPhoneError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 02: Track & Pass Configuration -->
+                        <div class="step-box">
+                            <div class="step-banner">
+                                <div class="step-badge" style="background:var(--doodle-yellow); color:var(--ink);">02</div>
+                                <h3 class="step-heading">Workshop Track &amp; Pass Customization</h3>
+                            </div>
+                            <div class="field-grid">
+                                <div class="input-block">
+                                    <label for="workshopTrack">Select Technical Track <span class="required-star">*</span></label>
+                                    <select id="workshopTrack">
+                                        <option value="">-- Select Track --</option>
+                                        <option value="Full-Stack Web Dev (MERN Stack)" data-baseprice="399">Full-Stack Web Dev (MERN Stack) - ₹399</option>
+                                        <option value="Generative AI & LLM Agents" data-baseprice="499">Generative AI &amp; LLM Agents Bootcamp - ₹499</option>
+                                        <option value="Cloud Computing & AWS DevOps" data-baseprice="449">Cloud Computing &amp; AWS DevOps - ₹449</option>
+                                        <option value="Cybersecurity & Ethical Hacking" data-baseprice="429">Cybersecurity &amp; Ethical Hacking - ₹429</option>
+                                        <option value="Data Science & Machine Learning" data-baseprice="399">Data Science &amp; Machine Learning - ₹399</option>
+                                    </select>
+                                    <span class="error-msg" id="workshopTrackError"></span>
+                                </div>
+                                <div class="input-block">
+                                    <label for="passTier">Ticket Tier <span class="required-star">*</span></label>
+                                    <select id="passTier">
+                                        <option value="standard" data-multiplier="1">Standard Student Pass (Certificate + Access)</option>
+                                        <option value="pro" data-multiplier="1.3">Pro Pass (+ Workshop Kit + Source Code) (+30%)</option>
+                                        <option value="vip" data-multiplier="1.7">VIP Masterclass Pass (+ 1-on-1 Mentorship + Dinner) (+70%)</option>
+                                    </select>
+                                    <span class="error-msg" id="passTierError"></span>
+                                </div>
+                            </div>
+                            <div class="field-grid">
+                                <div class="input-block">
+                                    <label for="batchTime">Batch Timing <span class="required-star">*</span></label>
+                                    <select id="batchTime">
+                                        <option value="">-- Select Timing --</option>
+                                        <option value="Morning Batch (9:00 AM - 1:00 PM)">Morning Batch (9:00 AM - 1:00 PM)</option>
+                                        <option value="Afternoon Batch (2:00 PM - 6:00 PM)">Afternoon Batch (2:00 PM - 6:00 PM)</option>
+                                        <option value="Full Day Weekend Intensive (9:00 AM - 5:00 PM)">Full Day Weekend Intensive (9:00 AM - 5:00 PM)</option>
+                                    </select>
+                                    <span class="error-msg" id="batchTimeError"></span>
+                                </div>
+                                <div class="input-block">
+                                    <label for="ticketQuantity">Pass Quantity (Max 5) <span class="required-star">*</span></label>
+                                    <input type="number" id="ticketQuantity" min="1" max="5" value="1">
+                                    <span class="error-msg" id="ticketQuantityError"></span>
+                                </div>
+                            </div>
+                            <div class="field-grid">
+                                <div class="input-block">
+                                    <label>Mode of Attendance</label>
+                                    <div class="doodle-radios">
+                                        <label class="radio-tab">
+                                            <input type="radio" name="attendanceMode" value="Offline (Campus Lab)" checked>
+                                            <div class="tab-box">🏛️ Campus Lab</div>
+                                        </label>
+                                        <label class="radio-tab">
+                                            <input type="radio" name="attendanceMode" value="Online (Live Zoom Stream)">
+                                            <div class="tab-box">🌐 Live Zoom</div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="input-block">
+                                    <label for="membershipType">Affiliated Student Society</label>
+                                    <select id="membershipType">
+                                        <option value="none">Regular Student (No discount)</option>
+                                        <option value="ieee">IEEE / ACM Student Member (15% off)</option>
+                                        <option value="sit_student">SIT Nagpur Enrolled Student (20% off)</option>
+                                        <option value="core_team">Technical Club Coordinator (30% off)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="check-container">
+                                <label class="check-label">
+                                    <input type="checkbox" id="bringLaptop" checked>
+                                    <span>I will bring my personal developer laptop with required software installed</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Step 03: Coupons & Settlement -->
+                        <div class="step-box">
+                            <div class="step-banner">
+                                <div class="step-badge" style="background:var(--doodle-blue);">03</div>
+                                <h3 class="step-heading">Vouchers, Settlement &amp; Verification</h3>
+                            </div>
+                            <div class="field-grid">
+                                <div class="input-block">
+                                    <label for="promoCode">Voucher / Coupon Code</label>
+                                    <div class="inline-btn-group">
+                                        <input type="text" id="promoCode" placeholder="e.g. SIT50, TECH100, SAVE20" autocomplete="off">
+                                        <button type="button" class="btn btn-secondary btn-sm" id="applyPromoBtn" onclick="applyPromo()">Apply</button>
+                                    </div>
+                                    <span class="doodle-hint" id="promoStatus">Available: <code>SIT50</code> (₹50 off), <code>TECH100</code> (₹100 off on ₹800+), <code>SAVE20</code> (20% off)</span>
+                                </div>
+                                <div class="input-block">
+                                    <label>Settlement Method <span class="required-star">*</span></label>
+                                    <div class="doodle-radios" style="grid-template-columns: 1fr 1fr 1fr;">
+                                        <label class="radio-tab">
+                                            <input type="radio" name="paymentMethod" value="UPI" checked onchange="togglePaymentFields()">
+                                            <div class="tab-box">⚡ UPI</div>
+                                        </label>
+                                        <label class="radio-tab">
+                                            <input type="radio" name="paymentMethod" value="Card" onchange="togglePaymentFields()">
+                                            <div class="tab-box">💳 Card</div>
+                                        </label>
+                                        <label class="radio-tab">
+                                            <input type="radio" name="paymentMethod" value="Desk" onchange="togglePaymentFields()">
+                                            <div class="tab-box">🏢 Cash</div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="upiBox" class="conditional-pod">
+                                <div class="field-grid">
+                                    <div class="input-block">
+                                        <label for="upiApp">Select UPI App</label>
+                                        <select id="upiApp" onchange="toggleUpiIdField()">
+                                            <option value="Google Pay">Google Pay</option>
+                                            <option value="PhonePe">PhonePe</option>
+                                            <option value="Paytm">Paytm</option>
+                                            <option value="other">Custom UPI ID</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-block" id="customUpiGroup" style="display: none;">
+                                        <label for="customUpiId">Enter UPI Handle</label>
+                                        <input type="text" id="customUpiId" placeholder="username@okhdfcbank">
+                                        <span class="error-msg" id="customUpiIdError"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="check-container">
+                                <label class="check-label">
+                                    <input type="checkbox" id="termsAgreement">
+                                    <span>I agree to the Workshop Code of Conduct, attendance terms, and refund policy <span class="required-star">*</span></span>
+                                </label>
+                                <span class="error-msg" id="termsError"></span>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-btn-bar">
+                            <button type="submit" class="btn btn-primary" id="submitBtn">🎟️ Confirm &amp; Issue Pass</button>
+                            <button type="button" class="btn btn-secondary" id="saveDraftBtn" onclick="saveDraftToLocalStorage()">💾 Save Draft (localStorage)</button>
+                            <button type="reset" class="btn btn-outline" id="resetBtn">🔄 Reset Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column: Desktop Doodle Screen & Billing Matrix -->
+            <div class="right-column">
+                <!-- Vector Desktop Screen Card with ladder simulation -->
+                <div class="doodle-screen-card selection-corners">
+                    <!-- Cute simulated ladder leaning on the screen from doodle -->
+                    <div class="screen-ladder-sim">
+                        <div class="ladder-rung"></div>
+                        <div class="ladder-rung"></div>
+                        <div class="ladder-rung"></div>
+                        <div class="ladder-rung"></div>
+                    </div>
+
+                    <div class="screen-header-bar">
+                        <div>
+                            <span class="vector-tag" style="background:var(--doodle-coral); color:#FFFFFF;">✨ LIVE VECTOR BADGE</span>
+                            <div class="screen-track-title" id="livePassTrack">Select a Workshop Track</div>
+                        </div>
+                        <div class="crane-tag" id="livePassId">REF-PREVIEW</div>
+                    </div>
+
+                    <!-- 3 Colorful Wireframe blocks straight from the illustration! -->
+                    <div class="vector-3blocks">
+                        <div class="wire-block blue-block">
+                            <div class="wire-title">Attendee</div>
+                            <div class="wire-val" id="livePassName">Student Name</div>
+                        </div>
+                        <div class="wire-block yellow-block">
+                            <div class="wire-title">PRN Number</div>
+                            <div class="wire-val" id="livePassPrn">24070521047</div>
+                        </div>
+                        <div class="wire-block coral-block">
+                            <div class="wire-title">Pass Tier</div>
+                            <div class="wire-val" id="livePassTier">Standard × 1</div>
+                        </div>
+                    </div>
+
+                    <div class="screen-details-grid">
+                        <div class="screen-field"><span>Mode:</span><strong id="livePassMode">Offline Lab</strong></div>
+                        <div class="screen-field"><span>Status:</span><strong>Dynamic Draft</strong></div>
+                    </div>
+                </div>
+
+                <!-- Fee Matrix Card -->
+                <div class="doodle-card selection-corners">
+                    <div class="card-topbar">
+                        <div class="card-title-group">
+                            <span class="vector-tag" style="background:var(--doodle-green); color:#FFF;">CALC MATRIX</span>
+                            <h3 class="card-title">Live Fee Calculation</h3>
+                        </div>
+                        <span class="badge badge-accent" id="billingBadge">Auto Calculating</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="billing-table">
+                            <div class="bill-item">
+                                <span>Selected Track:</span>
+                                <strong id="billTrackName">None selected</strong>
+                            </div>
+                            <div class="bill-item">
+                                <span>Base Fee &times; Qty:</span>
+                                <span id="billBaseRate">₹0.00</span>
+                            </div>
+                            <div class="bill-item">
+                                <span>Tier Multiplier:</span>
+                                <span id="billTier">Standard (1.0x)</span>
+                            </div>
+                            <div class="bill-item">
+                                <span>Society Discount:</span>
+                                <span class="green-discount" id="billMemberDiscount">- ₹0.00</span>
+                            </div>
+                            <div class="bill-item">
+                                <span>Promo Discount:</span>
+                                <span class="green-discount" id="billPromoDiscount">- ₹0.00</span>
+                            </div>
+                            <div class="bill-item">
+                                <span>GST (18%):</span>
+                                <span id="billGst">₹0.00</span>
+                            </div>
+                            <hr class="dashed-line">
+                            <div class="total-pill-box">
+                                <span>Payable Total:</span>
+                                <strong class="total-amount" id="billFinalAmount">₹0.00</strong>
+                            </div>
+                        </div>
+                        <div class="free-kit-badge" id="freePerkNote">
+                            💡 Tip: Book 2 or more tickets to receive a complimentary Workshop Certification Kit!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Telemetry Lab: Storage Manager & Event Stream -->
+        <div class="lab-deck">
+            <!-- Web Storage Inspector -->
+            <div class="doodle-card selection-corners">
+                <div class="card-topbar">
+                    <div class="card-title-group">
+                        <span class="vector-tag">STORAGE API</span>
+                        <h3 class="card-title">Storage Inspector Deck</h3>
+                    </div>
+                    <span class="badge badge-info">Persistent vs Temporary</span>
+                </div>
+                <div class="card-content">
+                    <div class="storage-twin-cards">
+                        <div class="pod-box">
+                            <div class="pod-box-header">
+                                <strong>📂 LocalStorage</strong>
+                                <span class="badge badge-primary">Persistent</span>
+                            </div>
+                            <p style="font-size:0.72rem; color:var(--text-muted);">Saves confirmed bookings across browser restarts.</p>
+                            <div class="pod-code-terminal" id="localDataPreview">(No bookings saved)</div>
+                            <div style="display:flex; gap:6px; margin-top:4px;">
+                                <button class="btn btn-outline btn-xs" onclick="loadBookingsFromStorage()">📥 Reload</button>
+                                <button class="btn btn-danger btn-xs" onclick="clearLocalBookings()">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <div class="pod-box">
+                            <div class="pod-box-header">
+                                <strong>⏱️ SessionStorage</strong>
+                                <span class="badge badge-accent">Temporary</span>
+                            </div>
+                            <p style="font-size:0.72rem; color:var(--text-muted);">Holds live countdown token. Empties on tab close.</p>
+                            <div class="pod-code-terminal" id="sessionDataPreview">(Session active)</div>
+                            <div style="display:flex; gap:6px; margin-top:4px;">
+                                <button class="btn btn-outline btn-xs" onclick="refreshSessionPreview()">🔍 Inspect</button>
+                                <button class="btn btn-secondary btn-xs" onclick="resetSessionTimer()">⏱️ Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Event Telemetry Stream -->
+            <div class="doodle-card selection-corners">
+                <div class="card-topbar">
+                    <div class="card-title-group">
+                        <span class="vector-tag" style="background:var(--doodle-coral); color:#FFF;">TELEMETRY</span>
+                        <h3 class="card-title">Live Event Stream Monitor</h3>
+                    </div>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <span class="badge badge-success" id="eventBadge">Listening</span>
+                        <button class="btn btn-outline btn-xs" onclick="clearEventConsole()">Clear</button>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="event-console-window" id="eventStreamBox">
+                        <div class="console-row system-msg">[System] Doodle event stream initialized. Event listeners attached.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Participants Directory & DOM Table Hub -->
+        <div class="doodle-card selection-corners">
+            <div class="card-topbar">
+                <div class="card-title-group">
+                    <span class="vector-tag">DOM REGISTRY</span>
+                    <h2 class="card-title">Registered Workshop Attendees</h2>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <span class="badge badge-primary" id="totalRecordsBadge">Total Bookings: 0</span>
+                    <span class="badge badge-accent" id="totalRevenueBadge">Total Collected: ₹0</span>
+                </div>
+            </div>
+            <div class="card-content" style="display: flex; flex-direction: column; gap: 18px;">
+                <!-- 3 Metric Pill Cards -->
+                <div class="metric-pill-row">
+                    <div class="metric-pill">
+                        <div class="metric-icon-square">👥</div>
+                        <div class="metric-data">
+                            <div class="metric-lbl">Total Attendees</div>
+                            <div class="metric-number" id="metricTotalAttendees">0</div>
+                        </div>
+                    </div>
+                    <div class="metric-pill">
+                        <div class="metric-icon-square" style="background:var(--doodle-coral); color:#FFF;">🎟️</div>
+                        <div class="metric-data">
+                            <div class="metric-lbl">Passes Issued</div>
+                            <div class="metric-number" id="metricTotalPasses">0</div>
+                        </div>
+                    </div>
+                    <div class="metric-pill">
+                        <div class="metric-icon-square" style="background:var(--doodle-blue); color:#FFF;">💰</div>
+                        <div class="metric-data">
+                            <div class="metric-lbl">Gross Revenue</div>
+                            <div class="metric-number" id="metricGrossRevenue">₹0.00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Filter & Search Toolbar -->
+                <div class="table-toolbar">
+                    <div class="search-wrapper">
+                        <input type="text" id="searchInput" placeholder="🔍 Search by Student Name, PRN, or Email..." oninput="filterBookings()">
+                        <span class="error-msg" id="searchError"></span>
+                    </div>
+                    <div class="filter-select-wrapper">
+                        <select id="filterTrack" onchange="filterBookings()">
+                            <option value="all">All Workshop Tracks</option>
+                            <option value="Full-Stack Web Dev (MERN Stack)">Full-Stack Web Dev</option>
+                            <option value="Generative AI & LLM Agents">Generative AI &amp; LLMs</option>
+                            <option value="Cloud Computing & AWS DevOps">Cloud &amp; AWS DevOps</option>
+                            <option value="Cybersecurity & Ethical Hacking">Cybersecurity</option>
+                            <option value="Data Science & Machine Learning">Data Science &amp; ML</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-outline btn-sm" onclick="clearFilters()">Reset Filters</button>
+                    <button class="btn btn-secondary btn-sm" onclick="exportConsoleAnalytics()">📊 Console Analytics</button>
+                </div>
+
+                <!-- Table -->
+                <div class="table-wrapper">
+                    <table class="doodle-table" id="bookingsTable">
+                        <thead>
+                            <tr>
+                                <th># Booking ID</th>
+                                <th>Student Details</th>
+                                <th>College &amp; Branch</th>
+                                <th>Workshop Track &amp; Batch</th>
+                                <th>Pass / Mode</th>
+                                <th>Tickets</th>
+                                <th>Paid Amount</th>
+                                <th>Actions (DOM)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTableBody">
+                            <tr id="emptyTableRow">
+                                <td colspan="8" style="text-align: center; padding: 36px; color: var(--text-muted); font-weight: 700;">
+                                    No workshop tickets booked yet. Complete the registration form above to issue your pass!
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Official Summit Pass Modal -->
+        <div id="ticketModal" class="modal-overlay" style="display: none;">
+            <div class="modal-window selection-corners">
+                <div class="modal-top">
+                    <h3 style="font-weight: 800;">🎟️ Official Workshop Admission Pass</h3>
+                    <button class="close-cross" onclick="closeTicketModal()">&times;</button>
+                </div>
+                <div class="ticket-printable-content" id="printableTicket"></div>
+                <div class="modal-bottom-bar">
+                    <button class="btn btn-primary" onclick="printTicketPass()">🖨️ Print Ticket Pass</button>
+                    <button class="btn btn-outline" onclick="closeTicketModal()">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="doodle-footer">
+            <p>Practical 10.1 &bull; Technical Workshop Ticket Booking Web Architecture</p>
+            <p class="muted">Symbiosis Institute of Technology (SIT), Nagpur &bull; JavaScript Case Study &bull; Shravani S (PRN: 24070521047)</p>
+        </footer>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+const STORAGE_KEY_BOOKINGS = "sit_workshop_bookings_v1";
+const STORAGE_KEY_DRAFT = "sit_workshop_draft_v1";
+const STORAGE_KEY_THEME = "sit_workshop_theme_v1";
+const SESSION_KEY_TOKEN = "sit_workshop_session_token";
+const SESSION_KEY_TIME = "sit_workshop_session_remaining";
+
+let workshopBookings = [];
+let sessionSecondsRemaining = 600;
+let sessionTimerInterval = null;
+let activePromoDiscount = 0;
+let appliedPromoCode = "";
+
+// Element Selectors
+const workshopForm = document.getElementById("workshopForm");
+const firstnameInput = document.getElementById("firstname");
+const lastnameInput = document.getElementById("lastname");
+const studentPrnInput = document.getElementById("studentPrn");
+const collegeNameInput = document.getElementById("collegeName");
+const departmentSelect = document.getElementById("department");
+const academicYearSelect = document.getElementById("academicYear");
+const studentEmailInput = document.getElementById("studentEmail");
+const studentPhoneInput = document.getElementById("studentPhone");
+const workshopTrackSelect = document.getElementById("workshopTrack");
+const passTierSelect = document.getElementById("passTier");
+const batchTimeSelect = document.getElementById("batchTime");
+const ticketQuantityInput = document.getElementById("ticketQuantity");
+const membershipTypeSelect = document.getElementById("membershipType");
+const bringLaptopCheckbox = document.getElementById("bringLaptop");
+const termsAgreementCheckbox = document.getElementById("termsAgreement");
+const promoCodeInput = document.getElementById("promoCode");
+const upiBox = document.getElementById("upiBox");
+const upiAppSelect = document.getElementById("upiApp");
+const customUpiGroup = document.getElementById("customUpiGroup");
+const customUpiIdInput = document.getElementById("customUpiId");
+const submitBtn = document.getElementById("submitBtn");
+const resetBtn = document.getElementById("resetBtn");
+const eventStreamBox = document.getElementById("eventStreamBox");
+const bookingsTableBody = document.getElementById("bookingsTableBody");
+const emptyTableRow = document.getElementById("emptyTableRow");
+const totalRecordsBadge = document.getElementById("totalRecordsBadge");
+const totalRevenueBadge = document.getElementById("totalRevenueBadge");
+const localDataPreview = document.getElementById("localDataPreview");
+const sessionDataPreview = document.getElementById("sessionDataPreview");
+const sessionTimerDisplay = document.getElementById("sessionTimer");
+const billTrackName = document.getElementById("billTrackName");
+const billBaseRate = document.getElementById("billBaseRate");
+const billTier = document.getElementById("billTier");
+const billMemberDiscount = document.getElementById("billMemberDiscount");
+const billPromoDiscount = document.getElementById("billPromoDiscount");
+const billGst = document.getElementById("billGst");
+const billFinalAmount = document.getElementById("billFinalAmount");
+
+// Live Pass Simulation elements
+const livePassTrack = document.getElementById("livePassTrack");
+const livePassName = document.getElementById("livePassName");
+const livePassPrn = document.getElementById("livePassPrn");
+const livePassTier = document.getElementById("livePassTier");
+const livePassMode = document.getElementById("livePassMode");
+const livePassId = document.getElementById("livePassId");
+
+// Metric cards
+const metricTotalAttendees = document.getElementById("metricTotalAttendees");
+const metricTotalPasses = document.getElementById("metricTotalPasses");
+const metricGrossRevenue = document.getElementById("metricGrossRevenue");
+
+document.addEventListener("DOMContentLoaded", function () {
+    console.time("AppInitialization");
+    logEvent("SYSTEM", "DOM fully loaded. Initializing Workshop Application...");
+    initTheme();
+    initSessionStorage();
+    loadBookingsFromStorage();
+    restoreDraftIfAvailable();
+    attachFormEventListeners();
+    calculateBilling();
+    updateLivePassCard();
+    updateStoragePreviews();
+    console.timeEnd("AppInitialization");
+});
+
+function logEvent(eventType, description) {
+    const timestamp = new Date().toLocaleTimeString();
+    const entry = document.createElement("div");
+    entry.className = "console-row";
+    let colorClass = "";
+    if (eventType === "SUBMIT_SUCCESS") colorClass = "success-msg";
+    else if (eventType === "ERROR" || eventType === "VALIDATION_FAIL") colorClass = "error-msg-log";
+    else if (eventType === "SYSTEM" || eventType === "STORAGE") colorClass = "system-msg";
+
+    if (colorClass) entry.classList.add(colorClass);
+    entry.innerHTML = `<span class="timestamp">[${timestamp}]</span> <strong>${eventType}:</strong> ${escapeHtml(description)}`;
+    eventStreamBox.insertBefore(entry, eventStreamBox.firstChild);
+
+    if (eventStreamBox.children.length > 40) {
+        eventStreamBox.removeChild(eventStreamBox.lastChild);
+    }
+}
+
+function clearEventConsole() {
+    eventStreamBox.innerHTML = `<div class="console-row system-msg">[System] Console logs cleared by user.</div>`;
+}
+
+function setError(element, errorId, message) {
+    const errorSpan = document.getElementById(errorId);
+    if (errorSpan) errorSpan.textContent = message;
+    element.classList.add("invalid");
+    element.classList.remove("valid");
+}
+
+function setSuccess(element, errorId) {
+    const errorSpan = document.getElementById(errorId);
+    if (errorSpan) errorSpan.textContent = "";
+    element.classList.remove("invalid");
+    element.classList.add("valid");
+}
+
+function validateFirstName() {
+    const val = firstnameInput.value.trim();
+    const nameRegex = /^[A-Za-z]{2,25}$/;
+    if (val === "") {
+        setError(firstnameInput, "firstnameError", "First name is required.");
+        return false;
+    } else if (!nameRegex.test(val)) {
+        setError(firstnameInput, "firstnameError", "Letters only (2-25 characters).");
+        return false;
+    }
+    setSuccess(firstnameInput, "firstnameError");
+    updateLivePassCard();
+    return true;
+}
+
+function validateLastName() {
+    const val = lastnameInput.value.trim();
+    const nameRegex = /^[A-Za-z]{2,25}$/;
+    if (val === "") {
+        setError(lastnameInput, "lastnameError", "Last name is required.");
+        return false;
+    } else if (!nameRegex.test(val)) {
+        setError(lastnameInput, "lastnameError", "Letters only (2-25 characters).");
+        return false;
+    }
+    setSuccess(lastnameInput, "lastnameError");
+    updateLivePassCard();
+    return true;
+}
+
+function validateStudentPrn() {
+    const val = studentPrnInput.value.trim();
+    const prnRegex = /^\d{11}$/;
+    if (val === "") {
+        setError(studentPrnInput, "studentPrnError", "PRN / Roll No is required.");
+        return false;
+    } else if (!prnRegex.test(val)) {
+        setError(studentPrnInput, "studentPrnError", "PRN must be exactly 11 numeric digits.");
+        return false;
+    }
+    setSuccess(studentPrnInput, "studentPrnError");
+    updateLivePassCard();
+    return true;
+}
+
+function validateCollegeName() {
+    const val = collegeNameInput.value.trim();
+    if (val.length < 3) {
+        setError(collegeNameInput, "collegeNameError", "Please enter valid college/university name.");
+        return false;
+    }
+    setSuccess(collegeNameInput, "collegeNameError");
+    return true;
+}
+
+function validateDepartment() {
+    if (departmentSelect.value === "") {
+        setError(departmentSelect, "departmentError", "Please select your academic department.");
+        return false;
+    }
+    setSuccess(departmentSelect, "departmentError");
+    return true;
+}
+
+function validateAcademicYear() {
+    if (academicYearSelect.value === "") {
+        setError(academicYearSelect, "academicYearError", "Please select your academic year.");
+        return false;
+    }
+    setSuccess(academicYearSelect, "academicYearError");
+    return true;
+}
+
+function validateStudentEmail() {
+    const val = studentEmailInput.value.trim();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (val === "") {
+        setError(studentEmailInput, "studentEmailError", "Email address is required.");
+        return false;
+    } else if (!emailRegex.test(val)) {
+        setError(studentEmailInput, "studentEmailError", "Enter a valid email address (e.g. name@domain.com).");
+        return false;
+    }
+    setSuccess(studentEmailInput, "studentEmailError");
+    return true;
+}
+
+function validateStudentPhone() {
+    const val = studentPhoneInput.value.trim();
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (val === "") {
+        setError(studentPhoneInput, "studentPhoneError", "Contact number is required.");
+        return false;
+    } else if (!phoneRegex.test(val)) {
+        setError(studentPhoneInput, "studentPhoneError", "Enter valid 10-digit mobile number (starts with 6-9).");
+        return false;
+    }
+    setSuccess(studentPhoneInput, "studentPhoneError");
+    return true;
+}
+
+function validateWorkshopTrack() {
+    if (workshopTrackSelect.value === "") {
+        setError(workshopTrackSelect, "workshopTrackError", "Please choose a workshop track.");
+        return false;
+    }
+    setSuccess(workshopTrackSelect, "workshopTrackError");
+    updateLivePassCard();
+    return true;
+}
+
+function validatePassTier() {
+    if (passTierSelect.value === "") {
+        setError(passTierSelect, "passTierError", "Please select a ticket tier.");
+        return false;
+    }
+    setSuccess(passTierSelect, "passTierError");
+    updateLivePassCard();
+    return true;
+}
+
+function validateBatchTime() {
+    if (batchTimeSelect.value === "") {
+        setError(batchTimeSelect, "batchTimeError", "Please select preferred batch timing.");
+        return false;
+    }
+    setSuccess(batchTimeSelect, "batchTimeError");
+    return true;
+}
+
+function validateTicketQuantity() {
+    const val = Number(ticketQuantityInput.value);
+    if (isNaN(val) || val < 1 || val > 5) {
+        setError(ticketQuantityInput, "ticketQuantityError", "Quantity must be between 1 and 5.");
+        return false;
+    }
+    setSuccess(ticketQuantityInput, "ticketQuantityError");
+    updateLivePassCard();
+    return true;
+}
+
+function validateCustomUpi() {
+    const selectedPayRadio = document.querySelector('input[name="paymentMethod"]:checked');
+    if (selectedPayRadio && selectedPayRadio.value === "UPI" && upiAppSelect.value === "other") {
+        const val = customUpiIdInput.value.trim();
+        const upiRegex = /^[\w.-]+@[\w.-]+$/;
+        if (val === "" || !upiRegex.test(val)) {
+            setError(customUpiIdInput, "customUpiIdError", "Please enter a valid UPI VPA (e.g. user@bank).");
+            return false;
+        }
+        setSuccess(customUpiIdInput, "customUpiIdError");
+    }
+    return true;
+}
+
+function validateTerms() {
+    const termsError = document.getElementById("termsError");
+    if (!termsAgreementCheckbox.checked) {
+        termsError.textContent = "You must accept the Workshop terms and attendance guidelines.";
+        return false;
+    }
+    termsError.textContent = "";
+    return true;
+}
+
+function validateEntireForm() {
+    const v1 = validateFirstName();
+    const v2 = validateLastName();
+    const v3 = validateStudentPrn();
+    const v4 = validateCollegeName();
+    const v5 = validateDepartment();
+    const v6 = validateAcademicYear();
+    const v7 = validateStudentEmail();
+    const v8 = validateStudentPhone();
+    const v9 = validateWorkshopTrack();
+    const v10 = validatePassTier();
+    const v11 = validateBatchTime();
+    const v12 = validateTicketQuantity();
+    const v13 = validateCustomUpi();
+    const v14 = validateTerms();
+    return v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8 && v9 && v10 && v11 && v12 && v13 && v14;
+}
+
+function updateLivePassCard() {
+    const fn = firstnameInput.value.trim();
+    const ln = lastnameInput.value.trim();
+    livePassName.textContent = fn || ln ? `${fn} ${ln}`.trim() : "Student Name";
+    livePassPrn.textContent = studentPrnInput.value.trim() || "24070521047";
+    livePassTrack.textContent = workshopTrackSelect.value || "Select a Workshop Track";
+    const selectedTierOption = passTierSelect.options[passTierSelect.selectedIndex];
+    const tierName = selectedTierOption ? selectedTierOption.text.split(" (")[0] : "Standard";
+    const qty = Math.max(1, Number(ticketQuantityInput.value) || 1);
+    livePassTier.textContent = `${tierName} × ${qty}`;
+
+    const selectedMode = document.querySelector('input[name="attendanceMode"]:checked');
+    livePassMode.textContent = selectedMode ? (selectedMode.value.includes("Offline") ? "Offline Lab" : "Online Zoom") : "Offline Lab";
+}
+
+function attachFormEventListeners() {
+    const monitoredFields = [
+        { el: firstnameInput, name: "First Name", validator: validateFirstName },
+        { el: lastnameInput, name: "Last Name", validator: validateLastName },
+        { el: studentPrnInput, name: "Student PRN", validator: validateStudentPrn },
+        { el: collegeNameInput, name: "College Name", validator: validateCollegeName },
+        { el: studentEmailInput, name: "Student Email", validator: validateStudentEmail },
+        { el: studentPhoneInput, name: "Mobile Phone", validator: validateStudentPhone },
+        { el: customUpiIdInput, name: "Custom UPI ID", validator: validateCustomUpi }
+    ];
+
+    monitoredFields.forEach(item => {
+        if (!item.el) return;
+        item.el.addEventListener("focus", function () {
+            logEvent("FOCUS", `User focused field '${item.name}'`);
+        });
+        item.el.addEventListener("blur", function () {
+            logEvent("BLUR", `User exited field '${item.name}'`);
+            item.validator();
+        });
+        item.el.addEventListener("input", function () {
+            updateLivePassCard();
+        });
+    });
+
+    studentEmailInput.addEventListener("input", function () {
+        if (studentEmailInput.classList.contains("invalid")) validateStudentEmail();
+    });
+    studentPhoneInput.addEventListener("input", function () {
+        if (studentPhoneInput.classList.contains("invalid")) validateStudentPhone();
+    });
+
+    ticketQuantityInput.addEventListener("input", function () {
+        logEvent("INPUT", `Ticket quantity adjusted: ${ticketQuantityInput.value}`);
+        validateTicketQuantity();
+        calculateBilling();
+        updateLivePassCard();
+    });
+
+    workshopTrackSelect.addEventListener("change", function () {
+        logEvent("CHANGE", `Workshop Track selected: ${workshopTrackSelect.value}`);
+        validateWorkshopTrack();
+        calculateBilling();
+        updateLivePassCard();
+    });
+
+    passTierSelect.addEventListener("change", function () {
+        logEvent("CHANGE", `Pass Tier changed: ${passTierSelect.value}`);
+        validatePassTier();
+        calculateBilling();
+        updateLivePassCard();
+    });
+
+    membershipTypeSelect.addEventListener("change", function () {
+        logEvent("CHANGE", `Membership changed: ${membershipTypeSelect.value}`);
+        calculateBilling();
+    });
+
+    batchTimeSelect.addEventListener("change", function () {
+        logEvent("CHANGE", `Batch Timing selected: ${batchTimeSelect.value}`);
+        validateBatchTime();
+    });
+
+    document.querySelectorAll('input[name="attendanceMode"]').forEach(radio => {
+        radio.addEventListener("change", function () {
+            logEvent("CHANGE", `Attendance Mode: ${radio.value}`);
+            updateLivePassCard();
+        });
+    });
+
+    departmentSelect.addEventListener("change", validateDepartment);
+    academicYearSelect.addEventListener("change", validateAcademicYear);
+    termsAgreementCheckbox.addEventListener("change", validateTerms);
+
+    submitBtn.addEventListener("mouseover", function () {
+        logEvent("MOUSEOVER", "User hovering on 'Confirm & Issue Pass' button");
+    });
+    submitBtn.addEventListener("mouseout", function () {
+        logEvent("MOUSEOUT", "User hovered off submit button");
+    });
+
+    workshopForm.addEventListener("reset", function () {
+        logEvent("RESET", "Form reset event triggered by user");
+        setTimeout(() => {
+            workshopForm.querySelectorAll("input, select").forEach(el => {
+                el.classList.remove("valid", "invalid");
+            });
+            workshopForm.querySelectorAll(".error-msg").forEach(el => el.textContent = "");
+            activePromoDiscount = 0;
+            appliedPromoCode = "";
+            document.getElementById("promoStatus").textContent = "Available: SIT50 (₹50 off), TECH100 (₹100 off on ₹800+), SAVE20 (20% off)";
+            togglePaymentFields();
+            calculateBilling();
+            updateLivePassCard();
+        }, 10);
+    });
+
+    workshopForm.addEventListener("submit", handleFormSubmit);
+}
+
+function calculateBilling() {
+    const selectedTrackOption = workshopTrackSelect.options[workshopTrackSelect.selectedIndex];
+    const basePrice = selectedTrackOption && selectedTrackOption.value !== "" ? Number(selectedTrackOption.dataset.baseprice) : 0;
+    const trackName = selectedTrackOption && selectedTrackOption.value !== "" ? selectedTrackOption.value : "None selected";
+
+    const selectedTierOption = passTierSelect.options[passTierSelect.selectedIndex];
+    const tierMultiplier = selectedTierOption ? Number(selectedTierOption.dataset.multiplier) : 1;
+    const tierName = selectedTierOption ? selectedTierOption.text.split(" (")[0] : "Standard";
+
+    const qty = Math.max(1, Number(ticketQuantityInput.value) || 1);
+    const subtotal = (basePrice * tierMultiplier) * qty;
+
+    const membership = membershipTypeSelect.value;
+    let memberDiscount = 0;
+    if (membership === "ieee") { memberDiscount = subtotal * 0.15; }
+    else if (membership === "sit_student") { memberDiscount = subtotal * 0.20; }
+    else if (membership === "core_team") { memberDiscount = subtotal * 0.30; }
+
+    let promoDiscount = 0;
+    if (appliedPromoCode === "SIT50" && subtotal >= 300) { promoDiscount = 50; }
+    else if (appliedPromoCode === "TECH100" && subtotal >= 800) { promoDiscount = 100; }
+    else if (appliedPromoCode === "SAVE20") { promoDiscount = (subtotal - memberDiscount) * 0.20; }
+
+    const taxableAmount = Math.max(0, subtotal - memberDiscount - promoDiscount);
+    const gstAmount = taxableAmount > 0 ? taxableAmount * 0.18 : 0;
+    const finalPayable = taxableAmount + gstAmount;
+
+    billTrackName.textContent = trackName;
+    billBaseRate.textContent = `₹${(basePrice * qty).toFixed(2)} (₹${basePrice} × ${qty})`;
+    billTier.textContent = `${tierName} (${tierMultiplier}x)`;
+    billMemberDiscount.textContent = `- ₹${memberDiscount.toFixed(2)}`;
+    billPromoDiscount.textContent = `- ₹${promoDiscount.toFixed(2)}`;
+    billGst.textContent = `₹${gstAmount.toFixed(2)}`;
+    billFinalAmount.textContent = `₹${finalPayable.toFixed(2)}`;
+
+    const perkNote = document.getElementById("freePerkNote");
+    if (qty >= 2) {
+        perkNote.innerHTML = `🎉 <strong>Bonus Unlocked:</strong> Group Booking of ${qty} tickets includes complimentary Workshop Hardware Kits!`;
+        perkNote.style.color = "var(--doodle-coral)";
+    } else {
+        perkNote.innerHTML = `💡 Tip: Book 2 or more tickets to receive a complimentary Workshop Certification Kit!`;
+        perkNote.style.color = "var(--doodle-green)";
+    }
+
+    return { basePrice, tierMultiplier, qty, subtotal, memberDiscount, promoDiscount, gstAmount, finalPayable };
+}
+
+function applyPromo() {
+    const code = promoCodeInput.value.trim().toUpperCase();
+    const statusEl = document.getElementById("promoStatus");
+    if (code === "") {
+        alert("Please enter a coupon code first.");
+        return;
+    }
+    if (code === "SIT50" || code === "TECH100" || code === "SAVE20") {
+        appliedPromoCode = code;
+        statusEl.innerHTML = `✅ Voucher <strong>${code}</strong> applied successfully!`;
+        statusEl.style.color = "var(--doodle-green)";
+        logEvent("PROMO_APPLIED", `User applied coupon code: ${code}`);
+        calculateBilling();
+    } else {
+        appliedPromoCode = "";
+        statusEl.innerHTML = `❌ Invalid coupon code '${escapeHtml(code)}'. Try SIT50, TECH100, or SAVE20.`;
+        statusEl.style.color = "var(--danger)";
+        calculateBilling();
+    }
+}
+
+function togglePaymentFields() {
+    const selectedPayRadio = document.querySelector('input[name="paymentMethod"]:checked');
+    const mode = selectedPayRadio ? selectedPayRadio.value : "UPI";
+    if (mode === "UPI") {
+        upiBox.style.display = "block";
+    } else {
+        upiBox.style.display = "none";
+    }
+}
+
+function toggleUpiIdField() {
+    if (upiAppSelect.value === "other") {
+        customUpiGroup.style.display = "block";
+    } else {
+        customUpiGroup.style.display = "none";
+    }
+}
+
+function handleFormSubmit(e) {
+    e.preventDefault();
+    console.time("TicketBookingProcessing");
+    logEvent("SUBMIT", "Workshop registration submission triggered.");
+
+    const isValid = validateEntireForm();
+    if (!isValid) {
+        logEvent("VALIDATION_FAIL", "Form validation failed. Please review red highlighted fields.");
+        alert("⚠️ Please review the form and correct errors before booking your ticket.");
+        console.timeEnd("TicketBookingProcessing");
+        return;
+    }
+
+    const bookingId = "TKT-" + Math.floor(100000 + Math.random() * 900000);
+    const bookingTimestamp = new Date().toLocaleString();
+    const bill = calculateBilling();
+
+    const selectedPayRadio = document.querySelector('input[name="paymentMethod"]:checked');
+    const payMode = selectedPayRadio ? selectedPayRadio.value : "UPI";
+    let paymentDetail = payMode;
+    if (payMode === "UPI") {
+        if (upiAppSelect.value === "other") {
+            paymentDetail = `UPI (${customUpiIdInput.value.trim()})`;
+        } else {
+            paymentDetail = `UPI (${upiAppSelect.value})`;
+        }
+    }
+
+    const newBooking = {
+        bookingId: bookingId,
+        studentName: `${firstnameInput.value.trim()} ${lastnameInput.value.trim()}`,
+        prn: studentPrnInput.value.trim(),
+        college: collegeNameInput.value.trim(),
+        department: departmentSelect.value,
+        academicYear: academicYearSelect.value,
+        email: studentEmailInput.value.trim(),
+        phone: studentPhoneInput.value.trim(),
+        workshopTrack: workshopTrackSelect.value,
+        passTier: passTierSelect.options[passTierSelect.selectedIndex].text.split(" (")[0],
+        batchTime: batchTimeSelect.value,
+        quantity: bill.qty,
+        attendanceMode: document.querySelector('input[name="attendanceMode"]:checked').value,
+        bringLaptop: bringLaptopCheckbox.checked ? "Yes" : "No",
+        paymentMode: paymentDetail,
+        finalAmount: bill.finalPayable.toFixed(2),
+        bookingDate: bookingTimestamp
+    };
+
+    workshopBookings.push(newBooking);
+    saveBookingsToStorage();
+
+    alert(
+        `🎉 Workshop Pass Confirmed!\n\n` +
+        `• Booking ID: ${bookingId}\n` +
+        `• Attendee: ${newBooking.studentName}\n` +
+        `• Workshop: ${newBooking.workshopTrack}\n` +
+        `• Amount Paid: ₹${newBooking.finalAmount}\n\n` +
+        `Your official digital credential has been generated below.`
+    );
+
+    console.log("Registered Workshop Bookings Table:");
+    console.table(workshopBookings);
+    console.timeEnd("TicketBookingProcessing");
+    logEvent("SUBMIT_SUCCESS", `Ticket ${bookingId} issued for ${newBooking.studentName}. Total: ₹${newBooking.finalAmount}`);
+
+    renderBookingsTable(workshopBookings);
+    openTicketPassModal(newBooking);
+    localStorage.removeItem(STORAGE_KEY_DRAFT);
+    workshopForm.reset();
+}
+
+function renderBookingsTable(bookingsArray) {
+    bookingsTableBody.innerHTML = "";
+    if (bookingsArray.length === 0) {
+        bookingsTableBody.appendChild(emptyTableRow);
+        totalRecordsBadge.textContent = `Total Bookings: 0`;
+        totalRevenueBadge.textContent = `Total Collected: ₹0`;
+        updateMetrics(0, 0, 0);
+        return;
+    }
+
+    bookingsArray.forEach((booking) => {
+        const tr = document.createElement("tr");
+        tr.dataset.id = booking.bookingId;
+
+        // Initials for avatar
+        const initials = booking.studentName.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
+
+        tr.innerHTML = `
+            <td>
+                <span class="badge badge-primary">${escapeHtml(booking.bookingId)}</span>
+                <br><small style="color:var(--text-muted); font-size:11px;">${escapeHtml(booking.bookingDate)}</small>
+            </td>
+            <td>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div class="avatar-badge">${initials}</div>
+                    <div>
+                        <strong>${escapeHtml(booking.studentName)}</strong><br>
+                        <small style="font-family:var(--font-mono); color:var(--text-muted);">PRN: ${escapeHtml(booking.prn)}</small><br>
+                        <small style="color:var(--text-muted); font-size:11px;">${escapeHtml(booking.email)}</small>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <strong>${escapeHtml(booking.college)}</strong><br>
+                <span class="badge badge-info">${escapeHtml(booking.department)} (${escapeHtml(booking.academicYear)})</span>
+            </td>
+            <td>
+                <strong>${escapeHtml(booking.workshopTrack)}</strong><br>
+                <small style="color:var(--doodle-coral); font-weight:700;">${escapeHtml(booking.batchTime)}</small>
+            </td>
+            <td>
+                <span class="badge badge-accent">${escapeHtml(booking.passTier)}</span><br>
+                <small style="color:var(--text-muted); font-weight:600;">${escapeHtml(booking.attendanceMode)}</small>
+            </td>
+            <td><strong>${booking.quantity}</strong></td>
+            <td>
+                <strong style="color:var(--doodle-coral); font-size:0.95rem;">₹${booking.finalAmount}</strong><br>
+                <small style="font-size:10px; color:var(--text-muted);">${escapeHtml(booking.paymentMode)}</small>
+            </td>
+            <td>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn btn-outline btn-xs view-pass-btn" title="View & Print Pass">🎟️ Pass</button>
+                    <button class="btn btn-secondary btn-xs edit-student-btn" title="Edit Student Details">✏️ Edit</button>
+                    <button class="btn btn-danger btn-xs cancel-booking-btn" title="Cancel Booking">🗑️</button>
+                </div>
+            </td>
+        `;
+
+        const viewBtn = tr.querySelector(".view-pass-btn");
+        const editBtn = tr.querySelector(".edit-student-btn");
+        const cancelBtn = tr.querySelector(".cancel-booking-btn");
+
+        viewBtn.addEventListener("click", function () {
+            logEvent("CLICK", `Viewing Ticket Pass for booking ${booking.bookingId}`);
+            openTicketPassModal(booking);
+        });
+
+        editBtn.addEventListener("click", function () {
+            logEvent("CLICK", `Editing booking ${booking.bookingId}`);
+            const newName = prompt("Edit Student Full Name:", booking.studentName);
+            const newEmail = prompt("Edit Student Email Address:", booking.email);
+            if (newName && newName.trim() !== "") { booking.studentName = newName.trim(); }
+            if (newEmail && newEmail.trim() !== "") { booking.email = newEmail.trim(); }
+            saveBookingsToStorage();
+            renderBookingsTable(workshopBookings);
+            logEvent("DOM_EDIT", `Booking ${booking.bookingId} updated via DOM traversal.`);
+        });
+
+        cancelBtn.addEventListener("click", function () {
+            if (confirm(`Are you sure you want to cancel booking ${booking.bookingId} for ${booking.studentName}?`)) {
+                const row = cancelBtn.closest("tr");
+                if (row) row.remove();
+                const targetIdx = workshopBookings.findIndex(b => b.bookingId === booking.bookingId);
+                if (targetIdx !== -1) { workshopBookings.splice(targetIdx, 1); }
+                saveBookingsToStorage();
+                updateRecordAggregations();
+                logEvent("DOM_DELETE", `Booking ${booking.bookingId} deleted from records.`);
+                if (workshopBookings.length === 0) { bookingsTableBody.appendChild(emptyTableRow); }
+            }
+        });
+
+        bookingsTableBody.appendChild(tr);
+    });
+
+    updateRecordAggregations();
+}
+
+function updateMetrics(attendees, tickets, revenue) {
+    if (metricTotalAttendees) metricTotalAttendees.textContent = attendees;
+    if (metricTotalPasses) metricTotalPasses.textContent = tickets;
+    if (metricGrossRevenue) metricGrossRevenue.textContent = `₹${revenue.toFixed(2)}`;
+}
+
+function updateRecordAggregations() {
+    const totalRevenue = workshopBookings.reduce((sum, b) => sum + Number(b.finalAmount), 0);
+    const totalTickets = workshopBookings.reduce((sum, b) => sum + Number(b.quantity), 0);
+    totalRecordsBadge.textContent = `Total Bookings: ${workshopBookings.length} (${totalTickets} Tickets)`;
+    totalRevenueBadge.textContent = `Total Collected: ₹${totalRevenue.toFixed(2)}`;
+    updateMetrics(workshopBookings.length, totalTickets, totalRevenue);
+    updateStoragePreviews();
+}
+
+function filterBookings() {
+    const searchVal = document.getElementById("searchInput").value.trim().toLowerCase();
+    const selectedTrack = document.getElementById("filterTrack").value;
+    const filtered = workshopBookings.filter(b => {
+        const matchesQuery = searchVal === "" ||
+            b.studentName.toLowerCase().includes(searchVal) ||
+            b.prn.includes(searchVal) ||
+            b.email.toLowerCase().includes(searchVal) ||
+            b.bookingId.toLowerCase().includes(searchVal);
+        const matchesTrack = selectedTrack === "all" || b.workshopTrack === selectedTrack;
+        return matchesQuery && matchesTrack;
+    });
+    logEvent("FILTER", `Filter executed: ${filtered.length} matching bookings found`);
+    renderBookingsTable(filtered);
+}
+
+function clearFilters() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("filterTrack").value = "all";
+    renderBookingsTable(workshopBookings);
+}
+
+function exportConsoleAnalytics() {
+    console.time("AnalyticsReport");
+    console.log("================= WORKSHOP ENROLLMENT ANALYTICS =================");
+    const studentDirectory = workshopBookings.map(b => ({
+        ID: b.bookingId,
+        Name: b.studentName,
+        Email: b.email,
+        Track: b.workshopTrack,
+        Paid: "₹" + b.finalAmount
+    }));
+    console.table(studentDirectory);
+    console.timeEnd("AnalyticsReport");
+    alert(`📊 Console Analytics generated!\nPress F12 or inspect DevTools console to view the complete student directory table.`);
+}
+
+function openTicketPassModal(booking) {
+    const printableTicket = document.getElementById("printableTicket");
+    printableTicket.innerHTML = `
+        <div class="pass-card-render">
+            <div class="pass-header-strip">
+                <div>
+                    <span class="badge badge-primary">SIT TECH DOODLE PASS 2026</span>
+                    <h4 style="font-size:1.15rem; font-weight:800; margin-top:6px;">${escapeHtml(booking.workshopTrack)}</h4>
+                </div>
+                <div class="crane-tag">Ref: <strong>${escapeHtml(booking.bookingId)}</strong></div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; font-size:0.86rem;">
+                <div><span style="font-size:0.68rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase;">Attendee</span><br><strong>${escapeHtml(booking.studentName)}</strong></div>
+                <div><span style="font-size:0.68rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase;">PRN / Roll</span><br><strong>${escapeHtml(booking.prn)}</strong></div>
+                <div><span style="font-size:0.68rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase;">College / Branch</span><br><strong>${escapeHtml(booking.college)} (${escapeHtml(booking.department)})</strong></div>
+                <div><span style="font-size:0.68rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase;">Pass & Qty</span><br><strong>${escapeHtml(booking.passTier)} &times; ${booking.quantity}</strong></div>
+                <div><span style="font-size:0.68rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase;">Batch Timing</span><br><strong>${escapeHtml(booking.batchTime)}</strong></div>
+                <div><span style="font-size:0.68rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase;">Mode</span><br><strong>${escapeHtml(booking.attendanceMode)}</strong></div>
+                <div><span style="font-size:0.68rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase;">Settlement</span><br><strong>₹${booking.finalAmount} (${escapeHtml(booking.paymentMode)})</strong></div>
+                <div><span style="font-size:0.68rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase;">Issued</span><br><strong>${escapeHtml(booking.bookingDate)}</strong></div>
+            </div>
+            <div class="pass-barcode-box">|||| | ||||| || |||||| | |||| | |||||||| | ||</div>
+        </div>
+    `;
+    document.getElementById("ticketModal").style.display = "flex";
+}
+
+function closeTicketModal() {
+    document.getElementById("ticketModal").style.display = "none";
+}
+
+function printTicketPass() {
+    logEvent("PRINT", "User invoked window.print() on ticket pass.");
+    window.print();
+}
+
+function saveBookingsToStorage() {
+    const jsonStr = JSON.stringify(workshopBookings);
+    localStorage.setItem(STORAGE_KEY_BOOKINGS, jsonStr);
+    updateStoragePreviews();
+}
+
+function loadBookingsFromStorage() {
+    const saved = localStorage.getItem(STORAGE_KEY_BOOKINGS);
+    if (saved) {
+        try {
+            workshopBookings = JSON.parse(saved);
+        } catch (e) {
+            workshopBookings = [];
+        }
+    } else {
+        workshopBookings = [
+            {
+                bookingId: "TKT-849201",
+                studentName: "Shravani S",
+                prn: "24070521047",
+                college: "SIT Nagpur",
+                department: "CSE",
+                academicYear: "2nd Year",
+                email: "shravani@sitnagpur.edu.in",
+                phone: "9876543210",
+                workshopTrack: "Generative AI & LLM Agents",
+                passTier: "Pro Pass",
+                batchTime: "Morning Batch (9:00 AM - 1:00 PM)",
+                quantity: 1,
+                attendanceMode: "Offline (Campus Lab)",
+                bringLaptop: "Yes",
+                paymentMode: "UPI (Google Pay)",
+                finalAmount: "618.32",
+                bookingDate: new Date().toLocaleString()
+            }
+        ];
+        saveBookingsToStorage();
+    }
+    renderBookingsTable(workshopBookings);
+}
+
+function clearLocalBookings() {
+    if (confirm("Clear all bookings saved in localStorage?")) {
+        localStorage.removeItem(STORAGE_KEY_BOOKINGS);
+        workshopBookings = [];
+        renderBookingsTable(workshopBookings);
+        logEvent("STORAGE", "Cleared localStorage workshop bookings.");
+        alert("🗑️ LocalStorage bookings cleared!");
+    }
+}
+
+function saveDraftToLocalStorage() {
+    const draft = {
+        firstname: firstnameInput.value,
+        lastname: lastnameInput.value,
+        studentPrn: studentPrnInput.value,
+        collegeName: collegeNameInput.value,
+        department: departmentSelect.value,
+        academicYear: academicYearSelect.value,
+        studentEmail: studentEmailInput.value,
+        studentPhone: studentPhoneInput.value,
+        workshopTrack: workshopTrackSelect.value,
+        passTier: passTierSelect.value,
+        savedAt: new Date().toLocaleTimeString()
+    };
+    localStorage.setItem(STORAGE_KEY_DRAFT, JSON.stringify(draft));
+    logEvent("STORAGE", "Draft saved into localStorage.");
+    updateStoragePreviews();
+    alert(`💾 Draft successfully saved to Local Storage at ${draft.savedAt}!\n(Your form input will persist even after page refresh)`);
+}
+
+function restoreDraftIfAvailable() {
+    const rawDraft = localStorage.getItem(STORAGE_KEY_DRAFT);
+    if (rawDraft) {
+        try {
+            const draft = JSON.parse(rawDraft);
+            if (firstnameInput.value === "" && draft.firstname) firstnameInput.value = draft.firstname;
+            if (lastnameInput.value === "" && draft.lastname) lastnameInput.value = draft.lastname;
+            if (studentPrnInput.value === "" && draft.studentPrn) studentPrnInput.value = draft.studentPrn;
+            if (collegeNameInput.value === "" && draft.collegeName) collegeNameInput.value = draft.collegeName;
+            if (draft.department) departmentSelect.value = draft.department;
+            if (draft.academicYear) academicYearSelect.value = draft.academicYear;
+            if (studentEmailInput.value === "" && draft.studentEmail) studentEmailInput.value = draft.studentEmail;
+            if (studentPhoneInput.value === "" && draft.studentPhone) studentPhoneInput.value = draft.studentPhone;
+            if (draft.workshopTrack) workshopTrackSelect.value = draft.workshopTrack;
+            if (draft.passTier) passTierSelect.value = draft.passTier;
+            logEvent("STORAGE", "Restored existing form draft from localStorage.");
+        } catch (e) {
+            console.error("Draft parsing failed", e);
+        }
+    }
+}
+
+function initSessionStorage() {
+    let token = sessionStorage.getItem(SESSION_KEY_TOKEN);
+    if (!token) {
+        token = "DOODLE-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+        sessionStorage.setItem(SESSION_KEY_TOKEN, token);
+    }
+    let savedRemaining = sessionStorage.getItem(SESSION_KEY_TIME);
+    sessionSecondsRemaining = savedRemaining ? parseInt(savedRemaining, 10) : 600;
+    startSessionCountdown();
+}
+
+function startSessionCountdown() {
+    if (sessionTimerInterval) clearInterval(sessionTimerInterval);
+    sessionTimerInterval = setInterval(() => {
+        sessionSecondsRemaining--;
+        sessionStorage.setItem(SESSION_KEY_TIME, sessionSecondsRemaining);
+        const mins = Math.floor(sessionSecondsRemaining / 60);
+        const secs = sessionSecondsRemaining % 60;
+        sessionTimerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        if (sessionSecondsRemaining <= 0) {
+            clearInterval(sessionTimerInterval);
+            alert("⏱️ Session hold expired! Your temporary ticket hold has timed out.");
+            resetSessionTimer();
+        }
+    }, 1000);
+}
+
+function resetSessionTimer() {
+    sessionSecondsRemaining = 600;
+    sessionStorage.setItem(SESSION_KEY_TIME, "600");
+    startSessionCountdown();
+    logEvent("STORAGE", "Session timer reset to 10:00.");
+}
+
+function refreshSessionPreview() {
+    updateStoragePreviews();
+    alert("🔍 SessionStorage inspector refreshed!");
+}
+
+function updateStoragePreviews() {
+    const rawLocal = localStorage.getItem(STORAGE_KEY_BOOKINGS);
+    if (rawLocal) {
+        localDataPreview.textContent = `Key: ${STORAGE_KEY_BOOKINGS}\nBytes: ${rawLocal.length}\nPreview:\n${rawLocal.substring(0, 120)}...`;
+    } else {
+        localDataPreview.innerHTML = `<span style="color:#64748B;">(localStorage is empty)</span>`;
+    }
+
+    const token = sessionStorage.getItem(SESSION_KEY_TOKEN);
+    const time = sessionStorage.getItem(SESSION_KEY_TIME);
+    if (token) {
+        sessionDataPreview.textContent = `Token: ${token}\nHold: ${time}s remaining\nStatus: Temporary`;
+    } else {
+        sessionDataPreview.innerHTML = `<span style="color:#64748B;">(sessionStorage is empty)</span>`;
+    }
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem(STORAGE_KEY_THEME, newTheme);
+    updateThemeButton(newTheme);
+    logEvent("THEME", `Theme toggled to ${newTheme} mode.`);
+}
+
+function updateThemeButton(theme) {
+    const btn = document.getElementById("themeToggleBtn");
+    if (btn) {
+        btn.innerHTML = theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+    }
+}
+
+function initTheme() {
+    const savedTheme = localStorage.getItem(STORAGE_KEY_THEME) || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    updateThemeButton(savedTheme);
+}
+
+function escapeHtml(str) {
+    if (!str) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+    </script>
+</body>
+</html>
