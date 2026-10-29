@@ -1,0 +1,33 @@
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "department": "Computer Science",
+        "marks": 85
+    },
+
+    {
+        "id": 2,
+        "name": "Jane Smith",
+        "department": "Electrical Engineering",
+        "marks": 92
+    },
+    {
+        "id": 3,
+        "name": "Michael Johnson",
+        "department": "Mechanical Engineering",
+        "marks": 78
+    },
+    {
+        "id": 4,
+        "name": "Emily Davis",
+        "department": "Civil Engineering",
+        "marks": 88
+    },
+    {
+        "id": 5,
+        "name": "William Brown",
+        "department": "Chemical Engineering",
+        "marks": 55
+    }
+]
