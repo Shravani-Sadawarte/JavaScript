@@ -1,0 +1,2595 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 10.2 - Online Music Concert Event Registration</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+/* ==========================================================================
+   PRACTICAL 10.2 - ONLINE MUSIC CONCERT REGISTRATION STYLESHEET
+   ========================================================================== */
+
+:root {
+    --primary: #ec4899;       /* Neon Pink */
+    --primary-hover: #db2777;
+    --primary-glow: rgba(236, 72, 153, 0.35);
+    --secondary: #06b6d4;     /* Electric Cyan */
+    --secondary-hover: #0891b2;
+    --accent: #10b981;        /* Emerald Green */
+    --accent-glow: rgba(16, 185, 129, 0.35);
+    --danger: #f43f5e;        /* Rose Red */
+    --danger-hover: #e11d48;
+    --purple: #8b5cf6;
+
+    --bg: #090b14;
+    --card-bg: rgba(18, 22, 38, 0.85);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --input-bg: rgba(10, 13, 24, 0.9);
+    --input-border: rgba(148, 163, 184, 0.2);
+    --input-focus: #ec4899;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+    --bg: #f3f4f8;
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --card-border: #e2e8f0;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --input-bg: #ffffff;
+    --input-border: #cbd5e1;
+    --input-focus: #ec4899;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', 'Space Grotesk', system-ui, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px;
+    line-height: 1.5;
+    position: relative;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ambient Neon Glows */
+.neon-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.3;
+}
+.glow-magenta {
+    width: 450px;
+    height: 450px;
+    background: #ec4899;
+    top: -50px;
+    left: -100px;
+}
+.glow-cyan {
+    width: 500px;
+    height: 500px;
+    background: #06b6d4;
+    top: 25%;
+    right: -150px;
+}
+.glow-purple {
+    width: 400px;
+    height: 400px;
+    background: #8b5cf6;
+    bottom: 50px;
+    left: 20%;
+}
+
+.app-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+.concert-header {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: 20px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.brand-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.live-pulse-badge {
+    background: linear-gradient(135deg, #f43f5e, #ec4899);
+    color: white;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    letter-spacing: 1px;
+    box-shadow: 0 0 15px var(--primary-glow);
+    animation: neonBlink 2.5s infinite alternate;
+}
+
+@keyframes neonBlink {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.2) drop-shadow(0 0 10px #ec4899); }
+}
+
+.brand-group h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-group .tagline {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.header-tools {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.seat-lock-badge {
+    background: rgba(236, 72, 153, 0.12);
+    color: #f472b6;
+    border: 1px solid rgba(236, 72, 153, 0.3);
+    padding: 7px 14px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Fira Code', monospace;
+}
+
+.pulse-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: #ec4899;
+    border-radius: 50%;
+    animation: pulseLock 1.2s infinite;
+}
+
+@keyframes pulseLock {
+    0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
+    70% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(236, 72, 153, 0); }
+    100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
+}
+
+.theme-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    color: var(--text);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(236, 72, 153, 0.15);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* Concept Bar */
+.concept-banner {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 12px;
+}
+
+.concept-title {
+    font-weight: 700;
+    color: var(--secondary);
+    margin-right: 4px;
+}
+
+.pill {
+    background: rgba(6, 182, 212, 0.12);
+    color: var(--secondary);
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   CONCERT GRID
+   ========================================================================== */
+.concert-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 960px) {
+    .concert-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Cards */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(16px);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+}
+
+.card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 12px;
+}
+
+.card-head h2, .card-head h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.section-badge {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 20px 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.step-num {
+    background: linear-gradient(135deg, var(--primary), var(--purple));
+    color: white;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+/* ==========================================================================
+   FORM ELEMENTS
+   ========================================================================== */
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+@media (max-width: 600px) {
+    .row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.field-col {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.req {
+    color: var(--danger);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: var(--text);
+    font-family: inherit;
+    outline: none;
+    transition: var(--transition);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* Validation states */
+input.invalid,
+select.invalid {
+    border-color: var(--danger) !important;
+    background-color: rgba(244, 63, 94, 0.05) !important;
+}
+
+input.valid,
+select.valid {
+    border-color: var(--accent) !important;
+}
+
+.err {
+    color: var(--danger);
+    font-size: 0.75rem;
+    margin-top: 4px;
+    min-height: 16px;
+    font-weight: 500;
+}
+
+.age-badge {
+    font-size: 0.75rem;
+    color: var(--secondary);
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.promo-hint {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.input-btn-combo {
+    display: flex;
+    gap: 8px;
+}
+
+.input-btn-combo input {
+    flex: 1;
+}
+
+/* Addons Selection Cards */
+.addons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+@media (max-width: 600px) {
+    .addons-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.addon-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.addon-card:hover {
+    border-color: var(--secondary);
+    background: rgba(6, 182, 212, 0.05);
+}
+
+.addon-card input[type="checkbox"] {
+    margin-top: 3px;
+    accent-color: var(--primary);
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+.addon-text strong {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text);
+}
+
+.addon-text span {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+}
+
+/* Radio chips */
+.radio-row {
+    display: flex;
+    gap: 10px;
+    padding-top: 6px;
+    flex-wrap: wrap;
+}
+
+.radio-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.84rem;
+    cursor: pointer;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+.radio-chip input[type="radio"] {
+    accent-color: var(--primary);
+}
+
+.radio-chip:hover {
+    border-color: var(--primary);
+}
+
+/* Conditional UPI */
+.upi-box {
+    background: rgba(236, 72, 153, 0.05);
+    border: 1px dashed rgba(236, 72, 153, 0.35);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    margin: 10px 0 16px 0;
+}
+
+/* Terms */
+.terms-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.terms-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.84rem;
+    cursor: pointer;
+}
+
+.terms-label input {
+    margin-top: 3px;
+    accent-color: var(--primary);
+}
+
+/* Buttons */
+.form-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--card-border);
+}
+
+.btn {
+    padding: 10px 22px;
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    color: white;
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+.btn-primary:hover {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--secondary);
+    color: white;
+}
+.btn-secondary:hover {
+    background: var(--secondary-hover);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--input-border);
+}
+.btn-outline:hover {
+    background: rgba(236, 72, 153, 0.1);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+.btn-danger:hover {
+    background: var(--danger-hover);
+}
+
+.btn-sm {
+    padding: 7px 14px;
+    font-size: 0.8rem;
+}
+
+.btn-xs {
+    padding: 4px 8px;
+    font-size: 0.74rem;
+    border-radius: 6px;
+}
+
+/* ==========================================================================
+   BILLING BREAKDOWN CARD
+   ========================================================================== */
+.bill-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bill-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+}
+
+.bill-grand-total {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--primary);
+    padding-top: 6px;
+}
+
+.neon-green {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.bill-line {
+    border: none;
+    border-top: 1px dashed var(--card-border);
+    margin: 4px 0;
+}
+
+.perk-box {
+    margin-top: 14px;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    color: var(--secondary);
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   STORAGE INSPECTION (PRACTICAL 9)
+   ========================================================================== */
+.storage-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 600px) {
+    .storage-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+.storage-box {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.storage-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.storage-caption {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.storage-content-display {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    padding: 8px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.72rem;
+    color: var(--text);
+    min-height: 70px;
+    max-height: 110px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.dim-text {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.storage-btn-group {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+/* ==========================================================================
+   LIVE EVENT FEED (PRACTICAL 7)
+   ========================================================================== */
+.console-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.event-feed {
+    background: #04060d;
+    color: #38bdf8;
+    border: 1px solid #1e293b;
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.74rem;
+    height: 170px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse; /* Newest on top */
+    gap: 5px;
+}
+
+.feed-entry {
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.feed-entry .time {
+    color: #64748b;
+}
+
+.feed-entry.sys-log {
+    color: #c084fc;
+}
+
+.feed-entry.ok-log {
+    color: #4ade80;
+}
+
+.feed-entry.fail-log {
+    color: #f87171;
+}
+
+/* ==========================================================================
+   TABLE SECTION & FILTERS (PRACTICALS 2, 5, 7, 8)
+   ========================================================================== */
+.table-head-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.count-badges {
+    display: flex;
+    gap: 10px;
+}
+
+.search-bar-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-input-wrap {
+    flex: 1;
+    min-width: 220px;
+}
+
+.search-input-wrap input {
+    width: 100%;
+}
+
+.table-container {
+    overflow-x: auto;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+}
+
+.concert-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    text-align: left;
+}
+
+.concert-table th {
+    background: rgba(236, 72, 153, 0.08);
+    color: var(--primary);
+    font-weight: 700;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--card-border);
+    white-space: nowrap;
+}
+
+.concert-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--card-border);
+    vertical-align: middle;
+}
+
+.concert-table tbody tr:hover {
+    background-color: rgba(236, 72, 153, 0.05);
+}
+
+.empty-state-cell {
+    padding: 30px !important;
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.table-btns {
+    display: flex;
+    gap: 6px;
+}
+
+/* Badges */
+.badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+}
+.badge-neon { background: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+.badge-accent { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+.badge-info { background: rgba(6, 182, 212, 0.2); color: #38bdf8; }
+.badge-success { background: #dcfce7; color: #15803d; }
+.badge-persistent { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+.badge-session { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+
+/* ==========================================================================
+   PRINTABLE VIP CONCERT PASS (PRACTICAL 2)
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 20px;
+}
+
+.modal-box {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    width: 100%;
+    max-width: 600px;
+    padding: 24px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.modal-x {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.vip-pass {
+    background: linear-gradient(135deg, #180828, #3b0764, #1e1b4b);
+    color: white;
+    border-radius: var(--radius-md);
+    padding: 24px;
+    border: 2px dashed #ec4899;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.vip-pass-head {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+}
+
+.vip-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #f472b6;
+}
+
+.vip-id {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+}
+
+.vip-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    font-size: 0.85rem;
+}
+
+.vip-cell span {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+}
+
+.vip-cell strong {
+    font-size: 0.95rem;
+    color: #ffffff;
+}
+
+.vip-barcode {
+    margin-top: 18px;
+    text-align: center;
+    letter-spacing: 6px;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.3rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.modal-bottom {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    border-top: 1px solid var(--card-border);
+    padding-top: 14px;
+}
+
+/* Footer */
+.concert-footer {
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    padding: 20px 0;
+}
+
+/* Print Specific Media Query */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #concertPassModal, #concertPassModal * {
+        visibility: visible;
+    }
+    #concertPassModal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: none;
+        padding: 0;
+    }
+    .modal-box {
+        border: none;
+        box-shadow: none;
+        width: 100%;
+        max-width: 100%;
+    }
+    .modal-top .modal-x, .modal-bottom {
+        display: none !important;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Neon Ambient Glows -->
+    <div class="neon-glow glow-magenta"></div>
+    <div class="neon-glow glow-cyan"></div>
+    <div class="neon-glow glow-purple"></div>
+
+    <div class="app-container">
+
+        <!-- Top Navigation Header -->
+        <header class="concert-header">
+            <div class="brand-group">
+                <div class="live-pulse-badge">LIVE ARENA</div>
+                <div>
+                    <h1>Online Music Concert Event Registration</h1>
+                    <p class="tagline">Practical 10.2 &bull; World Tour & Arena Concert Booking Portal</p>
+                </div>
+            </div>
+
+            <div class="header-tools">
+                <!-- 15-Minute Seat Lock Session Timer (sessionStorage) -->
+                <div class="seat-lock-badge" id="seatLockTimerBox" title="Temporary Seat Lock Held in Session Storage">
+                    <span class="pulse-indicator"></span>
+                    <span>Seat Lock: <strong id="seatLockTimer">15:00</strong></span>
+                </div>
+                <!-- Neon Theme Toggle (localStorage) -->
+                <button class="theme-toggle-btn" id="themeBtn" onclick="toggleTheme()">
+                    ☀️ Festival Light
+                </button>
+            </div>
+        </header>
+
+        <!-- Concept Badges Banner -->
+        <div class="concept-banner">
+            <span class="concept-title">Key JS Concepts:</span>
+            <span class="pill">Event Stream (Focus/Blur/Input/Change/Mouse)</span>
+            <span class="pill">sessionStorage (Seat Lock) & localStorage (Bookings)</span>
+            <span class="pill">Array Methods (push, filter, map, reduce, splice)</span>
+            <span class="pill">Regex & String Methods</span>
+            <span class="pill">DOM Traversal & Node Manipulation</span>
+            <span class="pill">console.table & console.time</span>
+        </div>
+
+        <!-- Main Workspace Grid -->
+        <div class="concert-grid">
+
+            <!-- LEFT: CONCERT REGISTRATION FORM -->
+            <div class="card form-panel">
+                <div class="card-head">
+                    <h2>🎸 Concert Pass Registration</h2>
+                    <span class="badge badge-neon">Live Ticket Counter</span>
+                </div>
+
+                <form id="concertRegForm" novalidate>
+
+                    <!-- STEP 1: ATTENDEE CREDENTIALS -->
+                    <div class="section-badge">
+                        <span class="step-num">1</span> Attendee Information & Age Check
+                    </div>
+
+                    <div class="row">
+                        <div class="field-col">
+                            <label for="attendeeName">Full Name <span class="req">*</span></label>
+                            <input type="text" id="attendeeName" placeholder="e.g. Vedant Nawghare" autocomplete="off">
+                            <span class="err" id="nameError"></span>
+                        </div>
+
+                        <div class="field-col">
+                            <label for="attendeeDob">Date of Birth (18+ Required) <span class="req">*</span></label>
+                            <input type="date" id="attendeeDob">
+                            <span class="err" id="dobError"></span>
+                            <span class="age-badge" id="calculatedAge"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="field-col">
+                            <label for="attendeeEmail">Email Address <span class="req">*</span></label>
+                            <input type="email" id="attendeeEmail" placeholder="e.g. vedant@example.com" autocomplete="off">
+                            <span class="err" id="emailError"></span>
+                        </div>
+
+                        <div class="field-col">
+                            <label for="attendeePhone">Phone Number (10 digits) <span class="req">*</span></label>
+                            <input type="tel" id="attendeePhone" placeholder="10-digit mobile" maxlength="10" autocomplete="off">
+                            <span class="err" id="phoneError"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="field-col">
+                            <label for="attendeeCity">City / State <span class="req">*</span></label>
+                            <input type="text" id="attendeeCity" placeholder="e.g. Nagpur, Maharashtra" autocomplete="off">
+                            <span class="err" id="cityError"></span>
+                        </div>
+
+                        <div class="field-col">
+                            <label for="emergencyContact">Emergency Contact (Name & Phone) <span class="req">*</span></label>
+                            <input type="text" id="emergencyContact" placeholder="e.g. Parent / Friend (9876543210)">
+                            <span class="err" id="emergencyError"></span>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: CONCERT & ZONE SELECTION -->
+                    <div class="section-badge">
+                        <span class="step-num">2</span> Concert Tour & Seating Zone
+                    </div>
+
+                    <div class="row">
+                        <div class="field-col">
+                            <label for="concertTour">Select Concert Event / Tour <span class="req">*</span></label>
+                            <select id="concertTour">
+                                <option value="">-- Choose Concert Event --</option>
+                                <option value="Coldplay - Music of the Spheres Tour" data-price="2499">Coldplay - Music of the Spheres Tour (₹2,499)</option>
+                                <option value="Arijit Singh - Soulful Symphony Live" data-price="1999">Arijit Singh - Soulful Symphony Live (₹1,999)</option>
+                                <option value="Sunburn Arena Goa - EDM Showcase" data-price="2999">Sunburn Arena Goa - EDM Showcase (₹2,999)</option>
+                                <option value="Diljit Dosanjh - Dil-Luminati Tour 2026" data-price="2199">Diljit Dosanjh - Dil-Luminati Tour 2026 (₹2,199)</option>
+                                <option value="Imagine Dragons - Loom World Tour" data-price="2799">Imagine Dragons - Loom World Tour (₹2,799)</option>
+                            </select>
+                            <span class="err" id="concertError"></span>
+                        </div>
+
+                        <div class="field-col">
+                            <label for="venueCity">City Arena / Stadium <span class="req">*</span></label>
+                            <select id="venueCity">
+                                <option value="">-- Select Stadium / Arena --</option>
+                                <option value="Mumbai (DY Patil Sports Stadium)">Mumbai (DY Patil Sports Stadium)</option>
+                                <option value="Delhi NCR (Jawaharlal Nehru Stadium)">Delhi NCR (Jawaharlal Nehru Stadium)</option>
+                                <option value="Bengaluru (Palace Grounds Live Arena)">Bengaluru (Palace Grounds Live Arena)</option>
+                                <option value="Goa (Vagator Beach Arena)">Goa (Vagator Beach Arena)</option>
+                            </select>
+                            <span class="err" id="venueError"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="field-col">
+                            <label for="seatingZone">Seating / Standing Zone <span class="req">*</span></label>
+                            <select id="seatingZone">
+                                <option value="General Standing" data-multiplier="1">General Standing (Floor Area) (1.0x)</option>
+                                <option value="Silver Seated" data-multiplier="1.5">Silver Seated (Lower Tier Grandstand) (1.5x)</option>
+                                <option value="Gold Fan-Pit" data-multiplier="2.2">Gold Fan-Pit (Front Row Stage Access) (2.2x)</option>
+                                <option value="Platinum VIP Lounge" data-multiplier="3.5">Platinum VIP Lounge (+ Backstage Pass) (3.5x)</option>
+                            </select>
+                            <span class="err" id="zoneError"></span>
+                        </div>
+
+                        <div class="field-col">
+                            <label for="passQuantity">Number of Passes (Max 6) <span class="req">*</span></label>
+                            <input type="number" id="passQuantity" min="1" max="6" value="1">
+                            <span class="err" id="qtyError"></span>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: CONCERT MERCH & VIP ADD-ONS (CHECKBOXES) -->
+                    <div class="section-badge">
+                        <span class="step-num">3</span> VIP Experience & Tour Add-Ons
+                    </div>
+
+                    <div class="addons-grid">
+                        <label class="addon-card">
+                            <input type="checkbox" id="addonTshirt" class="addon-checkbox" data-fee="799">
+                            <div class="addon-text">
+                                <strong>👕 Official Tour T-Shirt</strong>
+                                <span>Limited edition concert apparel (+₹799)</span>
+                            </div>
+                        </label>
+
+                        <label class="addon-card">
+                            <input type="checkbox" id="addonParking" class="addon-checkbox" data-fee="499">
+                            <div class="addon-text">
+                                <strong>🚗 VIP Fast-Track & Parking</strong>
+                                <span>Priority gate entry & reserved valet (+₹499)</span>
+                            </div>
+                        </label>
+
+                        <label class="addon-card">
+                            <input type="checkbox" id="addonFood" class="addon-checkbox" data-fee="599">
+                            <div class="addon-text">
+                                <strong>🍔 F&B Festival Pass</strong>
+                                <span>Unlimited craft beverage & food voucher (+₹599)</span>
+                            </div>
+                        </label>
+
+                        <label class="addon-card">
+                            <input type="checkbox" id="addonAfterparty" class="addon-checkbox" data-fee="1999">
+                            <div class="addon-text">
+                                <strong>🎧 Artist After-Party Pass</strong>
+                                <span>Exclusive club entry with DJ lineup (+₹1,999)</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- STEP 4: PROMO CODE & PAYMENT METHOD -->
+                    <div class="section-badge">
+                        <span class="step-num">4</span> Promo Code & Payment Options
+                    </div>
+
+                    <div class="row">
+                        <div class="field-col">
+                            <label for="promoInput">Promo / Discount Code</label>
+                            <div class="input-btn-combo">
+                                <input type="text" id="promoInput" placeholder="e.g. ROCKON, LIVE2026, VIP500" autocomplete="off">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="applyPromo()">Apply</button>
+                            </div>
+                            <span class="promo-hint" id="promoHint">Codes: <code>ROCKON</code> (₹200 off), <code>LIVE2026</code> (15% off), <code>VIP500</code> (₹500 off on ₹3500+)</span>
+                        </div>
+
+                        <div class="field-col">
+                            <label>Payment Mode <span class="req">*</span></label>
+                            <div class="radio-row">
+                                <label class="radio-chip">
+                                    <input type="radio" name="concertPayMode" value="UPI" checked onchange="toggleConcertPayment()">
+                                    UPI (Instant)
+                                </label>
+                                <label class="radio-chip">
+                                    <input type="radio" name="concertPayMode" value="Credit/Debit Card" onchange="toggleConcertPayment()">
+                                    Card
+                                </label>
+                                <label class="radio-chip">
+                                    <input type="radio" name="concertPayMode" value="Net Banking" onchange="toggleConcertPayment()">
+                                    NetBanking
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conditional UPI App & ID Box (Practical 2) -->
+                    <div id="concertUpiBox" class="upi-box">
+                        <div class="row">
+                            <div class="field-col">
+                                <label for="upiProvider">UPI Payment Application</label>
+                                <select id="upiProvider" onchange="toggleCustomUpiField()">
+                                    <option value="Google Pay">Google Pay (GPay)</option>
+                                    <option value="PhonePe">PhonePe</option>
+                                    <option value="Paytm">Paytm UPI</option>
+                                    <option value="other">Other UPI Handle / ID</option>
+                                </select>
+                            </div>
+                            <div class="field-col" id="customVpaContainer" style="display: none;">
+                                <label for="customVpa">Enter Custom UPI ID</label>
+                                <input type="text" id="customVpa" placeholder="rockstar@okaxis">
+                                <span class="err" id="vpaError"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Age & Terms Verification -->
+                    <div class="terms-block">
+                        <label class="terms-label">
+                            <input type="checkbox" id="ageConsent">
+                            I verify that I am at least 18 years of age and will present official government photo ID at the stadium gate <span class="req">*</span>
+                        </label>
+                        <span class="err" id="ageConsentError"></span>
+
+                        <label class="terms-label">
+                            <input type="checkbox" id="termsConsent">
+                            I agree to the Event Entry Terms, zero contraband policy, and ticket transfer conditions <span class="req">*</span>
+                        </label>
+                        <span class="err" id="termsConsentError"></span>
+                    </div>
+
+                    <!-- Form Controls -->
+                    <div class="form-btn-row">
+                        <button type="submit" class="btn btn-primary" id="bookPassBtn">
+                            🎟️ Confirm & Register Concert Pass
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="saveConcertDraft()">
+                            💾 Save Draft (localStorage)
+                        </button>
+                        <button type="reset" class="btn btn-outline">
+                            🔄 Clear Form
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- RIGHT: PRICE CALCULATOR, STORAGE MANAGER & LIVE STREAM -->
+            <div class="side-panel">
+
+                <!-- 1. LIVE CONCERT BILLING SUMMARY (Practicals 2 & 5) -->
+                <div class="card bill-panel">
+                    <div class="card-head">
+                        <h3>🧾 Concert Pass Billing</h3>
+                        <span class="badge badge-accent">Auto-Calculation</span>
+                    </div>
+
+                    <div class="bill-list">
+                        <div class="bill-item">
+                            <span>Selected Tour:</span>
+                            <strong id="summaryTour">None selected</strong>
+                        </div>
+                        <div class="bill-item">
+                            <span>Zone Tier:</span>
+                            <span id="summaryZone">General Standing</span>
+                        </div>
+                        <div class="bill-item">
+                            <span>Base Rate &times; Quantity:</span>
+                            <span id="summaryBasePrice">₹0.00</span>
+                        </div>
+                        <div class="bill-item">
+                            <span>Add-ons Total:</span>
+                            <span id="summaryAddons">₹0.00</span>
+                        </div>
+                        <div class="bill-item">
+                            <span>Promo Discount:</span>
+                            <span class="neon-green" id="summaryPromo">- ₹0.00</span>
+                        </div>
+                        <div class="bill-item">
+                            <span>GST (18%) & Entertainment Tax:</span>
+                            <span id="summaryGst">₹0.00</span>
+                        </div>
+                        <hr class="bill-line">
+                        <div class="bill-item bill-grand-total">
+                            <span>Total Payable:</span>
+                            <strong class="grand-price" id="summaryGrandTotal">₹0.00</strong>
+                        </div>
+                    </div>
+
+                    <div class="perk-box" id="vipPerkBox">
+                        ⚡ Tip: Book 3 or more passes to receive complimentary Concert Wristbands & Glow Sticks!
+                    </div>
+                </div>
+
+                <!-- 2. DUAL WEB STORAGE INSPECTOR (Practical 9) -->
+                <div class="card storage-panel">
+                    <div class="card-head">
+                        <h3>📦 Web Storage Monitor</h3>
+                        <span class="badge badge-info">localStorage vs sessionStorage</span>
+                    </div>
+
+                    <div class="storage-columns">
+                        <!-- Local Storage Monitor -->
+                        <div class="storage-box">
+                            <div class="storage-title-row">
+                                <strong>📂 LocalStorage</strong>
+                                <span class="badge badge-persistent">Persistent</span>
+                            </div>
+                            <p class="storage-caption">Saves confirmed concert attendees permanently across refreshes.</p>
+                            <div class="storage-content-display" id="localDisplay">
+                                <span class="dim-text">(empty)</span>
+                            </div>
+                            <div class="storage-btn-group">
+                                <button class="btn btn-outline btn-xs" onclick="loadConcertRegistrations()">📥 Reload</button>
+                                <button class="btn btn-danger btn-xs" onclick="clearConcertStorage()">🗑️ Clear</button>
+                            </div>
+                        </div>
+
+                        <!-- Session Storage Monitor -->
+                        <div class="storage-box">
+                            <div class="storage-title-row">
+                                <strong>⏱️ SessionStorage</strong>
+                                <span class="badge badge-session">Temporary</span>
+                            </div>
+                            <p class="storage-caption">Maintains temporary 15-min seat lock. Cleared when tab closes.</p>
+                            <div class="storage-content-display" id="sessionDisplay">
+                                <span class="dim-text">(Session active)</span>
+                            </div>
+                            <div class="storage-btn-group">
+                                <button class="btn btn-outline btn-xs" onclick="updateStoragePreviews()">🔍 Inspect</button>
+                                <button class="btn btn-secondary btn-xs" onclick="resetSeatLockTimer()">⏱️ Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. LIVE EVENT STREAM CONSOLE (Practical 7) -->
+                <div class="card event-console-panel">
+                    <div class="card-head">
+                        <h3>📡 Live Event Stream Monitor</h3>
+                        <div style="display: flex; gap: 8px;">
+                            <span class="badge badge-success">Active</span>
+                            <button class="btn btn-outline btn-xs" onclick="clearEventLogs()">Clear</button>
+                        </div>
+                    </div>
+                    <p class="console-desc">Streams all UI events (focus, blur, input, change, mouseover, mouseout, submit, reset) in real-time.</p>
+                    <div class="event-feed" id="eventFeed">
+                        <div class="feed-entry sys-log">[System] Event stream initialized. Ready.</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div> <!-- End of concert-grid -->
+
+        <!-- SECTION: REGISTERED ATTENDEES TABLE (Practicals 2, 5, 7, 8) -->
+        <div class="card records-panel">
+            <div class="card-head table-head-wrap">
+                <div>
+                    <h2>📋 Registered Concert Attendees Registry</h2>
+                    <p class="tagline">Dynamic DOM table with array methods, instant filtering, and pass printing</p>
+                </div>
+                <div class="count-badges">
+                    <span class="badge badge-neon" id="totalPassesBadge">Total Passes: 0</span>
+                    <span class="badge badge-accent" id="totalSalesBadge">Total Sales: ₹0</span>
+                </div>
+            </div>
+
+            <!-- SEARCH & FILTER TOOLBAR (Practical 8.2) -->
+            <div class="search-bar-row">
+                <div class="search-input-wrap">
+                    <input type="text" id="concertSearch" placeholder="🔍 Search by Attendee Name, Pass ID, Email, or City..." oninput="filterConcertTable()">
+                </div>
+                <div class="filter-select-wrap">
+                    <select id="filterTour" onchange="filterConcertTable()">
+                        <option value="all">All Concert Tours</option>
+                        <option value="Coldplay - Music of the Spheres Tour">Coldplay World Tour</option>
+                        <option value="Arijit Singh - Soulful Symphony Live">Arijit Singh Symphony</option>
+                        <option value="Sunburn Arena Goa - EDM Showcase">Sunburn Arena Goa</option>
+                        <option value="Diljit Dosanjh - Dil-Luminati Tour 2026">Diljit Dosanjh Tour</option>
+                        <option value="Imagine Dragons - Loom World Tour">Imagine Dragons Tour</option>
+                    </select>
+                </div>
+                <div class="filter-select-wrap">
+                    <select id="filterZone" onchange="filterConcertTable()">
+                        <option value="all">All Zones</option>
+                        <option value="General Standing">General Standing</option>
+                        <option value="Silver Seated">Silver Seated</option>
+                        <option value="Gold Fan-Pit">Gold Fan-Pit</option>
+                        <option value="Platinum VIP Lounge">Platinum VIP Lounge</option>
+                    </select>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="resetConcertFilters()">Reset</button>
+                <button class="btn btn-secondary btn-sm" onclick="exportConcertConsole()">📊 Console Analytics</button>
+            </div>
+
+            <!-- Registered Table -->
+            <div class="table-container">
+                <table class="concert-table" id="concertTable">
+                    <thead>
+                        <tr>
+                            <th>Pass ID / Date</th>
+                            <th>Attendee & Contact</th>
+                            <th>Concert Tour & Venue</th>
+                            <th>Zone Tier</th>
+                            <th>Add-ons</th>
+                            <th>Qty</th>
+                            <th>Total Paid</th>
+                            <th>Actions (DOM)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="concertTableBody">
+                        <tr id="emptyConcertRow">
+                            <td colspan="8" class="empty-state-cell">
+                                No concert passes issued yet. Fill in the registration form above to secure your arena entry pass!
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PRINTABLE CONCERT VIP PASS MODAL (Practical 2) -->
+        <div id="concertPassModal" class="modal-overlay" style="display: none;">
+            <div class="modal-box">
+                <div class="modal-top">
+                    <h3>🎸 Official Arena Concert Admission Pass</h3>
+                    <button class="modal-x" onclick="closeConcertModal()">&times;</button>
+                </div>
+
+                <div class="ticket-view-area" id="printableConcertTicket">
+                    <!-- Dynamic VIP Concert Ticket Injected Here -->
+                </div>
+
+                <div class="modal-bottom">
+                    <button class="btn btn-primary" onclick="printConcertTicket()">🖨️ Print VIP Pass</button>
+                    <button class="btn btn-outline" onclick="closeConcertModal()">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="concert-footer">
+            <p>Practical 10.2 &bull; Online Music Concert Event Registration System</p>
+            <p class="dim-text">JavaScript Case Study Web Application &bull; Vedant Nawghare (PRN: 24070521047)</p>
+        </footer>
+
+    </div>
+
+    <!-- Script File -->
+    <script>
+/**
+ * ==============================================================================
+ * PRACTICAL 10.2 - ONLINE MUSIC CONCERT EVENT REGISTRATION SYSTEM
+ * ==============================================================================
+ * 
+ * Curriculum Concepts Integrated:
+ * - Practical 1: alert(), console.table(), console.time(), console.timeEnd()
+ * - Practical 2: Dynamic billing calculation, pass IDs, promo discounts, 18% GST, 
+ *                conditional UPI payment toggle, printable VIP pass (window.print())
+ * - Practical 5: Arrays of objects, push(), forEach(), map(), filter(), reduce(), splice()
+ * - Practical 6: String methods (split, match, replace, indexOf, trim, toUpperCase) & RegEx
+ * - Practical 7: Form events (focus, blur, input, change, mouseover, mouseout, submit, reset),
+ *                Live event console feed, DOM node creation & traversal (parentElement, children)
+ * - Practical 8: Live search & category filtering, dynamic counter badge, empty state
+ * - Practical 9: Web Storage API: localStorage (persistent) vs sessionStorage (temporary seat lock)
+ * ==============================================================================
+ */
+
+// ==============================================================================
+// 1. STORAGE KEYS & GLOBAL VARIABLES
+// ==============================================================================
+const STORAGE_KEY_CONCERT_REG = "live_concert_registrations_v1";
+const STORAGE_KEY_CONCERT_DRAFT = "live_concert_draft_v1";
+const STORAGE_KEY_CONCERT_THEME = "live_concert_theme_v1";
+const SESSION_KEY_SEAT_TOKEN = "live_concert_seat_token";
+const SESSION_KEY_SEAT_TIME = "live_concert_seat_remaining";
+
+// Array of registered concert passes (Practical 5)
+let concertAttendees = [];
+
+// Session Storage 15-minute Seat Lock Timer
+let seatLockRemaining = 900; // 15 minutes (900 seconds)
+let seatLockInterval = null;
+
+// Promo coupon state
+let activeConcertPromo = "";
+let concertPromoDiscount = 0;
+
+// ==============================================================================
+// 2. DOM ELEMENT REFERENCES
+// ==============================================================================
+const concertRegForm = document.getElementById("concertRegForm");
+const attendeeNameInput = document.getElementById("attendeeName");
+const attendeeDobInput = document.getElementById("attendeeDob");
+const calculatedAgeSpan = document.getElementById("calculatedAge");
+const attendeeEmailInput = document.getElementById("attendeeEmail");
+const attendeePhoneInput = document.getElementById("attendeePhone");
+const attendeeCityInput = document.getElementById("attendeeCity");
+const emergencyContactInput = document.getElementById("emergencyContact");
+
+const concertTourSelect = document.getElementById("concertTour");
+const venueCitySelect = document.getElementById("venueCity");
+const seatingZoneSelect = document.getElementById("seatingZone");
+const passQuantityInput = document.getElementById("passQuantity");
+
+// Addon Checkboxes
+const addonCheckboxes = document.querySelectorAll(".addon-checkbox");
+
+const promoInput = document.getElementById("promoInput");
+const promoHint = document.getElementById("promoHint");
+const concertUpiBox = document.getElementById("concertUpiBox");
+const upiProviderSelect = document.getElementById("upiProvider");
+const customVpaContainer = document.getElementById("customVpaContainer");
+const customVpaInput = document.getElementById("customVpa");
+
+const ageConsentCheckbox = document.getElementById("ageConsent");
+const termsConsentCheckbox = document.getElementById("termsConsent");
+const bookPassBtn = document.getElementById("bookPassBtn");
+const eventFeed = document.getElementById("eventFeed");
+
+// Badges & Tables
+const totalPassesBadge = document.getElementById("totalPassesBadge");
+const totalSalesBadge = document.getElementById("totalSalesBadge");
+const localDisplay = document.getElementById("localDisplay");
+const sessionDisplay = document.getElementById("sessionDisplay");
+const seatLockTimerDisplay = document.getElementById("seatLockTimer");
+const concertTableBody = document.getElementById("concertTableBody");
+const emptyConcertRow = document.getElementById("emptyConcertRow");
+
+// Billing Summary Display
+const summaryTour = document.getElementById("summaryTour");
+const summaryZone = document.getElementById("summaryZone");
+const summaryBasePrice = document.getElementById("summaryBasePrice");
+const summaryAddons = document.getElementById("summaryAddons");
+const summaryPromo = document.getElementById("summaryPromo");
+const summaryGst = document.getElementById("summaryGst");
+const summaryGrandTotal = document.getElementById("summaryGrandTotal");
+
+// ==============================================================================
+// 3. INITIALIZATION & STORAGE (Practical 9)
+// ==============================================================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.time("ConcertAppInit");
+    logConcertEvent("SYSTEM", "Concert Registration Application initialized.");
+
+    // 1. Theme initialization from localStorage
+    initTheme();
+
+    // 2. 15-minute Seat Lock in sessionStorage
+    initSeatLockSession();
+
+    // 3. Load registrations from localStorage
+    loadConcertRegistrations();
+
+    // 4. Restore draft if present
+    restoreConcertDraft();
+
+    // 5. Attach Event Listeners
+    attachConcertListeners();
+
+    // 6. Calculate initial billing
+    calculateConcertBilling();
+
+    // 7. Update storage monitors
+    updateStoragePreviews();
+
+    console.timeEnd("ConcertAppInit");
+});
+
+// ==============================================================================
+// 4. EVENT FEED STREAM (Practical 7)
+// ==============================================================================
+function logConcertEvent(type, message) {
+    const timestamp = new Date().toLocaleTimeString();
+    const entry = document.createElement("div");
+    entry.className = "feed-entry";
+
+    let extraClass = "";
+    if (type === "REGISTER_SUCCESS") extraClass = "ok-log";
+    else if (type === "ERROR" || type === "VALIDATION_FAIL") extraClass = "fail-log";
+    else if (type === "SYSTEM" || type === "STORAGE") extraClass = "sys-log";
+
+    if (extraClass) entry.classList.add(extraClass);
+
+    entry.innerHTML = `<span class="time">[${timestamp}]</span> <strong>${type}:</strong> ${escapeHtml(message)}`;
+    eventFeed.insertBefore(entry, eventFeed.firstChild);
+
+    if (eventFeed.children.length > 40) {
+        eventFeed.removeChild(eventFeed.lastChild);
+    }
+}
+
+function clearEventLogs() {
+    eventFeed.innerHTML = `<div class="feed-entry sys-log">[System] Event feed cleared.</div>`;
+}
+
+// ==============================================================================
+// 5. REGEX & FORM VALIDATIONS (Practicals 6 & 7)
+// ==============================================================================
+function setFieldErr(el, errId, msg) {
+    const span = document.getElementById(errId);
+    if (span) span.textContent = msg;
+    el.classList.add("invalid");
+    el.classList.remove("valid");
+}
+
+function setFieldOk(el, errId) {
+    const span = document.getElementById(errId);
+    if (span) span.textContent = "";
+    el.classList.remove("invalid");
+    el.classList.add("valid");
+}
+
+// Attendee Name: Alphabetic letters and spaces only (Regex Practical 6)
+function validateName() {
+    const val = attendeeNameInput.value.trim();
+    const nameRegex = /^[A-Za-z\s]{3,35}$/;
+
+    if (val === "") {
+        setFieldErr(attendeeNameInput, "nameError", "Attendee full name is required.");
+        return false;
+    } else if (!nameRegex.test(val)) {
+        setFieldErr(attendeeNameInput, "nameError", "Only alphabetic letters & spaces allowed (3-35 chars).");
+        return false;
+    }
+    setFieldOk(attendeeNameInput, "nameError");
+    return true;
+}
+
+// Date of Birth: Must be 18+ for concert entry (Practical 7 age calculation)
+function validateDob() {
+    const val = attendeeDobInput.value;
+    if (val === "") {
+        setFieldErr(attendeeDobInput, "dobError", "Date of Birth is required.");
+        calculatedAgeSpan.textContent = "";
+        return false;
+    }
+
+    const birthDate = new Date(val);
+    const today = new Date();
+
+    if (birthDate > today) {
+        setFieldErr(attendeeDobInput, "dobError", "Date of birth cannot be in the future.");
+        calculatedAgeSpan.textContent = "";
+        return false;
+    }
+
+    // Dynamic Age Calculation
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    if (age < 18) {
+        setFieldErr(attendeeDobInput, "dobError", `Age is ${age}. Strictly 18+ required for concert arena entry.`);
+        calculatedAgeSpan.textContent = `(Age: ${age} - Underage Entry Prohibited)`;
+        calculatedAgeSpan.style.color = "var(--danger)";
+        return false;
+    }
+
+    setFieldOk(attendeeDobInput, "dobError");
+    calculatedAgeSpan.textContent = `Verified Age: ${age} years old (Eligible for Arena Entry)`;
+    calculatedAgeSpan.style.color = "var(--secondary)";
+    return true;
+}
+
+// Email Regex (Practical 6)
+function validateEmail() {
+    const val = attendeeEmailInput.value.trim();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (val === "") {
+        setFieldErr(attendeeEmailInput, "emailError", "Email address is required for e-ticket delivery.");
+        return false;
+    } else if (!emailRegex.test(val)) {
+        setFieldErr(attendeeEmailInput, "emailError", "Enter a valid email address (e.g. user@domain.com).");
+        return false;
+    }
+    setFieldOk(attendeeEmailInput, "emailError");
+    return true;
+}
+
+// Phone Number Regex: Indian 10-digit mobile
+function validatePhone() {
+    const val = attendeePhoneInput.value.trim();
+    const phoneRegex = /^[6-9]\d{9}$/;
+
+    if (val === "") {
+        setFieldErr(attendeePhoneInput, "phoneError", "Mobile number is required for SMS ticket passes.");
+        return false;
+    } else if (!phoneRegex.test(val)) {
+        setFieldErr(attendeePhoneInput, "phoneError", "Enter valid 10-digit mobile number starting with 6-9.");
+        return false;
+    }
+    setFieldOk(attendeePhoneInput, "phoneError");
+    return true;
+}
+
+// City / State
+function validateCity() {
+    const val = attendeeCityInput.value.trim();
+    if (val.length < 2) {
+        setFieldErr(attendeeCityInput, "cityError", "Please enter your city/state.");
+        return false;
+    }
+    setFieldOk(attendeeCityInput, "cityError");
+    return true;
+}
+
+// Emergency Contact
+function validateEmergency() {
+    const val = emergencyContactInput.value.trim();
+    if (val.length < 5) {
+        setFieldErr(emergencyContactInput, "emergencyError", "Emergency contact name & phone required.");
+        return false;
+    }
+    setFieldOk(emergencyContactInput, "emergencyError");
+    return true;
+}
+
+// Concert Event
+function validateConcert() {
+    if (concertTourSelect.value === "") {
+        setFieldErr(concertTourSelect, "concertError", "Please select a concert tour event.");
+        return false;
+    }
+    setFieldOk(concertTourSelect, "concertError");
+    return true;
+}
+
+// Venue City
+function validateVenue() {
+    if (venueCitySelect.value === "") {
+        setFieldErr(venueCitySelect, "venueError", "Please choose a venue arena / stadium.");
+        return false;
+    }
+    setFieldOk(venueCitySelect, "venueError");
+    return true;
+}
+
+// Seating Zone
+function validateZone() {
+    if (seatingZoneSelect.value === "") {
+        setFieldErr(seatingZoneSelect, "zoneError", "Please choose a seating zone.");
+        return false;
+    }
+    setFieldOk(seatingZoneSelect, "zoneError");
+    return true;
+}
+
+// Pass Quantity
+function validateQuantity() {
+    const val = Number(passQuantityInput.value);
+    if (isNaN(val) || val < 1 || val > 6) {
+        setFieldErr(passQuantityInput, "qtyError", "Quantity must be between 1 and 6 passes.");
+        return false;
+    }
+    setFieldOk(passQuantityInput, "qtyError");
+    return true;
+}
+
+// Custom UPI validation
+function validateCustomVpa() {
+    const selectedPayRadio = document.querySelector('input[name="concertPayMode"]:checked');
+    if (selectedPayRadio && selectedPayRadio.value === "UPI" && upiProviderSelect.value === "other") {
+        const val = customVpaInput.value.trim();
+        const vpaRegex = /^[\w.-]+@[\w.-]+$/;
+        if (val === "" || !vpaRegex.test(val)) {
+            setFieldErr(customVpaInput, "vpaError", "Please enter a valid UPI VPA handle (e.g. name@bank).");
+            return false;
+        }
+        setFieldOk(customVpaInput, "vpaError");
+    }
+    return true;
+}
+
+// Age & Terms Checkboxes
+function validateConsents() {
+    let valid = true;
+    const ageErr = document.getElementById("ageConsentError");
+    const termsErr = document.getElementById("termsConsentError");
+
+    if (!ageConsentCheckbox.checked) {
+        ageErr.textContent = "You must confirm you are at least 18 years of age.";
+        valid = false;
+    } else {
+        ageErr.textContent = "";
+    }
+
+    if (!termsConsentCheckbox.checked) {
+        termsErr.textContent = "You must agree to the Concert Arena Entry Regulations.";
+        valid = false;
+    } else {
+        termsErr.textContent = "";
+    }
+
+    return valid;
+}
+
+// Full Form Verification
+function validateAllConcertFields() {
+    const c1 = validateName();
+    const c2 = validateDob();
+    const c3 = validateEmail();
+    const c4 = validatePhone();
+    const c5 = validateCity();
+    const c6 = validateEmergency();
+    const c7 = validateConcert();
+    const c8 = validateVenue();
+    const c9 = validateZone();
+    const c10 = validateQuantity();
+    const c11 = validateCustomVpa();
+    const c12 = validateConsents();
+
+    return c1 && c2 && c3 && c4 && c5 && c6 && c7 && c8 && c9 && c10 && c11 && c12;
+}
+
+// ==============================================================================
+// 6. EVENT LISTENERS (Practical 7)
+// ==============================================================================
+function attachConcertListeners() {
+    // FOCUS & BLUR Events
+    const fieldsToTrack = [
+        { el: attendeeNameInput, label: "Attendee Name", fn: validateName },
+        { el: attendeeEmailInput, label: "Email Address", fn: validateEmail },
+        { el: attendeePhoneInput, label: "Mobile Phone", fn: validatePhone },
+        { el: attendeeCityInput, label: "City", fn: validateCity },
+        { el: emergencyContactInput, label: "Emergency Contact", fn: validateEmergency },
+        { el: customVpaInput, label: "Custom UPI VPA", fn: validateCustomVpa }
+    ];
+
+    fieldsToTrack.forEach(item => {
+        if (!item.el) return;
+        item.el.addEventListener("focus", () => {
+            logConcertEvent("FOCUS", `User focused on field '${item.label}'`);
+        });
+        item.el.addEventListener("blur", () => {
+            logConcertEvent("BLUR", `User blurred field '${item.label}'`);
+            item.fn();
+        });
+    });
+
+    // CHANGE Events
+    attendeeDobInput.addEventListener("change", () => {
+        logConcertEvent("CHANGE", `Date of birth chosen: ${attendeeDobInput.value}`);
+        validateDob();
+    });
+
+    concertTourSelect.addEventListener("change", () => {
+        logConcertEvent("CHANGE", `Concert tour selected: ${concertTourSelect.value}`);
+        validateConcert();
+        calculateConcertBilling();
+    });
+
+    venueCitySelect.addEventListener("change", () => {
+        logConcertEvent("CHANGE", `Venue selected: ${venueCitySelect.value}`);
+        validateVenue();
+    });
+
+    seatingZoneSelect.addEventListener("change", () => {
+        logConcertEvent("CHANGE", `Zone chosen: ${seatingZoneSelect.value}`);
+        validateZone();
+        calculateConcertBilling();
+    });
+
+    passQuantityInput.addEventListener("input", () => {
+        logConcertEvent("INPUT", `Quantity adjusted to: ${passQuantityInput.value}`);
+        validateQuantity();
+        calculateConcertBilling();
+    });
+
+    // Addon Checkbox change events
+    addonCheckboxes.forEach(cb => {
+        cb.addEventListener("change", () => {
+            logConcertEvent("CHANGE", `VIP Add-on toggled: ${cb.id} (${cb.checked ? "Checked" : "Unchecked"})`);
+            calculateConcertBilling();
+        });
+    });
+
+    ageConsentCheckbox.addEventListener("change", validateConsents);
+    termsConsentCheckbox.addEventListener("change", validateConsents);
+
+    // MOUSEOVER & MOUSEOUT Events
+    bookPassBtn.addEventListener("mouseover", () => {
+        logConcertEvent("MOUSEOVER", "Hovering on 'Confirm & Register Concert Pass' button");
+    });
+    bookPassBtn.addEventListener("mouseout", () => {
+        logConcertEvent("MOUSEOUT", "Left registration submit button");
+    });
+
+    // RESET Event
+    concertRegForm.addEventListener("reset", () => {
+        logConcertEvent("RESET", "Concert registration form reset.");
+        setTimeout(() => {
+            concertRegForm.querySelectorAll("input, select").forEach(el => {
+                el.classList.remove("valid", "invalid");
+            });
+            concertRegForm.querySelectorAll(".err").forEach(el => el.textContent = "");
+            calculatedAgeSpan.textContent = "";
+            activeConcertPromo = "";
+            concertPromoDiscount = 0;
+            promoHint.textContent = "Codes: ROCKON (₹200 off), LIVE2026 (15% off), VIP500 (₹500 off on ₹3500+)";
+            toggleConcertPayment();
+            calculateConcertBilling();
+        }, 10);
+    });
+
+    // SUBMIT Event
+    concertRegForm.addEventListener("submit", handleConcertSubmit);
+}
+
+// ==============================================================================
+// 7. BILLING CALCULATIONS & PROMO CODES (Practicals 2 & 5)
+// ==============================================================================
+function calculateConcertBilling() {
+    const selectedTourOption = concertTourSelect.options[concertTourSelect.selectedIndex];
+    const baseTourPrice = selectedTourOption && selectedTourOption.value !== ""
+        ? Number(selectedTourOption.dataset.price)
+        : 0;
+
+    const tourName = selectedTourOption && selectedTourOption.value !== ""
+        ? selectedTourOption.value
+        : "None selected";
+
+    const selectedZoneOption = seatingZoneSelect.options[seatingZoneSelect.selectedIndex];
+    const zoneMultiplier = selectedZoneOption ? Number(selectedZoneOption.dataset.multiplier) : 1;
+    const zoneName = selectedZoneOption ? selectedZoneOption.value : "General Standing";
+
+    const qty = Math.max(1, Number(passQuantityInput.value) || 1);
+
+    // Passes Subtotal
+    const passesCost = (baseTourPrice * zoneMultiplier) * qty;
+
+    // Addons Cost calculation (Practical 5 array iteration)
+    let addonsTotal = 0;
+    addonCheckboxes.forEach(cb => {
+        if (cb.checked) {
+            addonsTotal += Number(cb.dataset.fee);
+        }
+    });
+
+    const subtotal = passesCost + addonsTotal;
+
+    // Promo Code Discounts
+    let promoDisc = 0;
+    if (activeConcertPromo === "ROCKON") {
+        promoDisc = 200;
+    } else if (activeConcertPromo === "LIVE2026") {
+        promoDisc = subtotal * 0.15; // 15% discount
+    } else if (activeConcertPromo === "VIP500" && subtotal >= 3500) {
+        promoDisc = 500;
+    }
+
+    // 18% GST and Entertainment Tax (Practical 2)
+    const taxable = Math.max(0, subtotal - promoDisc);
+    const gstAmt = taxable > 0 ? taxable * 0.18 : 0;
+    const finalAmount = taxable + gstAmt;
+
+    // Update Billing UI Card
+    summaryTour.textContent = tourName;
+    summaryZone.textContent = `${zoneName} (${zoneMultiplier}x)`;
+    summaryBasePrice.textContent = `₹${passesCost.toFixed(2)} (₹${baseTourPrice} × ${zoneMultiplier}x × ${qty})`;
+    summaryAddons.textContent = `+ ₹${addonsTotal.toFixed(2)}`;
+    summaryPromo.textContent = `- ₹${promoDisc.toFixed(2)}`;
+    summaryGst.textContent = `₹${gstAmt.toFixed(2)}`;
+    summaryGrandTotal.textContent = `₹${finalAmount.toFixed(2)}`;
+
+    // VIP Perk Highlight
+    const perkBox = document.getElementById("vipPerkBox");
+    if (qty >= 3) {
+        perkBox.innerHTML = `🌟 <strong>Arena Group VIP Perk:</strong> Booking of ${qty} passes qualifies for Backstage Soundcheck Access & LED Wristbands!`;
+        perkBox.style.color = "var(--primary)";
+    } else {
+        perkBox.innerHTML = `⚡ Tip: Book 3 or more passes to receive complimentary Concert Wristbands & Glow Sticks!`;
+        perkBox.style.color = "var(--secondary)";
+    }
+
+    return {
+        baseTourPrice,
+        zoneMultiplier,
+        qty,
+        passesCost,
+        addonsTotal,
+        promoDisc,
+        gstAmt,
+        finalAmount
+    };
+}
+
+// Promo Code validation & string handling (Practical 6)
+function applyPromo() {
+    const code = promoInput.value.trim().toUpperCase();
+    if (code === "") {
+        alert("Please enter a promo code first.");
+        return;
+    }
+
+    if (code === "ROCKON" || code === "LIVE2026" || code === "VIP500") {
+        activeConcertPromo = code;
+        promoHint.innerHTML = `✅ Promo <strong>${code}</strong> activated successfully!`;
+        promoHint.style.color = "var(--accent)";
+        logConcertEvent("PROMO_APPLIED", `Promo code activated: ${code}`);
+        calculateConcertBilling();
+    } else {
+        activeConcertPromo = "";
+        promoHint.innerHTML = `❌ Invalid code '${escapeHtml(code)}'. Use ROCKON, LIVE2026, or VIP500.`;
+        promoHint.style.color = "var(--danger)";
+        calculateConcertBilling();
+    }
+}
+
+// Payment method conditional fields (Practical 2)
+function toggleConcertPayment() {
+    const selectedPayRadio = document.querySelector('input[name="concertPayMode"]:checked');
+    const mode = selectedPayRadio ? selectedPayRadio.value : "UPI";
+
+    if (mode === "UPI") {
+        concertUpiBox.style.display = "block";
+    } else {
+        concertUpiBox.style.display = "none";
+    }
+}
+
+function toggleCustomUpiField() {
+    if (upiProviderSelect.value === "other") {
+        customVpaContainer.style.display = "block";
+    } else {
+        customVpaContainer.style.display = "none";
+    }
+}
+
+// ==============================================================================
+// 8. REGISTRATION SUBMISSION & VIP PASS CREATION (Practicals 1, 2, 5, 7)
+// ==============================================================================
+function handleConcertSubmit(e) {
+    e.preventDefault();
+    console.time("ConcertRegistrationTime");
+    logConcertEvent("SUBMIT", "Concert registration submit triggered.");
+
+    const isValid = validateAllConcertFields();
+    if (!isValid) {
+        logConcertEvent("VALIDATION_FAIL", "Registration validation failed. Please check highlighted errors.");
+        alert("⚠️ Please correct the errors in the form before completing concert registration.");
+        console.timeEnd("ConcertRegistrationTime");
+        return;
+    }
+
+    // Dynamic Pass ID (Practical 2)
+    const passId = "CONCERT-PASS-" + Math.floor(100000 + Math.random() * 900000);
+    const passTimestamp = new Date().toLocaleString();
+
+    // Billing figures
+    const bill = calculateConcertBilling();
+
+    // Collect Addons
+    const selectedAddons = [];
+    if (document.getElementById("addonTshirt").checked) selectedAddons.push("Tour T-Shirt");
+    if (document.getElementById("addonParking").checked) selectedAddons.push("VIP Parking");
+    if (document.getElementById("addonFood").checked) selectedAddons.push("F&B Pass");
+    if (document.getElementById("addonAfterparty").checked) selectedAddons.push("After-Party");
+
+    const addonsText = selectedAddons.length > 0 ? selectedAddons.join(", ") : "None";
+
+    // Payment String
+    const payMode = document.querySelector('input[name="concertPayMode"]:checked').value;
+    let payDetail = payMode;
+    if (payMode === "UPI") {
+        if (upiProviderSelect.value === "other") {
+            payDetail = `UPI (${customVpaInput.value.trim()})`;
+        } else {
+            payDetail = `UPI (${upiProviderSelect.value})`;
+        }
+    }
+
+    // New Concert Registration Object (Practical 5)
+    const newRegistration = {
+        passId: passId,
+        attendeeName: attendeeNameInput.value.trim(),
+        dob: attendeeDobInput.value,
+        email: attendeeEmailInput.value.trim(),
+        phone: attendeePhoneInput.value.trim(),
+        city: attendeeCityInput.value.trim(),
+        emergency: emergencyContactInput.value.trim(),
+        concertTour: concertTourSelect.value,
+        venue: venueCitySelect.value,
+        seatingZone: seatingZoneSelect.value,
+        quantity: bill.qty,
+        addons: addonsText,
+        paymentMode: payDetail,
+        totalPaid: bill.finalAmount.toFixed(2),
+        registrationDate: passTimestamp
+    };
+
+    // Array push (Practical 5)
+    concertAttendees.push(newRegistration);
+
+    // Save to localStorage (Practical 9)
+    saveConcertRegistrations();
+
+    // Practical 1: alert() greeting
+    alert(
+        `🎸 CONCERT PASS REGISTERED!\n\n` +
+        `• Pass ID: ${passId}\n` +
+        `• Attendee: ${newRegistration.attendeeName}\n` +
+        `• Concert: ${newRegistration.concertTour}\n` +
+        `• Venue: ${newRegistration.venue}\n` +
+        `• Seating: ${newRegistration.seatingZone} (Qty: ${newRegistration.quantity})\n` +
+        `• Total Paid: ₹${newRegistration.totalPaid}\n\n` +
+        `Your official VIP concert entry badge is ready for viewing and printing below.`
+    );
+
+    // Practical 1: console.table & console.timeEnd
+    console.log("Live Concert Attendees Roster:");
+    console.table(concertAttendees);
+    console.timeEnd("ConcertRegistrationTime");
+
+    logConcertEvent("REGISTER_SUCCESS", `Pass ${passId} generated for ${newRegistration.attendeeName}. Total ₹${newRegistration.totalPaid}`);
+
+    // Re-render Table
+    renderConcertTable(concertAttendees);
+
+    // Open Printable VIP Pass Modal
+    openConcertModal(newRegistration);
+
+    // Clear Draft from localStorage
+    localStorage.removeItem(STORAGE_KEY_CONCERT_DRAFT);
+
+    // Reset Form
+    concertRegForm.reset();
+}
+
+// ==============================================================================
+// 9. DYNAMIC DOM TABLE & RECORD ACTIONS (Practicals 2, 5, 7, 8)
+// ==============================================================================
+function renderConcertTable(dataList) {
+    concertTableBody.innerHTML = "";
+
+    if (dataList.length === 0) {
+        concertTableBody.appendChild(emptyConcertRow);
+        totalPassesBadge.textContent = "Total Passes: 0";
+        totalSalesBadge.textContent = "Total Sales: ₹0";
+        return;
+    }
+
+    // Array forEach (Practical 5)
+    dataList.forEach(reg => {
+        // Dynamic DOM Creation (Practical 7)
+        const tr = document.createElement("tr");
+        tr.dataset.id = reg.passId;
+
+        tr.innerHTML = `
+            <td>
+                <span class="badge badge-neon">${escapeHtml(reg.passId)}</span><br>
+                <small style="color:var(--text-muted);">${escapeHtml(reg.registrationDate)}</small>
+            </td>
+            <td>
+                <strong>${escapeHtml(reg.attendeeName)}</strong><br>
+                <small>${escapeHtml(reg.email)}</small><br>
+                <small style="color:var(--text-muted);">${escapeHtml(reg.phone)} (${escapeHtml(reg.city)})</small>
+            </td>
+            <td>
+                <strong>${escapeHtml(reg.concertTour)}</strong><br>
+                <small style="color:var(--secondary);">${escapeHtml(reg.venue)}</small>
+            </td>
+            <td>
+                <span class="badge badge-accent">${escapeHtml(reg.seatingZone)}</span>
+            </td>
+            <td>
+                <small>${escapeHtml(reg.addons)}</small>
+            </td>
+            <td>
+                <strong>${reg.quantity}</strong>
+            </td>
+            <td>
+                <strong style="color:var(--primary);">₹${reg.totalPaid}</strong><br>
+                <small style="font-size:10px;">${escapeHtml(reg.paymentMode)}</small>
+            </td>
+            <td>
+                <div class="table-btns">
+                    <button class="btn btn-outline btn-xs pass-btn" title="View & Print VIP Pass">🎟️ Pass</button>
+                    <button class="btn btn-secondary btn-xs edit-btn" title="Edit Attendee Details">✏️ Edit</button>
+                    <button class="btn btn-danger btn-xs delete-btn" title="Refund / Delete Pass">🗑️</button>
+                </div>
+            </td>
+        `;
+
+        // DOM Traversal & Event Binding (Practical 7)
+        const passBtn = tr.querySelector(".pass-btn");
+        const editBtn = tr.querySelector(".edit-btn");
+        const deleteBtn = tr.querySelector(".delete-btn");
+
+        // Pass View Action
+        passBtn.addEventListener("click", () => {
+            logConcertEvent("CLICK", `Viewing pass modal for ${reg.passId}`);
+            openConcertModal(reg);
+        });
+
+        // Edit Action via DOM Traversal
+        editBtn.addEventListener("click", () => {
+            logConcertEvent("CLICK", `Editing pass ${reg.passId}`);
+            const newName = prompt("Edit Attendee Full Name:", reg.attendeeName);
+            const newEmail = prompt("Edit Attendee Email:", reg.email);
+
+            if (newName && newName.trim() !== "") reg.attendeeName = newName.trim();
+            if (newEmail && newEmail.trim() !== "") reg.email = newEmail.trim();
+
+            saveConcertRegistrations();
+            renderConcertTable(concertAttendees);
+            logConcertEvent("DOM_EDIT", `Pass ${reg.passId} updated via DOM traversal.`);
+        });
+
+        // Delete / Refund Action (Practical 5 Array splice & Practical 7 node remove)
+        deleteBtn.addEventListener("click", () => {
+            if (confirm(`Cancel and refund pass ${reg.passId} for ${reg.attendeeName}?`)) {
+                // DOM node remove
+                tr.remove();
+
+                // Array splice
+                const idx = concertAttendees.findIndex(a => a.passId === reg.passId);
+                if (idx !== -1) {
+                    concertAttendees.splice(idx, 1);
+                }
+
+                saveConcertRegistrations();
+                updateConcertMetrics();
+                logConcertEvent("DOM_DELETE", `Pass ${reg.passId} refunded and removed.`);
+
+                if (concertAttendees.length === 0) {
+                    concertTableBody.appendChild(emptyConcertRow);
+                }
+            }
+        });
+
+        concertTableBody.appendChild(tr);
+    });
+
+    updateConcertMetrics();
+}
+
+// Array reduce metrics (Practical 5)
+function updateConcertMetrics() {
+    const totalSales = concertAttendees.reduce((sum, item) => sum + Number(item.totalPaid), 0);
+    const totalPasses = concertAttendees.reduce((sum, item) => sum + Number(item.quantity), 0);
+
+    totalPassesBadge.textContent = `Total Passes: ${totalPasses} (${concertAttendees.length} Orders)`;
+    totalSalesBadge.textContent = `Total Sales: ₹${totalSales.toFixed(2)}`;
+
+    updateStoragePreviews();
+}
+
+// ==============================================================================
+// 10. SEARCH & FILTERING (Practical 8.2)
+// ==============================================================================
+function filterConcertTable() {
+    const query = document.getElementById("concertSearch").value.trim().toLowerCase();
+    const tourFilter = document.getElementById("filterTour").value;
+    const zoneFilter = document.getElementById("filterZone").value;
+
+    // Array filter (Practical 5 & Practical 8.2)
+    const results = concertAttendees.filter(item => {
+        const matchesQuery = query === "" ||
+            item.attendeeName.toLowerCase().includes(query) ||
+            item.passId.toLowerCase().includes(query) ||
+            item.email.toLowerCase().includes(query) ||
+            item.city.toLowerCase().includes(query);
+
+        const matchesTour = tourFilter === "all" || item.concertTour === tourFilter;
+        const matchesZone = zoneFilter === "all" || item.seatingZone === zoneFilter;
+
+        return matchesQuery && matchesTour && matchesZone;
+    });
+
+    logConcertEvent("FILTER", `Filter executed: ${results.length} results found`);
+    renderConcertTable(results);
+}
+
+function resetConcertFilters() {
+    document.getElementById("concertSearch").value = "";
+    document.getElementById("filterTour").value = "all";
+    document.getElementById("filterZone").value = "all";
+    renderConcertTable(concertAttendees);
+}
+
+// Array map analytics exported to console (Practical 1 & 5)
+function exportConcertConsole() {
+    console.time("ConcertReport");
+    console.log("================= ARENA CONCERT ATTENDEE ANALYTICS =================");
+
+    // Array map
+    const roster = concertAttendees.map(item => ({
+        PassID: item.passId,
+        Attendee: item.attendeeName,
+        Tour: item.concertTour,
+        Zone: item.seatingZone,
+        Passes: item.quantity,
+        Paid: "₹" + item.totalPaid
+    }));
+
+    console.table(roster);
+    console.timeEnd("ConcertReport");
+    alert("📊 Concert Analytics exported to Console! Press F12 to inspect.");
+}
+
+// ==============================================================================
+// 11. PRINTABLE VIP CONCERT PASS (Practical 2)
+// ==============================================================================
+function openConcertModal(reg) {
+    const printableConcertTicket = document.getElementById("printableConcertTicket");
+    printableConcertTicket.innerHTML = `
+        <div class="vip-pass">
+            <div class="vip-pass-head">
+                <div>
+                    <span class="badge badge-neon">ARENA VIP ACCESS</span>
+                    <div class="vip-title">${escapeHtml(reg.concertTour)}</div>
+                </div>
+                <div class="vip-id">
+                    Pass Ref: <strong>${escapeHtml(reg.passId)}</strong>
+                </div>
+            </div>
+
+            <div class="vip-body">
+                <div class="vip-cell">
+                    <span>Attendee Name</span>
+                    <strong>${escapeHtml(reg.attendeeName)}</strong>
+                </div>
+                <div class="vip-cell">
+                    <span>Arena Stadium / City</span>
+                    <strong>${escapeHtml(reg.venue)}</strong>
+                </div>
+                <div class="vip-cell">
+                    <span>Seating Zone & Tier</span>
+                    <strong>${escapeHtml(reg.seatingZone)}</strong>
+                </div>
+                <div class="vip-cell">
+                    <span>Pass Quantity</span>
+                    <strong>${reg.quantity} Pass(es)</strong>
+                </div>
+                <div class="vip-cell">
+                    <span>Selected Add-ons</span>
+                    <strong>${escapeHtml(reg.addons)}</strong>
+                </div>
+                <div class="vip-cell">
+                    <span>Payment Mode</span>
+                    <strong>${escapeHtml(reg.paymentMode)}</strong>
+                </div>
+                <div class="vip-cell">
+                    <span>Amount Paid</span>
+                    <strong>₹${reg.totalPaid}</strong>
+                </div>
+                <div class="vip-cell">
+                    <span>Date of Registration</span>
+                    <strong>${escapeHtml(reg.registrationDate)}</strong>
+                </div>
+            </div>
+
+            <div class="vip-barcode">
+                ||| ||||| || |||||| | |||||||| || |||| | ||
+            </div>
+        </div>
+    `;
+
+    document.getElementById("concertPassModal").style.display = "flex";
+}
+
+function closeConcertModal() {
+    document.getElementById("concertPassModal").style.display = "none";
+}
+
+function printConcertTicket() {
+    logConcertEvent("PRINT", "window.print() invoked for VIP concert pass.");
+    window.print();
+}
+
+// ==============================================================================
+// 12. WEB STORAGE MANAGER: localStorage vs sessionStorage (Practical 9)
+// ==============================================================================
+function saveConcertRegistrations() {
+    localStorage.setItem(STORAGE_KEY_CONCERT_REG, JSON.stringify(concertAttendees));
+    updateStoragePreviews();
+}
+
+function loadConcertRegistrations() {
+    const saved = localStorage.getItem(STORAGE_KEY_CONCERT_REG);
+    if (saved) {
+        try {
+            concertAttendees = JSON.parse(saved);
+        } catch (e) {
+            concertAttendees = [];
+        }
+    } else {
+        // Seed default initial registration for instant showcase
+        concertAttendees = [
+            {
+                passId: "CONCERT-PASS-718294",
+                attendeeName: "Vedant Nawghare",
+                dob: "2004-08-15",
+                email: "vedant@livearena.com",
+                phone: "9876543210",
+                city: "Nagpur, Maharashtra",
+                emergency: "Parent (9123456780)",
+                concertTour: "Coldplay - Music of the Spheres Tour",
+                venue: "Mumbai (DY Patil Sports Stadium)",
+                seatingZone: "Platinum VIP Lounge",
+                quantity: 2,
+                addons: "Tour T-Shirt, VIP Parking",
+                paymentMode: "UPI (Google Pay)",
+                totalPaid: "22170.82",
+                registrationDate: new Date().toLocaleString()
+            }
+        ];
+        saveConcertRegistrations();
+    }
+    renderConcertTable(concertAttendees);
+}
+
+function clearConcertStorage() {
+    if (confirm("Clear all concert registrations from localStorage?")) {
+        localStorage.removeItem(STORAGE_KEY_CONCERT_REG);
+        concertAttendees = [];
+        renderConcertTable(concertAttendees);
+        logConcertEvent("STORAGE", "Cleared localStorage concert registrations.");
+        alert("🗑️ LocalStorage concert registrations cleared!");
+    }
+}
+
+// Save form draft to localStorage
+function saveConcertDraft() {
+    const draft = {
+        name: attendeeNameInput.value,
+        dob: attendeeDobInput.value,
+        email: attendeeEmailInput.value,
+        phone: attendeePhoneInput.value,
+        city: attendeeCityInput.value,
+        emergency: emergencyContactInput.value,
+        tour: concertTourSelect.value,
+        venue: venueCitySelect.value,
+        zone: seatingZoneSelect.value,
+        savedAt: new Date().toLocaleTimeString()
+    };
+
+    localStorage.setItem(STORAGE_KEY_CONCERT_DRAFT, JSON.stringify(draft));
+    logConcertEvent("STORAGE", "Concert draft saved into localStorage.");
+    updateStoragePreviews();
+    alert(`💾 Draft successfully saved to Local Storage at ${draft.savedAt}!\n(Your form details will remain even after page refresh)`);
+}
+
+function restoreConcertDraft() {
+    const raw = localStorage.getItem(STORAGE_KEY_CONCERT_DRAFT);
+    if (raw) {
+        try {
+            const draft = JSON.parse(raw);
+            if (attendeeNameInput.value === "" && draft.name) attendeeNameInput.value = draft.name;
+            if (attendeeDobInput.value === "" && draft.dob) {
+                attendeeDobInput.value = draft.dob;
+                validateDob();
+            }
+            if (attendeeEmailInput.value === "" && draft.email) attendeeEmailInput.value = draft.email;
+            if (attendeePhoneInput.value === "" && draft.phone) attendeePhoneInput.value = draft.phone;
+            if (attendeeCityInput.value === "" && draft.city) attendeeCityInput.value = draft.city;
+            if (emergencyContactInput.value === "" && draft.emergency) emergencyContactInput.value = draft.emergency;
+            if (draft.tour) concertTourSelect.value = draft.tour;
+            if (draft.venue) venueCitySelect.value = draft.venue;
+            if (draft.zone) seatingZoneSelect.value = draft.zone;
+            logConcertEvent("STORAGE", "Restored existing concert draft from localStorage.");
+        } catch (e) {
+            console.error("Concert draft failed to restore", e);
+        }
+    }
+}
+
+// SessionStorage 15-minute Seat Lock (Practical 9)
+function initSeatLockSession() {
+    let token = sessionStorage.getItem(SESSION_KEY_SEAT_TOKEN);
+    if (!token) {
+        token = "ARENA-LOCK-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+        sessionStorage.setItem(SESSION_KEY_SEAT_TOKEN, token);
+    }
+
+    let savedTime = sessionStorage.getItem(SESSION_KEY_SEAT_TIME);
+    seatLockRemaining = savedTime ? parseInt(savedTime, 10) : 900;
+
+    startSeatLockCountdown();
+}
+
+function startSeatLockCountdown() {
+    if (seatLockInterval) clearInterval(seatLockInterval);
+
+    seatLockInterval = setInterval(() => {
+        seatLockRemaining--;
+        sessionStorage.setItem(SESSION_KEY_SEAT_TIME, seatLockRemaining);
+
+        const mins = Math.floor(seatLockRemaining / 60);
+        const secs = seatLockRemaining % 60;
+        seatLockTimerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+        if (seatLockRemaining <= 0) {
+            clearInterval(seatLockInterval);
+            alert("⏱️ 15-Minute Seat Lock Expired! Your reserved concert seats have been released back to the arena.");
+            resetSeatLockTimer();
+        }
+    }, 1000);
+}
+
+function resetSeatLockTimer() {
+    seatLockRemaining = 900;
+    sessionStorage.setItem(SESSION_KEY_SEAT_TIME, "900");
+    startSeatLockCountdown();
+    logConcertEvent("STORAGE", "Seat Lock countdown reset to 15:00.");
+}
+
+// Dual Storage Previews (Practical 9.2)
+function updateStoragePreviews() {
+    const rawLocal = localStorage.getItem(STORAGE_KEY_CONCERT_REG);
+    if (rawLocal) {
+        localDisplay.textContent = `Key: ${STORAGE_KEY_CONCERT_REG}\nSize: ${rawLocal.length} bytes\nData:\n${rawLocal.substring(0, 120)}...`;
+    } else {
+        localDisplay.innerHTML = `<span class="dim-text">(localStorage is empty)</span>`;
+    }
+
+    const token = sessionStorage.getItem(SESSION_KEY_SEAT_TOKEN);
+    const time = sessionStorage.getItem(SESSION_KEY_SEAT_TIME);
+    if (token) {
+        sessionDisplay.textContent = `Seat Lock Token: ${token}\nTime Left: ${time}s\nStatus: Reserved (Temporary)`;
+    } else {
+        sessionDisplay.innerHTML = `<span class="dim-text">(sessionStorage is empty)</span>`;
+    }
+}
+
+// Theme Preference Toggle (Practical 9.1)
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem(STORAGE_KEY_CONCERT_THEME, newTheme);
+    updateThemeButton(newTheme);
+    logConcertEvent("THEME", `Switched theme to ${newTheme} mode.`);
+}
+
+function updateThemeButton(theme) {
+    const btn = document.getElementById("themeBtn");
+    if (btn) {
+        btn.innerHTML = theme === "dark" ? "☀️ Festival Light" : "🌙 Neon Arena";
+    }
+}
+
+function initTheme() {
+    const saved = localStorage.getItem(STORAGE_KEY_CONCERT_THEME) || "dark";
+    document.documentElement.setAttribute("data-theme", saved);
+    updateThemeButton(saved);
+}
+
+// Safe HTML Escaping
+function escapeHtml(str) {
+    if (!str) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+    </script>
+</body>
+</html>
