@@ -1,0 +1,43 @@
+
+[
+    {
+        "orderId": 101,
+        "customerName": "Rahul Sharma",
+        "foodItem": "Pizza",
+        "quantity": 2,
+        "totalAmount": 500,
+        "status": "Preparing"
+    },
+    {
+        "orderId": 102,
+        "customerName": "Priya Patil",
+        "foodItem": "Burger",
+        "quantity": 1,
+        "totalAmount": 150,
+        "status": "Ready"
+    },
+    {
+        "orderId": 103,
+        "customerName": "Amit Verma",
+        "foodItem": "Pasta",
+        "quantity": 3,
+        "totalAmount": 450,
+        "status": "Delivered"
+    },
+    {
+        "orderId": 104,
+        "customerName": "Sneha Joshi",
+        "foodItem": "Sandwich",
+        "quantity": 2,
+        "totalAmount": 200,
+        "status": "Preparing"
+    },
+    {
+        "orderId": 105,
+        "customerName": "Neha Singh",
+        "foodItem": "Biryani",
+        "quantity": 1,
+        "totalAmount": 250,
+        "status": "Delivered"
+    }
+]
