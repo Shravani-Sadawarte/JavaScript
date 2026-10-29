@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSON using jQuery</title>
+
+    <!-- jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: lightgray;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Student Details</h2>
+
+    <button id="loadBtn">Load Students</button>
+
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Marks</th>
+            </tr>
+        </thead>
+
+        <tbody id="tablebody">
+        </tbody>
+    </table>
+
+    <script>
+        $("#loadBtn").click(function () {
+
+            $.getJSON("Student.json", function (data) {
+
+                // Clear existing table rows
+                $("#tablebody").empty();
+
+                // Iterate through the JSON data
+                $.each(data, function (index, student) {
+
+                    $("#tablebody").append(`
+                        <tr>
+                            <td>${student.id}</td>
+                            <td>${student.name}</td>
+                            <td>${student.department}</td>
+                            <td>${student.marks}</td>
+                        </tr>
+                    `);
+
+                });
+
+            }).fail(function () {
+                alert("Error loading JSON data.");
+            });
+
+        });
+    </script>
+
+</body>
+</html>
+
